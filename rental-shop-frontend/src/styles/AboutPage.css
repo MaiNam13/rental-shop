@@ -1,0 +1,299 @@
+.about-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.about-hero {
+    position: relative;
+    height: 400px;
+    margin: 120px 5% 60px;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.about-hero .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+    z-index: 1;
+}
+
+.about-hero .hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.about-hero .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.about-hero .hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.about-hero .hero-content p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+/* Story Section */
+.about-story {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-story h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #111;
+}
+
+.story-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Values Section */
+.about-values {
+    padding: 60px 5%;
+    background-color: #fcfcfc;
+    margin-bottom: 0;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.value-card {
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+}
+
+.value-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background-color: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.value-card:hover .value-icon-wrapper {
+    background-color: #000;
+    color: #fff;
+}
+
+.value-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #111;
+}
+
+.value-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6b7280;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+    padding: 60px 5%;
+    background-color: #ffffff;
+}
+
+.why-choose-us .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.why-choose-us .section-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.why-choose-us .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: #111;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 30px 20px;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    background-color: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.feature-icon-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon-circle {
+    background-color: #000;
+    color: #fff;
+}
+
+.feature-item h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.feature-item p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+}
+
+@media (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Rental Process Section */
+.rental-process {
+    padding: 60px 5% 80px;
+    background-color: #fcfcfc;
+}
+
+.rental-process .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.process-step {
+    text-align: center;
+}
+
+.step-icon-black {
+    width: 70px;
+    height: 70px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.step-number {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 12px;
+}
+
+.process-step h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #111;
+}
+
+.process-step p {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .values-grid,
+    .features-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-hero .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .about-hero {
+        margin: 100px 20px 40px;
+        height: 300px;
+    }
+    .why-choose-us .section-title,
+    .rental-process .section-title {
+        font-size: 2.2rem;
+    }
+}
