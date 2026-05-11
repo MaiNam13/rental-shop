@@ -1,10 +1,34 @@
-import { Star, ShoppingCart } from 'lucide-react'
+import { Star, ShoppingCart, Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '../../context/LanguageContext'
+import { useAuth } from '../../context/AuthContext'
+import favoriteApi from '../../api/favoriteApi'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, isFavoriteInitial = false }) => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { isLoggedIn } = useAuth();
+  const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
+  const [loading, setLoading] = useState(false);
+
+  const handleToggleFavorite = async (e) => {
+    e.stopPropagation();
+    if (!isLoggedIn) {
+      navigate('/login');
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      await favoriteApi.toggleFavorite(product.id);
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="luxe-product-card" onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: 'pointer' }}>
@@ -17,6 +41,14 @@ const ProductCard = ({ product }) => {
         {product.badge && (
           <span className="hot-badge">{product.badge.toUpperCase()}</span>
         )}
+        <button 
+          className={`wishlist-btn ${isFavorite ? 'active' : ''}`}
+          onClick={handleToggleFavorite}
+          disabled={loading}
+          aria-label={isFavorite ? t('removeFromWishlist') : t('addToWishlist')}
+        >
+          <Heart size={20} fill={isFavorite ? "#ef4444" : "none"} color={isFavorite ? "#ef4444" : "#fff"} />
+        </button>
       </div>
       
       <div className="luxe-product-info">

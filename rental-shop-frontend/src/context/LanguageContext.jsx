@@ -309,6 +309,9 @@ const translations = {
         confirmCheckout: 'Xác nhận đặt thuê',
         securePaymentNote: 'Thanh toán an toàn & Bảo mật thông tin khách hàng 100%',
         checkoutSuccess: 'Đặt hàng thành công!',
+        checkoutSuccessTitle: 'Đặt hàng thành công!',
+        checkoutSuccessDesc: 'Cảm ơn bạn đã tin tưởng Luxe Rent. Đơn hàng của bạn đang được xử lý.',
+        checkEmailNotice: 'Một email xác nhận chi tiết đơn hàng đã được gửi đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư (bao gồm cả thư rác).',
         emptyCartAlert: 'Giỏ hàng của bạn đang trống.',
         nameRequired: 'Vui lòng nhập họ và tên.',
         emailRequired: 'Vui lòng nhập địa chỉ email.',
@@ -327,6 +330,10 @@ const translations = {
         shippingAddress: 'Địa chỉ giao hàng',
         paymentStatus: 'Trạng thái thanh toán',
         rentedProducts: 'Sản phẩm thuê',
+        suggestedProducts: 'Sản phẩm gợi ý dành cho bạn',
+        addToWishlist: 'Thêm vào danh sách yêu thích',
+        removeFromWishlist: 'Xóa khỏi danh sách yêu thích',
+        selectSize: 'Chọn kích cỡ',
         
         // Footer
         footerDesc: 'Nền tảng cho thuê thời trang cao cấp hàng đầu Việt Nam. Trải nghiệm phong cách sống thời thượng với chi phí hợp lý.',
@@ -667,6 +674,9 @@ const translations = {
         confirmCheckout: 'Confirm Order',
         securePaymentNote: '100% Secure Payment & Customer Data Privacy',
         checkoutSuccess: 'Order successful!',
+        checkoutSuccessTitle: 'Order Successful!',
+        checkoutSuccessDesc: 'Thank you for choosing Luxe Rent. Your order is being processed.',
+        checkEmailNotice: 'A confirmation email with order details has been sent to your email address. Please check your inbox (including spam).',
         emptyCartAlert: 'Your cart is empty.',
         nameRequired: 'Please enter your full name.',
         emailRequired: 'Please enter your email address.',
@@ -685,6 +695,10 @@ const translations = {
         shippingAddress: 'Shipping Address',
         paymentStatus: 'Payment Status',
         rentedProducts: 'Rented Products',
+        suggestedProducts: 'Suggested products for you',
+        addToWishlist: 'Add to wishlist',
+        removeFromWishlist: 'Remove from wishlist',
+        selectSize: 'Select size',
 
         // Footer
         footerDesc: 'Vietnam\'s leading luxury fashion rental platform. Experience high-end style at reasonable costs.',

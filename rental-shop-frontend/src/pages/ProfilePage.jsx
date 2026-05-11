@@ -19,13 +19,17 @@ import {
     X
 } from 'lucide-react';
 import '../styles/ProfilePage.css';
+import favoriteApi from '../api/favoriteApi';
+import ProductCard from '../components/product/ProductCard';
 
 const ProfilePage = () => {
     const { user, logout } = useAuth();
     const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState('rentals');
     const [rentals, setRentals] = useState([]);
+    const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [favLoading, setFavLoading] = useState(false);
     const [selectedRental, setSelectedRental] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [detailLoading, setDetailLoading] = useState(false);
@@ -72,6 +76,28 @@ const ProfilePage = () => {
                 }
             };
             fetchRentals();
+        }
+
+        if (activeTab === 'wishlist' && user?.id) {
+            const fetchFavorites = async () => {
+                try {
+                    setFavLoading(true);
+                    const response = await favoriteApi.getFavorites();
+                    // Transform favorites data to match ProductCard expectations
+                    const favProducts = response.data.map(f => ({
+                        ...f.Product,
+                        image: f.Product?.image ? getFullImageUrl(f.Product.image) : 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=1200&fit=crop&q=80',
+                        price: f.Product?.price_per_day?.toLocaleString('vi-VN') + 'đ',
+                        category: f.Product?.category_name || 'Fashion'
+                    }));
+                    setFavorites(favProducts);
+                } catch (error) {
+                    console.error("Failed to fetch favorites:", error);
+                } finally {
+                    setFavLoading(false);
+                }
+            };
+            fetchFavorites();
         }
     }, [activeTab, user?.id]);
 
@@ -216,6 +242,36 @@ const ProfilePage = () => {
         </div>
     );
 
+    const renderWishlistContent = () => (
+        <div className="wishlist-content">
+            <div className="content-header">
+                <h2 className="content-title">{t('wishlist')}</h2>
+                <p className="content-subtitle">{t('yourFavoriteItems')}</p>
+            </div>
+
+            {favLoading ? (
+                <p>{t('productLoading')}</p>
+            ) : favorites.length > 0 ? (
+                <div className="wishlist-grid" style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', 
+                    gap: '24px',
+                    marginTop: '32px' 
+                }}>
+                    {favorites.map(product => (
+                        <ProductCard key={product.id} product={product} isFavoriteInitial={true} />
+                    ))}
+                </div>
+            ) : (
+                <div style={{ textAlign: 'center', padding: '60px', backgroundColor: '#fff', borderRadius: '20px' }}>
+                    <Heart size={48} color="#ccc" style={{ marginBottom: '20px' }} />
+                    <h3>{t('wishlistEmpty')}</h3>
+                    <p style={{ color: '#888' }}>{t('wishlistEmptyDesc')}</p>
+                </div>
+            )}
+        </div>
+    );
+
     return (
         <div className="profile-page">
             <Navbar />
@@ -276,7 +332,8 @@ const ProfilePage = () => {
 
                     {/* Content Area */}
                     <section className="profile-content">
-                        {activeTab === 'rentals' ? renderRentalsContent() : (
+                        {activeTab === 'rentals' ? renderRentalsContent() : 
+                         activeTab === 'wishlist' ? renderWishlistContent() : (
                             <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px' }}>
                                 <h2 className="content-title">{t('underDevelopment')}</h2>
                                 <p className="content-subtitle">{t('featureComingSoon')}</p>

@@ -28,6 +28,7 @@ const CheckoutPage = () => {
     const [summary, setSummary] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     
     // State cho các lựa chọn
     const [deliveryMethod, setDeliveryMethod] = useState('home');
@@ -42,7 +43,7 @@ const CheckoutPage = () => {
         address: user?.address || '',
         note: ''
     });
-
+    
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/login');
@@ -119,8 +120,8 @@ const CheckoutPage = () => {
             await cartApi.checkout(rentalData);
             await cartApi.clearCart();
             
-            alert(t('checkoutSuccess'));
-            navigate('/profile');
+            setShowSuccess(true);
+            window.scrollTo(0, 0);
         } catch (err) {
             console.error("Checkout failed:", err);
             alert(err.response?.data?.message || t('error'));
@@ -128,6 +129,79 @@ const CheckoutPage = () => {
             setIsProcessing(false);
         }
     };
+
+    if (showSuccess) {
+        return (
+            <div className="checkout-page">
+                <Navbar />
+                <main className="checkout-container success-container" style={{ paddingTop: '150px', textAlign: 'center' }}>
+                    <div className="success-card luxury-fade-in" style={{
+                        maxWidth: '600px',
+                        margin: '0 auto',
+                        padding: '60px 40px',
+                        backgroundColor: '#fff',
+                        borderRadius: '32px',
+                        boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
+                        border: '1px solid #f0f0f0'
+                    }}>
+                        <div className="success-icon-circle" style={{
+                            width: '80px',
+                            height: '80px',
+                            backgroundColor: '#f0fdf4',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            margin: '0 auto 30px',
+                            color: '#16a34a'
+                        }}>
+                            <ShieldCheck size={40} />
+                        </div>
+                        <h1 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '16px', color: '#111' }}>
+                            {t('checkoutSuccessTitle')}
+                        </h1>
+                        <p style={{ fontSize: '16px', color: '#6b7280', lineHeight: '1.6', marginBottom: '32px' }}>
+                            {t('checkoutSuccessDesc')}
+                        </p>
+                        
+                        <div className="email-notice-box" style={{
+                            backgroundColor: '#f8fafc',
+                            padding: '24px',
+                            borderRadius: '16px',
+                            textAlign: 'left',
+                            marginBottom: '40px',
+                            borderLeft: '4px solid #111'
+                        }}>
+                            <div style={{ display: 'flex', gap: '12px' }}>
+                                <Info size={20} color="#111" style={{ flexShrink: 0 }} />
+                                <p style={{ fontSize: '14px', color: '#374151', margin: 0 }}>
+                                    {t('checkEmailNotice')}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="success-actions" style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+                            <button 
+                                onClick={() => navigate('/profile')} 
+                                className="checkout-btn"
+                                style={{ width: 'auto', padding: '16px 32px' }}
+                            >
+                                {t('viewMyRentals')}
+                            </button>
+                            <button 
+                                onClick={() => navigate('/products')} 
+                                className="summary-continue-btn"
+                                style={{ width: 'auto', padding: '16px 32px' }}
+                            >
+                                {t('continueShopping')}
+                            </button>
+                        </div>
+                    </div>
+                </main>
+                <Footer />
+            </div>
+        );
+    }
 
     if (loading) return (
         <div className="loading-state" style={{ padding: '200px 0', textAlign: 'center' }}>
