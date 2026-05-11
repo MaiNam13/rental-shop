@@ -170,7 +170,7 @@ const CheckoutPage = () => {
                                     <label>{t('emailAddress')} *</label>
                                     <input 
                                         type="email" required
-                                        placeholder="example@email.com"
+                                        placeholder={t('emailPlaceholder')}
                                         value={shippingInfo.email}
                                         onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})}
                                     />
@@ -179,7 +179,7 @@ const CheckoutPage = () => {
                                     <label>{t('phoneNumber')} *</label>
                                     <input 
                                         type="tel" required
-                                        placeholder="+84 123 456 789"
+                                        placeholder={t('phonePlaceholder')}
                                         value={shippingInfo.phone}
                                         onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
                                     />
@@ -357,7 +357,7 @@ const CheckoutPage = () => {
                                             />
                                             <div className="item-info">
                                                 <h4>{t(product.name)}</h4>
-                                                <div className="item-meta">{t('size')}: {item.size} | SL: {item.quantity}</div>
+                                                <div className="item-meta">{t('size')}: {item.size} | {t('qtyShort')}: {item.quantity}</div>
                                                 <div className="item-price">{product.price_per_day?.toLocaleString()}đ</div>
                                             </div>
                                         </div>

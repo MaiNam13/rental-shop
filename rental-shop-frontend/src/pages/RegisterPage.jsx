@@ -103,7 +103,7 @@ export default function RegisterPage() {
                                     type="text"
                                     required
                                     className="input-field"
-                                    placeholder="Nguyễn Văn A"
+                                    placeholder={t('namePlaceholder')}
                                     value={formData.fullname}
                                     onChange={handleChange}
                                     disabled={loading}
@@ -124,7 +124,7 @@ export default function RegisterPage() {
                                     type="email"
                                     required
                                     className="input-field"
-                                    placeholder="email@cua-ban.com"
+                                    placeholder={t('emailPlaceholder')}
                                     value={formData.email}
                                     onChange={handleChange}
                                     disabled={loading}
@@ -145,7 +145,7 @@ export default function RegisterPage() {
                                     type="tel"
                                     required
                                     className="input-field"
-                                    placeholder="0123 456 789"
+                                    placeholder={t('phonePlaceholder')}
                                     value={formData.phone}
                                     onChange={handleChange}
                                     disabled={loading}

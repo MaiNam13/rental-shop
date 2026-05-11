@@ -51,11 +51,11 @@ const Footer = () => {
                     <div className="footer-column">
                         <h4>{t('categories')}</h4>
                         <ul className="footer-links">
-                            <li><a href="#" className="footer-link">Vest</a></li>
-                            <li><a href="#" className="footer-link">Sneaker</a></li>
-                            <li><a href="#" className="footer-link">Váy</a></li>
-                            <li><a href="#" className="footer-link">Streetwear</a></li>
-                            <li><a href="#" className="footer-link">Phụ kiện</a></li>
+                            <li><a href="#" className="footer-link">{t('Vest')}</a></li>
+                            <li><a href="#" className="footer-link">{t('Sneaker')}</a></li>
+                            <li><a href="#" className="footer-link">{t('Váy')}</a></li>
+                            <li><a href="#" className="footer-link">{t('Streetwear')}</a></li>
+                            <li><a href="#" className="footer-link">{t('Phụ kiện')}</a></li>
                         </ul>
                     </div>
 
@@ -74,7 +74,7 @@ const Footer = () => {
                         <h4>{t('contact')}</h4>
                         <div className="footer-contact-item">
                             <MapPin />
-                            <span>123 Nguyễn Huệ, Q.1, TP.HCM</span>
+                            <span>{t('footerAddress')}</span>
                         </div>
                         <div className="footer-contact-item">
                             <Phone />

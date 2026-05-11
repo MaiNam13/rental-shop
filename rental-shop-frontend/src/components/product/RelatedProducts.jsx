@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ProductGrid from './ProductGrid';
 import { getProducts } from '../../api/productApi';
+import { useLanguage } from '../../context/LanguageContext';
 
 const RelatedProducts = ({ currentProductId, categoryId }) => {
   const [products, setProducts] = useState([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchRelated = async () => {
@@ -32,7 +34,7 @@ const RelatedProducts = ({ currentProductId, categoryId }) => {
 
   return (
     <div className="similar-items-section">
-      <h2 className="similar-items-title">Sản phẩm tương tự</h2>
+      <h2 className="similar-items-title">{t('similarProducts')}</h2>
       <ProductGrid products={products} />
     </div>
   );

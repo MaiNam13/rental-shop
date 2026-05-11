@@ -106,6 +106,11 @@ const translations = {
         noDescription: 'Chưa có mô tả chi tiết cho sản phẩm này.',
         enterReviewContent: 'Vui lòng nhập nội dung đánh giá.',
         thankYouReview: 'Cảm ơn bạn đã đánh giá sản phẩm!',
+        defaultDescription: 'Trải nghiệm sự thanh lịch vượt thời gian với sản phẩm này.',
+        similarProducts: 'Sản phẩm tương tự',
+        viewAngle: 'góc nhìn',
+        thumbnail: 'ảnh nhỏ',
+        qtyShort: 'SL',
 
         // Product Info
         premiumProduct: 'Sản phẩm cao cấp',
@@ -182,6 +187,9 @@ const translations = {
         confirmPassword: 'Xác nhận mật khẩu',
         enterConfirmPassword: 'Nhập lại mật khẩu',
         passwordMismatch: 'Mật khẩu xác nhận không khớp',
+        namePlaceholder: 'Nguyễn Văn A',
+        emailPlaceholder: 'email@cua-ban.com',
+        phonePlaceholder: '0123 456 789',
         
         // Profile & Orders
         myProfile: 'Hồ sơ của tôi',
@@ -337,6 +345,11 @@ const translations = {
         'Hàng mới về': 'Hàng mới về',
         'Sản phẩm': 'Sản phẩm',
         'Danh mục': 'Danh mục',
+        'Váy': 'Váy',
+        'Vest': 'Vest',
+        'Sneaker': 'Sneaker',
+        'Streetwear': 'Streetwear',
+        'footerAddress': '123 Nguyễn Huệ, Q.1, TP.HCM',
     },
     en: {
         // Navbar
@@ -441,6 +454,11 @@ const translations = {
         noDescription: 'No detailed description for this product yet.',
         enterReviewContent: 'Please enter review content.',
         thankYouReview: 'Thank you for your review!',
+        defaultDescription: 'Experience timeless elegance with this product.',
+        similarProducts: 'Similar Products',
+        viewAngle: 'view',
+        thumbnail: 'thumbnail',
+        qtyShort: 'Qty',
 
         // Product Info
         premiumProduct: 'Premium Product',
@@ -517,6 +535,9 @@ const translations = {
         confirmPassword: 'Confirm Password',
         enterConfirmPassword: 'Re-enter password',
         passwordMismatch: 'Passwords do not match',
+        namePlaceholder: 'John Doe',
+        emailPlaceholder: 'email@your-email.com',
+        phonePlaceholder: '0123 456 789',
 
         // Profile & Orders
         myProfile: 'My Profile',
@@ -672,6 +693,11 @@ const translations = {
         'Hàng mới về': 'New Arrivals',
         'Sản phẩm': 'Product',
         'Danh mục': 'Category',
+        'Váy': 'Dresses',
+        'Vest': 'Suits',
+        'Sneaker': 'Sneakers',
+        'Streetwear': 'Streetwear',
+        'footerAddress': '123 Nguyen Hue St, Dist 1, HCMC',
     }
 };
 

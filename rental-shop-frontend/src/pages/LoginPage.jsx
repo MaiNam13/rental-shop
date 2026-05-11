@@ -80,7 +80,7 @@ export default function LoginPage() {
                                     type="email"
                                     required
                                     className="input-field"
-                                    placeholder="email@cua-ban.com"
+                                    placeholder={t('emailPlaceholder')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     disabled={loading}

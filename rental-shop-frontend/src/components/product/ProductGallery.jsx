@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ProductGallery = ({ images = [], name }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const { t } = useLanguage();
   
   // Nếu không có ảnh nào, không hiển thị gì
   if (!images || images.length === 0) return null;
@@ -23,7 +25,7 @@ const ProductGallery = ({ images = [], name }) => {
       <div className="main-image-wrapper">
         <img 
           src={images[activeImageIndex]} 
-          alt={`${name} - góc nhìn ${activeImageIndex + 1}`} 
+          alt={`${name} - ${t('viewAngle')} ${activeImageIndex + 1}`} 
         />
         
         <div className="gallery-indicators">
@@ -44,7 +46,7 @@ const ProductGallery = ({ images = [], name }) => {
             className={`thumbnail-item ${activeImageIndex === index ? 'active' : ''}`}
             onClick={() => setActiveImageIndex(index)}
           >
-            <img src={img} alt={`${name} ảnh nhỏ ${index + 1}`} />
+            <img src={img} alt={`${name} ${t('thumbnail')} ${index + 1}`} />
           </div>
         ))}
       </div>

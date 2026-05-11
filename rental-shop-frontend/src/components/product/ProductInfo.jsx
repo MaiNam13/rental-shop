@@ -146,7 +146,7 @@ const ProductInfo = ({ product, reviews = [] }) => {
       return true;
     } catch (error) {
       console.error("Failed to add to cart:", error);
-      alert(error.response?.data?.message || "Error");
+      alert(error.response?.data?.message || t('error'));
       return false;
     } finally {
       setIsAdding(false);
@@ -213,7 +213,7 @@ const ProductInfo = ({ product, reviews = [] }) => {
       </div>
 
       <p className="product-description-short">
-        {product.description?.substring(0, 150) || "Trải nghiệm sự thanh lịch vượt thời gian với sản phẩm này."}...
+        {product.description?.substring(0, 150) || t('defaultDescription')}...
       </p>
 
       {/* Size Selection */}

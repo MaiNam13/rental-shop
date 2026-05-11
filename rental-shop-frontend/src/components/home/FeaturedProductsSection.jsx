@@ -32,7 +32,7 @@ const FeaturedProductsSection = () => {
             let badge = null;
             if (index === 0) badge = 'Hot';
             else if (index === 1) badge = t('new');
-            else if (index === 5) badge = t('trend');
+            else if (index === 5) badge = t('trending');
 
             // Định dạng giá (ví dụ 299000 -> 299K)
             const priceFormatted = p.price_per_day >= 1000 

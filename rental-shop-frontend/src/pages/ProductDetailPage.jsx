@@ -69,7 +69,7 @@ const ProductDetailPage = () => {
       alert(t('thankYouReview'));
     } catch (err) {
       console.error("Failed to submit review:", err);
-      alert(err.response?.data?.message || "Có lỗi xảy ra khi gửi đánh giá. Vui lòng đăng nhập.");
+      alert(err.response?.data?.message || t('error'));
     } finally {
       setIsSubmittingReview(false);
     }
@@ -233,7 +233,7 @@ const ProductDetailPage = () => {
                                   </div>
                                 </div>
                                 <div style={{ fontSize: '12px', color: '#999' }}>
-                                  {new Date(review.createdAt).toLocaleDateString('vi-VN', { month: 'long', day: 'numeric', year: 'numeric' })}
+                                  {new Date(review.createdAt).toLocaleDateString(t('dateFormat'), { month: 'long', day: 'numeric', year: 'numeric' })}
                                 </div>
                               </div>
                               <p style={{ margin: 0, fontSize: '14px', color: '#555', lineHeight: '1.6' }}>
