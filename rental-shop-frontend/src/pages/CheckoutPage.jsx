@@ -15,7 +15,8 @@ import {
     MapPin, 
     MessageSquare,
     Info,
-    ArrowLeft
+    ArrowLeft,
+    QrCode
 } from 'lucide-react';
 import '../styles/CheckoutPage.css';
 
@@ -319,6 +320,20 @@ const CheckoutPage = () => {
                                 </div>
 
                                 <div 
+                                    className={`payment-card ${paymentMethod === 'transfer' ? 'active' : ''}`}
+                                    onClick={() => setPaymentMethod('transfer')}
+                                >
+                                    <div className="payment-header">
+                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#f0fdf4', color: '#16a34a'}}>
+                                            <QrCode size={20} />
+                                        </div>
+                                        <div className="payment-radio"></div>
+                                    </div>
+                                    <div className="payment-name">{t('bankTransfer')}</div>
+                                    <div className="payment-desc">{t('bankTransferDesc')}</div>
+                                </div>
+
+                                <div 
                                     className={`payment-card ${paymentMethod === 'card' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('card')}
                                 >
@@ -337,6 +352,45 @@ const CheckoutPage = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* QR Code Display Section */}
+                            {(paymentMethod === 'momo' || paymentMethod === 'vnpay' || paymentMethod === 'transfer') && (
+                                <div className="qr-payment-section" style={{
+                                    marginTop: '25px',
+                                    padding: '25px',
+                                    backgroundColor: '#f9fafb',
+                                    borderRadius: '16px',
+                                    border: '1px dashed #d1d5db',
+                                    textAlign: 'center'
+                                }}>
+                                    <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px' }}>{t('scanQRCode')}</h3>
+                                    <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px' }}>{t('qrPaymentInstruction')}</p>
+                                    
+                                    <div className="qr-image-wrapper" style={{
+                                        backgroundColor: '#fff',
+                                        padding: '15px',
+                                        borderRadius: '12px',
+                                        display: 'inline-block',
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                                        marginBottom: '15px'
+                                    }}>
+                                        <img 
+                                            src={paymentMethod === 'transfer' 
+                                                ? `https://api.vietqr.io/image/vcb-9824686868-compact.jpg?amount=${summary?.total}&addInfo=LUXE${user?.id || 'USER'}`
+                                                : paymentMethod === 'momo'
+                                                    ? 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg' // Placeholder
+                                                    : 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg' // Placeholder
+                                            } 
+                                            alt="Payment QR Code" 
+                                            style={{ width: '200px', height: '200px', objectFit: 'contain' }}
+                                        />
+                                    </div>
+                                    
+                                    <div style={{ fontSize: '13px', color: '#374151', fontWeight: '500' }}>
+                                        {t('totalAmount')}: <span style={{ color: '#08060d', fontWeight: '700' }}>{summary?.total?.toLocaleString()}đ</span>
+                                    </div>
+                                </div>
+                            )}
                         </section>
                     </div>
 

@@ -75,6 +75,17 @@ const ProfilePage = () => {
         }
     }, [activeTab, user?.id]);
 
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [showModal]);
+
     const getFullImageUrl = (path) => {
         if (!path) return 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=1200&fit=crop&q=80';
         if (path.startsWith('http')) return path;
@@ -298,44 +309,84 @@ const ProfilePage = () => {
                         </div>
 
                         {detailLoading ? (
-                            <div className="modal-loading">{t('loadingDetails')}</div>
+                            <div className="modal-loading">
+                                <div className="spinner"></div>
+                                <p>{t('loadingDetails')}</p>
+                            </div>
                         ) : selectedRental ? (
                             <div className="modal-body">
-                                <div className="modal-section order-meta">
-                                    <div>
-                                        <span className="label">{t('orderId')}:</span>
+                                <div className="order-meta-header">
+                                    <div className="order-id-badge">
+                                        <span className="label">{t('orderId')}</span>
                                         <span className="value">#LUX{selectedRental.id.toString().padStart(6, '0')}</span>
                                     </div>
-                                    <div className={`status-badge status-${selectedRental.status}`}>
+                                    <div className={`status-pill status-${selectedRental.status}`}>
                                         {getStatusLabel(selectedRental.status)}
                                     </div>
                                 </div>
 
-                                <div className="modal-section-grid">
-                                    <div className="modal-section">
-                                        <h4>{t('shippingInfo')}</h4>
-                                        <p><strong>{t('recipient')}:</strong> {selectedRental.full_name}</p>
-                                        <p><strong>{t('phoneNumber')}:</strong> {selectedRental.phone}</p>
-                                        <p><strong>{t('addresses')}:</strong> {selectedRental.address}</p>
-                                        <p><strong>{t('deliveryMethod')}:</strong> {selectedRental.delivery_method === 'home' ? t('shipToHome') : t('pickAtStore')}</p>
+                                <div className="modal-grid">
+                                    <div className="modal-grid-section">
+                                        <h4 className="section-title">{t('shippingInfo')}</h4>
+                                        <div className="info-card">
+                                            <div className="info-row">
+                                                <span className="info-label">{t('recipient')}:</span>
+                                                <span className="info-value">{selectedRental.full_name}</span>
+                                            </div>
+                                            <div className="info-row">
+                                                <span className="info-label">{t('phoneNumber')}:</span>
+                                                <span className="info-value">{selectedRental.phone}</span>
+                                            </div>
+                                            <div className="info-row">
+                                                <span className="info-label">{t('shippingAddress')}:</span>
+                                                <span className="info-value">{selectedRental.address}</span>
+                                            </div>
+                                            <div className="info-row">
+                                                <span className="info-label">{t('deliveryMethod')}:</span>
+                                                <span className="info-value">
+                                                    {selectedRental.delivery_method === 'home' ? t('homeDelivery') : t('pickupAtStore')}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="modal-section">
-                                        <h4>{t('paymentStatus')}</h4>
-                                        <p><strong>{t('paymentMethods')}:</strong> {selectedRental.payment_method === 'cod' ? t('payOnDelivery') : t('paid')}</p>
-                                        <p><strong>{t('totalPrice')}:</strong> <span className="price">{selectedRental.total_price?.toLocaleString('vi-VN')} đ</span></p>
+
+                                    <div className="modal-grid-section">
+                                        <h4 className="section-title">{t('paymentInfo')}</h4>
+                                        <div className="info-card">
+                                            <div className="info-row">
+                                                <span className="info-label">{t('paymentMethod')}:</span>
+                                                <span className="info-value" style={{ textTransform: 'uppercase' }}>{selectedRental.payment_method}</span>
+                                            </div>
+                                            <div className="info-row">
+                                                <span className="info-label">{t('paymentStatus')}:</span>
+                                                <span className="info-value status-text">
+                                                    {selectedRental.payment_method === 'cod' ? t('payOnDelivery') : t('paid')}
+                                                </span>
+                                            </div>
+                                            <div className="info-row total-row">
+                                                <span className="info-label">{t('totalAmount')}:</span>
+                                                <span className="info-value price-total">{selectedRental.total_price?.toLocaleString('vi-VN')} đ</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="modal-section">
-                                    <h4>{t('rentedProducts')}</h4>
-                                    <div className="modal-items-list">
+                                <div className="modal-products-section">
+                                    <h4 className="section-title">{t('rentedProducts')}</h4>
+                                    <div className="modal-items-grid">
                                         {selectedRental.RentalItems?.map((item, idx) => (
-                                            <div key={idx} className="modal-item">
-                                                <img src={getFullImageUrl(item.Product?.image)} alt={item.Product?.name} />
-                                                <div className="item-info">
-                                                    <h5>{item.Product?.name ? t(item.Product.name) : t('premiumProduct')}</h5>
-                                                    <p>{t('quantity')}: {item.quantity}</p>
-                                                    <p className="item-price">{item.price_per_day?.toLocaleString('vi-VN')} đ/{t('perDay')}</p>
+                                            <div key={idx} className="product-mini-card">
+                                                <div className="product-image">
+                                                    <img src={getFullImageUrl(item.Product?.image)} alt={item.Product?.name} />
+                                                </div>
+                                                <div className="product-details">
+                                                    <h5 className="product-name">{item.Product?.name ? t(item.Product.name) : t('premiumProduct')}</h5>
+                                                    <div className="product-meta">
+                                                        <span>{t('size')}: {item.size || 'M'}</span>
+                                                        <span className="dot"></span>
+                                                        <span>{t('quantity')}: {item.quantity}</span>
+                                                    </div>
+                                                    <p className="product-price">{item.price_per_day?.toLocaleString('vi-VN')} đ/{t('perDay')}</p>
                                                 </div>
                                             </div>
                                         ))}

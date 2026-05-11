@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation, NavLink } from 'react-router-dom'
 import { Menu, X, ShoppingBag, User, Search, LogOut, Settings, ClipboardList, ArrowLeft } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
@@ -66,9 +66,12 @@ const Navbar = ({ showBack = false }) => {
                     <ul className="navbar-nav">
                         {navLinks.map((link) => (
                             <li key={link.name}>
-                                <Link to={link.href} className="navbar-link">
+                                <NavLink 
+                                    to={link.href} 
+                                    className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}
+                                >
                                     {link.name}
-                                </Link>
+                                </NavLink>
                             </li>
                         ))}
                     </ul>

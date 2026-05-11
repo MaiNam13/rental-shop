@@ -318,6 +318,15 @@ const translations = {
         preparingOrder: 'Đang chuẩn bị đơn hàng của bạn...',
         addressPlaceholder: 'Số nhà, tên đường, phường/xã, quận/huyện...',
         paymentMethod: 'Phương thức thanh toán',
+        bankTransfer: 'Chuyển khoản ngân hàng',
+        bankTransferDesc: 'Thanh toán qua mã VietQR chuẩn NAPAS 247',
+        scanQRCode: 'Quét mã QR để thanh toán',
+        qrPaymentInstruction: 'Sử dụng ứng dụng ngân hàng hoặc ví điện tử để quét mã dưới đây',
+        paymentInfo: 'Thông tin thanh toán',
+        recipient: 'Người nhận',
+        shippingAddress: 'Địa chỉ giao hàng',
+        paymentStatus: 'Trạng thái thanh toán',
+        rentedProducts: 'Sản phẩm thuê',
         
         // Footer
         footerDesc: 'Nền tảng cho thuê thời trang cao cấp hàng đầu Việt Nam. Trải nghiệm phong cách sống thời thượng với chi phí hợp lý.',
@@ -667,6 +676,15 @@ const translations = {
         preparingOrder: 'Preparing your order...',
         addressPlaceholder: 'Street, ward, district, city...',
         paymentMethod: 'Payment Method',
+        bankTransfer: 'Bank Transfer',
+        bankTransferDesc: 'Payment via NAPAS 247 VietQR code',
+        scanQRCode: 'Scan QR Code to pay',
+        qrPaymentInstruction: 'Use your banking app or e-wallet to scan the QR code below',
+        paymentInfo: 'Payment Information',
+        recipient: 'Recipient',
+        shippingAddress: 'Shipping Address',
+        paymentStatus: 'Payment Status',
+        rentedProducts: 'Rented Products',
 
         // Footer
         footerDesc: 'Vietnam\'s leading luxury fashion rental platform. Experience high-end style at reasonable costs.',

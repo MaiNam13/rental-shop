@@ -77,7 +77,8 @@
     transform: translateX(-50%);
 }
 
-.navbar-link:hover::after {
+.navbar-link:hover::after,
+.navbar-link.active::after {
     width: 100%;
 }
 
