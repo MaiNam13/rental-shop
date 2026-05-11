@@ -317,6 +317,7 @@ const translations = {
         termsRequired: 'Bạn cần đồng ý với điều khoản và chính sách để tiếp tục đặt thuê.',
         preparingOrder: 'Đang chuẩn bị đơn hàng của bạn...',
         addressPlaceholder: 'Số nhà, tên đường, phường/xã, quận/huyện...',
+        paymentMethod: 'Phương thức thanh toán',
         
         // Footer
         footerDesc: 'Nền tảng cho thuê thời trang cao cấp hàng đầu Việt Nam. Trải nghiệm phong cách sống thời thượng với chi phí hợp lý.',
@@ -665,6 +666,7 @@ const translations = {
         termsRequired: 'You need to agree to the terms and policy to continue.',
         preparingOrder: 'Preparing your order...',
         addressPlaceholder: 'Street, ward, district, city...',
+        paymentMethod: 'Payment Method',
 
         // Footer
         footerDesc: 'Vietnam\'s leading luxury fashion rental platform. Experience high-end style at reasonable costs.',
@@ -715,7 +717,23 @@ export const LanguageProvider = ({ children }) => {
     const t = (key, params = {}) => {
         let translation = translations[language][key] || key;
         
-        // Handle parameters (e.g., {count})
+        // Check if any param is a React element
+        const hasReactElements = Object.values(params).some(val => React.isValidElement(val));
+        
+        if (hasReactElements) {
+            // Split by placeholders and interleave with param values
+            const parts = translation.split(/(\{[^}]+\})/g);
+            return parts.map((part, index) => {
+                const match = part.match(/^\{([^}]+)\}$/);
+                if (match) {
+                    const paramName = match[1];
+                    return params[paramName] !== undefined ? params[paramName] : part;
+                }
+                return part;
+            });
+        }
+
+        // Handle string parameters (e.g., {count})
         Object.keys(params).forEach(param => {
             translation = translation.replace(`{${param}}`, params[param]);
         });

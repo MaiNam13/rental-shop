@@ -119,7 +119,7 @@ const CheckoutPage = () => {
             await cartApi.clearCart();
             
             alert(t('checkoutSuccess'));
-            navigate('/rentals');
+            navigate('/profile');
         } catch (err) {
             console.error("Checkout failed:", err);
             alert(err.response?.data?.message || t('error'));
