@@ -17,6 +17,7 @@ const cartRoutes = require("./routes/cartRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const variantRoutes = require("./routes/variantRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // Middleware
 const authMiddleware = require("./middlewares/authMiddleware");
@@ -90,6 +91,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/product-variants", variantRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Error Handling Middleware (Must be last)
 app.use(errorMiddleware);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
@@ -19,8 +19,19 @@ export default function RegisterPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { register } = useAuth();
+    const { register, isLoggedIn, user } = useAuth();
     const navigate = useNavigate();
+
+    // Điều hướng nếu đã đăng nhập
+    useEffect(() => {
+        if (isLoggedIn && user) {
+            if (user.role === 'admin') {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        }
+    }, [isLoggedIn, user, navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -47,7 +58,11 @@ export default function RegisterPage() {
         });
 
         if (result.success) {
-            navigate("/");
+            if (result.user?.role === 'admin') {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
         } else {
             setError(result.message);
         }

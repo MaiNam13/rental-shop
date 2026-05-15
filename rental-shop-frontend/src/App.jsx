@@ -12,7 +12,14 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AboutPage from "./pages/AboutPage";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import ScrollToTop from "./components/layout/ScrollToTop";
+import AdminLayout from "./components/layout/AdminLayout";
+import DashboardPage from "./pages/admin/DashboardPage";
+import ProductManagement from "./pages/admin/ProductManagement";
+import CategoryManagement from "./pages/admin/CategoryManagement";
+import RentalManagement from "./pages/admin/RentalManagement";
+import UserManagement from "./pages/admin/UserManagement";
 
+// Admin Dashboard Routes added
 function App() {
   return (
     <Router>
@@ -41,6 +48,15 @@ function App() {
             <CheckoutPage />
           </ProtectedRoute>
         } />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminLayout /></ProtectedRoute>}>
+          <Route index element={<DashboardPage />} />
+          <Route path="products" element={<ProductManagement />} />
+          <Route path="categories" element={<CategoryManagement />} />
+          <Route path="rentals" element={<RentalManagement />} />
+          <Route path="users" element={<UserManagement />} />
+        </Route>
       </Routes>
     </Router>
   );

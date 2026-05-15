@@ -12,7 +12,9 @@ const createProduct = async (req, res) => {
             description,
             price_per_day,
             category_id,
-            stock
+            stock,
+            status,
+            features
         } = req.body;
 
         // lấy ảnh từ multer upload
@@ -26,7 +28,9 @@ const createProduct = async (req, res) => {
             price_per_day,
             image,
             category_id,
-            stock
+            stock,
+            status: status || "available",
+            features: features || null
         });
 
         res.status(201).json({
@@ -192,7 +196,9 @@ const updateProduct = async (req, res) => {
             description,
             price_per_day,
             category_id,
-            stock
+            stock,
+            status,
+            features
         } = req.body;
 
         // giữ ảnh cũ nếu không upload ảnh mới
@@ -209,6 +215,8 @@ const updateProduct = async (req, res) => {
             price_per_day,
             category_id,
             stock,
+            status: status || product.status,
+            features: features || product.features,
             image
         });
 

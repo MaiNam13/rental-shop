@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
@@ -14,8 +14,19 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const { t } = useLanguage();
 
-    const { login } = useAuth();
+    const { login, isLoggedIn, user } = useAuth();
     const navigate = useNavigate();
+
+    // Điều hướng nếu đã đăng nhập
+    useEffect(() => {
+        if (isLoggedIn && user) {
+            if (user.role === 'admin') {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        }
+    }, [isLoggedIn, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +36,11 @@ export default function LoginPage() {
         const result = await login(email, password);
         
         if (result.success) {
-            navigate("/"); // Redirect to home on success
+            if (result.user?.role === 'admin') {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
         } else {
             setError(result.message);
         }
