@@ -82,18 +82,18 @@ const AdminLayout = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-info">
+          <div className="user-profile-detailed">
             <img 
               src={user?.avatar || "https://i.pravatar.cc/150?u=admin"} 
               alt="Admin" 
-              className="user-avatar"
+              className="footer-avatar"
             />
-            <div className="user-details">
-              <h4>{user?.name || "Quản trị"}</h4>
+            <div className="footer-user-info">
+              <h4>{user?.name || "Nguyễn Quản Trị"}</h4>
               <p>Quản trị viên cấp cao</p>
             </div>
-            <button className="logout-btn" onClick={handleLogout} title="Đăng xuất">
-              <LogOut size={18} />
+            <button className="footer-logout-btn" onClick={handleLogout}>
+              <LogOut size={16} />
             </button>
           </div>
         </div>
@@ -103,13 +103,15 @@ const AdminLayout = () => {
       <main className="admin-main">
         {/* Header */}
         <header className="admin-header">
-          <div className="header-search">
-            <Search size={18} color="#888" />
-            <input type="text" placeholder="Tìm sản phẩm, đơn thuê, khách hàng..." />
+          <div className="header-left-section">
+            <div className="header-breadcrumbs">Tổng quan › <span className="active">Sản phẩm</span></div>
+            <div className="header-search">
+              <Search size={16} color="#aaa" />
+              <input type="text" placeholder="Tìm kiếm nhanh..." />
+            </div>
           </div>
 
           <div className="header-actions">
-            
             <button className="icon-btn">
               <Bell size={20} />
               <span className="notification-dot"></span>

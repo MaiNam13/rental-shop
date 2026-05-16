@@ -238,3 +238,42 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Hidden/Ghosted Product Effect */
+.product-ghosted {
+    position: relative;
+    filter: grayscale(0.4); /* Reduced grayscale for more clarity */
+    opacity: 0.5; /* Lighter/paler appearance */
+    pointer-events: none;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.product-ghosted::after {
+    content: "TẠM ẨN";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    z-index: 10;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    pointer-events: none;
+}
+
+.product-ghosted .luxe-card-actions,
+.product-ghosted .wishlist-btn {
+    display: none !important;
+}
+
+.status-hidden {
+    color: #f97316 !important;
+    background-color: rgba(249, 115, 22, 0.1);
+}

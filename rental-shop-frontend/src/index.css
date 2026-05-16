@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -38,7 +40,7 @@
   --transition-medium: 0.3s ease;
   --transition-slow: 0.5s ease;
 
-  --font-serif: 'Playfair Display', 'Times New Roman', serif;
+  --font-serif: 'Montserrat', sans-serif;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;

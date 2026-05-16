@@ -129,10 +129,12 @@ const ProfilePage = () => {
 
     const getStatusLabel = (status) => {
         switch (status) {
+            case 'pending': return t('pendingStatus');
+            case 'shipping': return t('shippingStatus');
             case 'renting': return t('renting');
             case 'returned': return t('returned');
-            case 'approved': return t('approved');
-            default: return t('pending');
+            case 'cancelled': return t('cancelled');
+            default: return status;
         }
     };
 
@@ -160,10 +162,11 @@ const ProfilePage = () => {
                     onChange={(e) => setStatusFilter(e.target.value)}
                 >
                     <option value="all">{t('allOrders')}</option>
-                    <option value="pending">{t('pending')}</option>
-                    <option value="approved">{t('approved')}</option>
+                    <option value="pending">{t('pendingStatus')}</option>
+                    <option value="shipping">{t('shippingStatus')}</option>
                     <option value="renting">{t('renting')}</option>
                     <option value="returned">{t('returned')}</option>
+                    <option value="cancelled">{t('cancelled')}</option>
                 </select>
             </div>
 

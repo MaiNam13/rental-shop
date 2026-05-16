@@ -1,6 +1,7 @@
-/* DashboardPage.css */
+/* Dashboard Specific Styles */
+
 .dashboard-page {
-  padding: 0;
+  width: 100%;
 }
 
 .dashboard-header {
@@ -8,96 +9,327 @@
 }
 
 .dashboard-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 8px;
-  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--admin-text-primary);
+  margin-bottom: 8px;
 }
 
 .dashboard-header p {
-  color: #666;
-  font-size: 14px;
+  color: var(--admin-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
 }
 
-/* Inventory Summary */
-.inventory-grid {
+/* Stats Grid */
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
-.inventory-card {
-  border: 1.5px solid #eee;
+.stat-card {
+  background: var(--admin-card-bg);
   padding: 24px;
-  border-radius: 12px;
-  background-color: #fff;
+  border-radius: 24px;
+  border: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   transition: all 0.3s ease;
 }
 
-.inventory-card:hover {
-  border-color: #c5a059;
-  box-shadow: 0 4px 20px rgba(197, 160, 89, 0.08);
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background-color: #fcfcfb;
+  color: var(--admin-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f1f1ee;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--admin-text-secondary);
+  font-weight: 600;
+}
+
+.stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.trend-up { color: #22c55e; }
+.trend-down { color: #ef4444; }
+
+/* Layout Rows */
+.dashboard-row-2 {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.chart-card {
+  background: var(--admin-card-bg);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--admin-border);
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+  margin-bottom: 4px;
+}
+
+.chart-subtitle {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+.chart-container {
+  height: 350px; /* Essential for ResponsiveContainer */
+  width: 100%;
+}
+
+/* Data Tables */
+.customer-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customer-initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background-color: #f0ede8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+}
+
+.order-id {
+  font-weight: 700;
+  color: var(--admin-accent);
+}
+
+.view-all {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--admin-accent);
+  text-decoration: none;
+}
+
+.date-cell {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Top Products List */
+.top-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.product-item:hover {
+  background-color: #f9f8f4;
+}
+
+.product-rank {
+  font-size: 14px;
+  font-weight: 900;
+  color: #bbb;
+  width: 24px;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+  margin-bottom: 2px;
+}
+
+.product-category {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+}
+
+.product-progress-wrapper {
+  flex: 1;
+  height: 4px;
+  background-color: #eee;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 20px;
+}
+
+.product-progress-bar {
+  height: 100%;
+  background-color: var(--admin-accent);
+  border-radius: 2px;
+}
+
+.product-stats {
+  text-align: right;
+}
+
+.product-revenue {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--admin-text-primary);
+}
+
+.product-rating {
+  font-size: 11px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+/* Inventory Section */
+.inventory-section-card {
+  background: var(--admin-card-bg);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--admin-border);
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.inventory-card {
+  padding: 16px;
+  background-color: #fdfdfd;
+  border: 1px solid #eee;
+  border-radius: 16px;
 }
 
 .inventory-card-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .inventory-icon-wrapper {
-  padding: 8px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.inventory-icon-wrapper.available { background-color: #f0fdf4; color: #22c55e; }
+.inventory-icon-wrapper.renting { background-color: #eff6ff; color: #3b82f6; }
+.inventory-icon-wrapper.low-stock { background-color: #fff7ed; color: #f97316; }
+.inventory-icon-wrapper.damaged { background-color: #fef2f2; color: #ef4444; }
+
 .inventory-tag {
-  font-size: 10px;
-  font-weight: 700;
-  color: #888;
-  letter-spacing: 0.5px;
+  font-size: 8px;
+  font-weight: 800;
+  color: #bbb;
+  letter-spacing: 1px;
 }
 
 .inventory-value {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 4px;
-  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--admin-text-primary);
+  margin-bottom: 2px;
 }
 
 .inventory-label {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
-  margin-bottom: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .inventory-progress-bg {
-  height: 4px;
-  width: 100%;
-  background-color: #f0f0f0;
+  height: 3px;
+  background-color: #eee;
   border-radius: 2px;
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .inventory-progress-fill {
   height: 100%;
   border-radius: 2px;
-  transition: width 0.5s ease;
 }
 
+.inventory-progress-fill.available { background-color: #22c55e; }
+.inventory-progress-fill.renting { background-color: #3b82f6; }
+.inventory-progress-fill.low-stock { background-color: #f97316; }
+.inventory-progress-fill.damaged { background-color: #ef4444; }
+
 .inventory-footer {
-  font-size: 10px;
-  color: #999;
-  marginTop: 8px;
+  font-size: 9px;
+  color: #aaa;
+  font-weight: 600;
 }
 
 /* Quick Actions */
 .quick-actions-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 .action-card {
@@ -106,44 +338,53 @@
   align-items: center;
   gap: 12px;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  border: 1.5px solid #eee;
+  background-color: #fcfcfc;
+  border: 1px solid #eee;
+  border-radius: 16px;
   text-decoration: none;
-  color: inherit;
   transition: all 0.2s;
 }
 
 .action-card:hover {
-  border-color: #c5a059;
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  background-color: #fff;
+  border-color: var(--admin-accent);
+  transform: translateY(-2px);
 }
 
 .action-icon-box {
-  width: 50px;
-  height: 50px;
-  background-color: #f5f4ef;
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  background-color: #f7f6f2;
+  color: var(--admin-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c5a059;
+  border-radius: 14px;
 }
 
 .action-label {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--admin-text-primary);
 }
 
-/* Chart Card Enhancements */
-.chart-container {
-  width: 100%;
-  height: 300px;
+/* Utils */
+.loading-screen-luxe {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--admin-text-primary);
+  font-weight: 700;
 }
 
-.loading-container {
-  padding: 100px;
-  text-align: center;
-  color: #888;
-}
+.padding-24 { padding: 24px; }
+.padding-32 { padding: 32px; }
+.margin-bottom-24 { margin-bottom: 24px; }
+.margin-bottom-32 { margin-bottom: 32px; }
+.font-700 { font-weight: 700; }
+.font-800 { font-weight: 800; }
+.flex-end { justify-content: flex-end; }
+.no-data-cell { text-align: center; padding: 40px; color: #888; }
+.no-data-text { text-align: center; color: #888; padding: 40px; }

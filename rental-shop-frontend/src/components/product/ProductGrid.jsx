@@ -35,7 +35,9 @@ const ProductGrid = ({ products }) => {
           price: product.price_per_day ? `${product.price_per_day}K` : `${product.price}K`,
           category: product.category_id?.name || product.category || 'THỜI TRANG',
           image: imageUrl,
-          badge: product.badge || null
+          badge: product.badge || null,
+          status: product.status,
+          stock: product.stock
         };
 
         return <ProductCard key={mappedProduct.id} product={mappedProduct} />;

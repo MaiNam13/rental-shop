@@ -1,4 +1,78 @@
-const { User, Product, Rental, RentalItem, Category } = require("../models");
+const { User, Product, Rental, RentalItem, Category, Payment } = require("../models");
+
+
+exports.getAdminPayments = async (req, res) => {
+    try {
+        const payments = await Payment.findAll({
+            include: [
+                { 
+                    model: Rental, 
+                    attributes: ['id', 'total_price'],
+                    include: [{ model: User, attributes: ['name', 'email'] }]
+                }
+            ],
+            order: [['id', 'DESC']]
+        });
+
+        // 1. Calculate Summary Stats
+        const summary = {
+            totalRevenue: payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0),
+            pendingAmount: payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0),
+            pendingCount: payments.filter(p => p.status === 'pending').length,
+            successCount: payments.filter(p => p.status === 'completed').length,
+            failedCount: payments.filter(p => p.status === 'failed').length,
+            failedAmount: payments.filter(p => p.status === 'failed').reduce((sum, p) => sum + p.amount, 0)
+        };
+
+        // 2. Chart Data (Monthly Revenue)
+        const chartData = [];
+        const monthNames = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+        
+        // Group by month
+        const monthlyGroups = payments.reduce((acc, p) => {
+            if (p.status === 'completed') {
+                const date = new Date(p.createdAt);
+                const month = date.getMonth();
+                acc[month] = (acc[month] || 0) + p.amount;
+            }
+            return acc;
+        }, {});
+
+        // Fill in last 6 months
+        const currentMonth = new Date().getMonth();
+        for (let i = 5; i >= 0; i--) {
+            const m = (currentMonth - i + 12) % 12;
+            chartData.push({
+                name: monthNames[m],
+                revenue: (monthlyGroups[m] || 0) / 1000000 // Convert to millions
+            });
+        }
+
+        // 3. Payment Method Distribution
+        const methodCounts = payments.reduce((acc, p) => {
+            const m = p.method || 'cash';
+            acc[m] = (acc[m] || 0) + 1;
+            return acc;
+        }, {});
+
+        const totalPayments = payments.length || 1;
+        const methodData = Object.keys(methodCounts).map(key => ({
+            name: key === 'bank_transfer' ? 'Chuyển khoản' : (key === 'vnpay' ? 'VNPay' : (key === 'momo' ? 'Momo' : 'Tiền mặt')),
+            value: Math.round((methodCounts[key] / totalPayments) * 100),
+            count: methodCounts[key]
+        }));
+
+        res.json({
+            payments,
+            summary,
+            chartData,
+            methodData
+        });
+    } catch (error) {
+        console.error("Admin Get Payments Error:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
 const sequelize = require("../config/db");
 const { Op } = require("sequelize");
 
@@ -114,8 +188,8 @@ exports.getAdminProducts = async (req, res) => {
         const [total, available, outOfStock, renting] = await Promise.all([
             Product.count(),
             Product.count({ where: { status: 'available' } }),
-            Product.count({ where: { stock: 0 } }),
-            Rental.count({ where: { status: 'renting' } }) // Simplified
+            Product.count({ where: { status: 'out_of_stock' } }),
+            Rental.count({ where: { status: 'renting' } })
         ]);
 
         res.json({
@@ -123,12 +197,32 @@ exports.getAdminProducts = async (req, res) => {
             summary: {
                 total,
                 available,
-                outOfStock,
+                out_of_stock: outOfStock,
                 renting
             }
         });
     } catch (error) {
         console.error("Admin Get Products Error:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.updatePaymentStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const payment = await Payment.findByPk(id);
+        if (!payment) {
+            return res.status(404).json({ message: "Không tìm thấy giao dịch" });
+        }
+
+        payment.status = status;
+        await payment.save();
+
+        res.json({ message: "Cập nhật trạng thái thanh toán thành công", payment });
+    } catch (error) {
+        console.error("Update Payment Status Error:", error);
         res.status(500).json({ message: error.message });
     }
 };

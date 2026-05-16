@@ -29,7 +29,7 @@ const createProduct = async (req, res) => {
             image,
             category_id,
             stock,
-            status: status || "available",
+            status: parseInt(stock) === 0 ? "out_of_stock" : (status || "available"),
             features: features || null
         });
 
@@ -95,11 +95,14 @@ const getAllProducts = async (req, res) => {
             [Op.between]: [minPrice, maxPrice]
         };
 
+        // Mọi trạng thái đều được trả về, frontend sẽ xử lý hiển thị mờ nếu là 'hidden'
+
         // filter status
         if (status === "available") {
-            whereCondition.stock = {
-                [Op.gt]: 0
-            };
+            whereCondition.status = 'available';
+            whereCondition.stock = { [Op.gt]: 0 };
+        } else if (status === "out_of_stock") {
+            whereCondition.status = 'out_of_stock';
         } else if (status === "newest") {
             // Lấy hàng mới về trong vòng 30 ngày qua
             const thirtyDaysAgo = new Date();
@@ -215,7 +218,7 @@ const updateProduct = async (req, res) => {
             price_per_day,
             category_id,
             stock,
-            status: status || product.status,
+            status: parseInt(stock) === 0 ? "out_of_stock" : (status || product.status),
             features: features || product.features,
             image
         });

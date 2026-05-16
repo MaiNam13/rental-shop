@@ -18,47 +18,58 @@ import ProductManagement from "./pages/admin/ProductManagement";
 import CategoryManagement from "./pages/admin/CategoryManagement";
 import RentalManagement from "./pages/admin/RentalManagement";
 import UserManagement from "./pages/admin/UserManagement";
+import PaymentManagement from "./pages/admin/PaymentManagement";
+import InventoryPage from "./pages/admin/InventoryPage";
+import ReportsPage from "./pages/admin/ReportsPage";
+import SettingsPage from "./pages/admin/SettingsPage";
+import { ToastProvider } from './context/ToastContext';
 
-// Admin Dashboard Routes added
+// Main App Component
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:id" element={<ProductDetailPage />} />
-        <Route path="/categories" element={<CategoriesPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        } />
-        <Route path="/rentals" element={
-          <ProtectedRoute>
-            <RentalHistoryPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/checkout" element={
-          <ProtectedRoute>
-            <CheckoutPage />
-          </ProtectedRoute>
-        } />
+    <ToastProvider>
+      <Router>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/rentals" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/checkout" element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          } />
 
-        {/* Admin Routes */}
-        <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminLayout /></ProtectedRoute>}>
-          <Route index element={<DashboardPage />} />
-          <Route path="products" element={<ProductManagement />} />
-          <Route path="categories" element={<CategoryManagement />} />
-          <Route path="rentals" element={<RentalManagement />} />
-          <Route path="users" element={<UserManagement />} />
-        </Route>
-      </Routes>
-    </Router>
+          {/* Admin Routes */}
+          <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminLayout /></ProtectedRoute>}>
+            <Route index element={<DashboardPage />} />
+            <Route path="products" element={<ProductManagement />} />
+            <Route path="categories" element={<CategoryManagement />} />
+            <Route path="rentals" element={<RentalManagement />} />
+            <Route path="users" element={<UserManagement />} />
+            <Route path="payments" element={<PaymentManagement />} />
+            <Route path="inventory" element={<InventoryPage />} />
+            <Route path="reports" element={<ReportsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ToastProvider>
   );
 }
 

@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const { getDashboardStats, getAdminProducts } = require("../controllers/adminController");
-// You might want to add an admin middleware here later
-// const { isAdmin } = require("../middlewares/authMiddleware");
+const { getDashboardStats, getAdminProducts, getAdminPayments, updatePaymentStatus } = require("../controllers/adminController");
+const { getAllUsers, deleteUser } = require("../controllers/userController");
+const { getAllRentals, updateRental } = require("../controllers/rentalController");
 
 router.get("/stats", getDashboardStats);
 router.get("/products", getAdminProducts);
-router.get("/test", (req, res) => res.json({ message: "Admin API OK" }));
+router.get("/users", getAllUsers);
+router.delete("/users/:id", deleteUser);
+router.get("/rentals", getAllRentals);
+router.put("/rentals/:id/status", updateRental);
+router.get("/payments", getAdminPayments);
+router.put("/payments/:id/status", updatePaymentStatus);
 
 module.exports = router;

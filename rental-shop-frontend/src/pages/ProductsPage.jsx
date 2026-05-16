@@ -192,13 +192,19 @@ const ProductsPage = () => {
                     className={`category-btn ${statusFilter === 'available' ? 'active' : ''}`}
                     onClick={() => { setStatusFilter('available'); setPage(1); }}
                   >
-                    {t('ready')}
+                    {t('inStock')}
                   </button>
                   <button 
-                    className={`category-btn ${statusFilter === 'newest' ? 'active' : ''}`}
-                    onClick={() => { setStatusFilter('newest'); setPage(1); }}
+                    className={`category-btn ${statusFilter === 'out_of_stock' ? 'active' : ''}`}
+                    onClick={() => { setStatusFilter('out_of_stock'); setPage(1); }}
                   >
-                    {t('newArrivals')}
+                    {t('outOfStock')}
+                  </button>
+                  <button 
+                    className={`category-btn ${statusFilter === 'hidden' ? 'active' : ''}`}
+                    onClick={() => { setStatusFilter('hidden'); setPage(1); }}
+                  >
+                    Đã ẩn
                   </button>
                 </div>
               </div>
@@ -216,7 +222,7 @@ const ProductsPage = () => {
               ) : (
                 <div className="products-grid">
                   {products.map((product) => (
-                    <div key={product.id} className="luxe-product-card" onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: 'pointer' }}>
+                    <div key={product.id} className={`luxe-product-card ${product.status === 'hidden' ? 'product-ghosted' : ''}`} onClick={() => product.status !== 'hidden' && navigate(`/products/${product.id}`)} style={{ cursor: product.status === 'hidden' ? 'not-allowed' : 'pointer' }}>
                       <div className="luxe-card-image-wrapper">
                         <img 
                           src={getProductImage(product.image)} 
@@ -248,8 +254,8 @@ const ProductsPage = () => {
                           <div className="luxe-price">
                             {product.price_per_day?.toLocaleString('vi-VN')}đ<span className="price-unit">/ngày</span>
                           </div>
-                          <div className={`luxe-status ${product.stock > 0 ? 'status-available' : 'status-unavailable'}`}>
-                            {product.stock > 0 ? t('inStock') : t('outOfStock')}
+                          <div className={`luxe-status ${product.status === 'available' && product.stock > 0 ? 'status-available' : product.status === 'hidden' ? 'status-hidden' : 'status-unavailable'}`}>
+                            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? 'Đã ẩn' : t('outOfStock')}
                           </div>
                         </div>
 
@@ -257,14 +263,14 @@ const ProductsPage = () => {
                           <button 
                             className="action-rent-btn" 
                             onClick={(e) => handleRentNow(e, product)}
-                            disabled={product.stock <= 0}
+                            disabled={product.status !== 'available' || product.stock <= 0}
                           >
-                            {product.stock > 0 ? t('rentNowUpper') : t('outOfStock')}
+                            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? 'ĐÃ ẨN' : t('outOfStock')}
                           </button>
                           <button 
                             className="action-cart-btn" 
                             onClick={(e) => handleAddToCart(e, product)}
-                            disabled={product.stock <= 0}
+                            disabled={product.status !== 'available' || product.stock <= 0}
                           >
                             <ShoppingCart size={18} />
                           </button>

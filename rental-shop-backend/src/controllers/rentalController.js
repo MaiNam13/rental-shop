@@ -2,8 +2,10 @@ const {
     Rental,
     RentalItem,
     Product,
-    User
+    User,
+    Payment
 } = require("../models");
+const { sendConfirmationEmail } = require("../services/emailService");
 
 
 // CREATE RENTAL
@@ -84,10 +86,24 @@ const createRental = async (req, res) => {
             });
 
             product.stock -= quantity;
+            
+            // Tự động chuyển trạng thái nếu hết hàng
+            if (product.stock <= 0) {
+                product.status = 'out_of_stock';
+            }
+            
             await product.save();
         }
 
-        console.log("Rental created successfully:", rental.id);
+        // 4. Tạo bản ghi thanh toán (Payment)
+        await Payment.create({
+            rental_id: rental.id,
+            amount: total_price,
+            method: paymentMethod,
+            status: "pending" // Mặc định là chờ xử lý
+        });
+
+        console.log("Rental and Payment created successfully:", rental.id);
 
         res.status(201).json({
             message: "Đặt thuê thành công!",
@@ -187,7 +203,7 @@ const updateRental = async (req, res) => {
 
         const validStatus = [
             "pending",
-            "approved",
+            "shipping",
             "renting",
             "returned",
             "cancelled"
@@ -211,24 +227,21 @@ const updateRental = async (req, res) => {
         // update status
         rental.status = status;
 
-        // nếu trả hàng -> cộng stock lại
-        if (status === "returned") {
-
-            const rentalItems =
-                await RentalItem.findAll({
-                    where: {
-                        rental_id: rental.id
-                    }
-                });
+        // nếu trả hàng hoặc hủy đơn -> cộng stock lại
+        if (status === "returned" || status === "cancelled") {
+            const rentalItems = await RentalItem.findAll({
+                where: { rental_id: rental.id }
+            });
 
             for (const item of rentalItems) {
-
-                const product =
-                    await Product.findByPk(item.product_id);
-
+                const product = await Product.findByPk(item.product_id);
                 if (product) {
-
                     product.stock += item.quantity;
+
+                    // Tự động khôi phục trạng thái nếu trước đó đã hết hàng
+                    if (product.stock > 0 && product.status === 'out_of_stock') {
+                        product.status = 'available';
+                    }
 
                     await product.save();
                 }
@@ -236,6 +249,12 @@ const updateRental = async (req, res) => {
         }
 
         await rental.save();
+
+        // Gửi email thông báo nếu trạng thái là "shipping" (Đang giao)
+        if (status === "shipping") {
+            // Không đợi email gửi xong để trả về phản hồi nhanh cho Admin
+            sendConfirmationEmail(rental).catch(err => console.error("Email send error:", err));
+        }
 
         res.status(200).json({
             message: "Rental updated successfully",

@@ -46,6 +46,7 @@ const FeaturedProductsSection = () => {
               price: priceFormatted,
               image: imageUrl,
               badge: badge,
+              status: p.status,
               stock: p.stock
             }
           })

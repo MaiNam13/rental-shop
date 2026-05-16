@@ -31,7 +31,7 @@ const ProductCard = ({ product, isFavoriteInitial = false }) => {
   };
 
   return (
-    <div className="luxe-product-card" onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: 'pointer' }}>
+    <div className={`luxe-product-card ${product.status === 'hidden' ? 'product-ghosted' : ''}`} onClick={() => product.status !== 'hidden' && navigate(`/products/${product.id}`)} style={{ cursor: product.status === 'hidden' ? 'not-allowed' : 'pointer' }}>
       <div className="luxe-card-image-wrapper">
         <img 
           src={product.image} 
@@ -73,14 +73,16 @@ const ProductCard = ({ product, isFavoriteInitial = false }) => {
           <div className="luxe-price">
             {product.price}<span className="price-unit">/{t('perDay')}</span>
           </div>
-          <div className={`luxe-status ${product.stock > 0 ? 'status-available' : 'status-unavailable'}`}>
-            {product.stock > 0 ? t('inStock') : t('outOfStock')}
+          <div className={`luxe-status ${product.status === 'available' && product.stock > 0 ? 'status-available' : product.status === 'hidden' ? 'status-hidden' : 'status-unavailable'}`}>
+            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? 'Đã ẩn' : t('outOfStock')}
           </div>
         </div>
 
         <div className="luxe-card-actions">
-          <button className="action-rent-btn" onClick={(e) => { e.stopPropagation(); navigate(`/products/${product.id}`); }}>{t('rentNowUpper')}</button>
-          <button className="action-cart-btn" onClick={(e) => { e.stopPropagation(); alert(t('addedToCart', { name: t(product.name) })); }}><ShoppingCart size={18} /></button>
+          <button className="action-rent-btn" disabled={product.status !== 'available' || product.stock <= 0} onClick={(e) => { e.stopPropagation(); navigate(`/products/${product.id}`); }}>
+            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? 'KHÔNG KHẢ DỤNG' : t('outOfStock')}
+          </button>
+          <button className="action-cart-btn" disabled={product.status !== 'available' || product.stock <= 0} onClick={(e) => { e.stopPropagation(); alert(t('addedToCart', { name: t(product.name) })); }}><ShoppingCart size={18} /></button>
         </div>
       </div>
     </div>

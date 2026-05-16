@@ -10,7 +10,6 @@ import {
   TrendingDown,
   Eye,
   Edit2,
-  Plus,
   Tags,
   BarChart3,
   Star,
@@ -29,7 +28,6 @@ import {
 } from 'recharts';
 import { Link } from 'react-router-dom';
 import axiosClient from '../../api/axiosClient';
-import '../../styles/AdminDashboard.css';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
@@ -52,7 +50,7 @@ const DashboardPage = () => {
   };
 
   if (loading) {
-    return <div className="loading-container">Đang tải dữ liệu thực tế...</div>;
+    return <div className="loading-screen-luxe">Đang tải dữ liệu thực tế...</div>;
   }
 
   const { stats, recentRentals, topProducts, monthlyRevenue } = data || {};
@@ -125,12 +123,12 @@ const DashboardPage = () => {
             </div>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
               <AreaChart data={displayRevenueData}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#c5a059" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#c5a059" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#1a1a1a" stopOpacity={0.2}/>
+                    <stop offset="95%" stopColor="#1a1a1a" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
@@ -140,15 +138,15 @@ const DashboardPage = () => {
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value) => [`${value.toFixed(2)}tr ₫`, 'Doanh thu']}
                 />
-                <Area type="monotone" dataKey="value" stroke="#c5a059" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
+                <Area type="monotone" dataKey="value" stroke="#1a1a1a" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      <div className="data-card">
-        <div className="card-header">
+      <div className="data-card no-padding overflow-hidden margin-bottom-32">
+        <div className="card-header padding-24">
           <h3 className="chart-title">Đơn thuê gần đây</h3>
           <Link to="/admin/rentals" className="view-all">Xem tất cả →</Link>
         </div>
@@ -160,7 +158,7 @@ const DashboardPage = () => {
               <th>Ngày tạo</th>
               <th>Tổng tiền</th>
               <th>Trạng thái</th>
-              <th>Thao tác</th>
+              <th className="text-right">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -170,18 +168,18 @@ const DashboardPage = () => {
                 <td>
                   <div className="customer-cell">
                     <div className="customer-initials">{(rental.User?.name || 'K').charAt(0)}</div>
-                    <span>{rental.User?.name || 'Khách vãng lai'}</span>
+                    <span className="font-700">{rental.User?.name || 'Khách vãng lai'}</span>
                   </div>
                 </td>
-                <td style={{ fontSize: 11, color: '#666' }}>{new Date(rental.createdAt).toLocaleDateString()}</td>
-                <td style={{ fontWeight: 700 }}>{rental.total_price?.toLocaleString()}₫</td>
+                <td className="date-cell">{new Date(rental.createdAt).toLocaleDateString('vi-VN')}</td>
+                <td className="font-800">{rental.total_price?.toLocaleString('vi-VN')}₫</td>
                 <td>
                   <span className={`status-badge ${getStatusClass(rental.status)}`}>
                     {getStatusLabel(rental.status)}
                   </span>
                 </td>
-                <td>
-                  <div className="action-btns">
+                <td className="text-right">
+                  <div className="action-btns flex-end">
                     <button className="action-icon"><Eye size={16} /></button>
                     <button className="action-icon"><Edit2 size={16} /></button>
                   </div>
@@ -189,14 +187,14 @@ const DashboardPage = () => {
               </tr>
             )) : (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>Chưa có đơn thuê nào</td>
+                <td colSpan="6" className="no-data-cell">Chưa có đơn thuê nào</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
 
-      <div className="grid-2-1" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, marginBottom: 32 }}>
+      <div className="dashboard-row-2">
         <div className="chart-card">
           <div className="card-header">
             <h3 className="chart-title">Sản phẩm thuê nhiều nhất</h3>
@@ -208,31 +206,30 @@ const DashboardPage = () => {
                 <div className="product-rank">{idx + 1}</div>
                 <div className="product-info">
                   <div className="product-name">{item.Product?.name || 'Sản phẩm đã xóa'}</div>
-                  <div className="product-category">{item.Product?.category || 'N/A'}</div>
+                  <div className="product-category">{item.Product?.category || 'Luxury Collection'}</div>
                 </div>
                 <div className="product-progress-wrapper">
                   <div className="product-progress-bar" style={{ width: `${Math.min((item.rental_count / (topProducts[0]?.rental_count || 1)) * 100, 100)}%` }}></div>
                 </div>
                 <div className="product-stats">
-                  <div className="product-revenue">{item.total_revenue?.toLocaleString()}₫</div>
+                  <div className="product-revenue">{item.total_revenue?.toLocaleString('vi-VN')}₫</div>
                   <div className="product-rating">
-                    <Star size={10} fill="#c5a059" /> {item.Product?.rating || 5.0} · {item.rental_count} lượt
+                    <Star size={10} fill="#1a1a1a" /> {item.Product?.rating || 5.0} · {item.rental_count} lượt
                   </div>
                 </div>
               </div>
             )) : (
-              <p style={{ textAlign: 'center', color: '#888' }}>Chưa có dữ liệu sản phẩm</p>
+              <p className="no-data-text">Chưa có dữ liệu sản phẩm</p>
             )}
           </div>
         </div>
 
-        <div className="chart-card" style={{ gridColumn: 'span 2' }}>
-          <h3 className="chart-title" style={{ marginBottom: 24 }}>Tóm tắt kho hàng</h3>
+        <div className="inventory-section-card">
+          <h3 className="chart-title margin-bottom-24">Tóm tắt kho hàng</h3>
           <div className="inventory-grid">
-            {/* Available */}
             <div className="inventory-card">
               <div className="inventory-card-header">
-                <div className="inventory-icon-wrapper" style={{ backgroundColor: '#f0fdf4', color: '#22c55e' }}>
+                <div className="inventory-icon-wrapper available">
                   <CheckCircle2 size={20} />
                 </div>
                 <span className="inventory-tag">KHO HÀNG</span>
@@ -240,15 +237,14 @@ const DashboardPage = () => {
               <div className="inventory-value">{stats?.availableCount || 0}</div>
               <div className="inventory-label">Sản phẩm có sẵn</div>
               <div className="inventory-progress-bg">
-                <div className="inventory-progress-fill" style={{ width: '100%', backgroundColor: '#22c55e' }}></div>
+                <div className="inventory-progress-fill available" style={{ width: '100%' }}></div>
               </div>
               <div className="inventory-footer">Sẵn sàng cho thuê</div>
             </div>
 
-            {/* Renting */}
             <div className="inventory-card">
               <div className="inventory-card-header">
-                <div className="inventory-icon-wrapper" style={{ backgroundColor: '#eff6ff', color: '#3b82f6' }}>
+                <div className="inventory-icon-wrapper renting">
                   <CalendarRange size={20} />
                 </div>
                 <span className="inventory-tag">KHO HÀNG</span>
@@ -256,15 +252,14 @@ const DashboardPage = () => {
               <div className="inventory-value">{stats?.rentingCount || 0}</div>
               <div className="inventory-label">Đang cho thuê</div>
               <div className="inventory-progress-bg">
-                <div className="inventory-progress-fill" style={{ width: `${Math.min((stats?.rentingCount / (stats?.totalProducts || 1)) * 100, 100)}%`, backgroundColor: '#3b82f6' }}></div>
+                <div className="inventory-progress-fill renting" style={{ width: `${Math.min((stats?.rentingCount / (stats?.totalProducts || 1)) * 100, 100)}%` }}></div>
               </div>
               <div className="inventory-footer">Hiện đang được thuê</div>
             </div>
 
-            {/* Low Stock */}
             <div className="inventory-card">
               <div className="inventory-card-header">
-                <div className="inventory-icon-wrapper" style={{ backgroundColor: '#fff7ed', color: '#f97316' }}>
+                <div className="inventory-icon-wrapper low-stock">
                   <AlertTriangle size={20} />
                 </div>
                 <span className="inventory-tag">KHO HÀNG</span>
@@ -272,15 +267,14 @@ const DashboardPage = () => {
               <div className="inventory-value">{stats?.lowStockCount || 0}</div>
               <div className="inventory-label">Tồn kho thấp</div>
               <div className="inventory-progress-bg">
-                <div className="inventory-progress-fill" style={{ width: `${Math.min((stats?.lowStockCount / (stats?.totalProducts || 1)) * 100, 100)}%`, backgroundColor: '#f97316' }}></div>
+                <div className="inventory-progress-fill low-stock" style={{ width: `${Math.min((stats?.lowStockCount / (stats?.totalProducts || 1)) * 100, 100)}%` }}></div>
               </div>
               <div className="inventory-footer">Cần nhập thêm hàng</div>
             </div>
 
-            {/* Damaged */}
             <div className="inventory-card">
               <div className="inventory-card-header">
-                <div className="inventory-icon-wrapper" style={{ backgroundColor: '#fef2f2', color: '#ef4444' }}>
+                <div className="inventory-icon-wrapper damaged">
                   <XCircle size={20} />
                 </div>
                 <span className="inventory-tag">KHO HÀNG</span>
@@ -288,7 +282,7 @@ const DashboardPage = () => {
               <div className="inventory-value">{stats?.damagedCount || 0}</div>
               <div className="inventory-label">Sản phẩm hỏng</div>
               <div className="inventory-progress-bg">
-                <div className="inventory-progress-fill" style={{ width: `${Math.min((stats?.damagedCount / (stats?.totalProducts || 1)) * 100, 100)}%`, backgroundColor: '#ef4444' }}></div>
+                <div className="inventory-progress-fill damaged" style={{ width: `${Math.min((stats?.damagedCount / (stats?.totalProducts || 1)) * 100, 100)}%` }}></div>
               </div>
               <div className="inventory-footer">Đang kiểm tra</div>
             </div>
@@ -296,8 +290,8 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="data-card">
-        <h3 className="chart-title" style={{ marginBottom: 24 }}>Thao tác nhanh</h3>
+      <div className="data-card padding-32">
+        <h3 className="chart-title margin-bottom-24">Thao tác nhanh</h3>
         <div className="quick-actions-grid">
           <Link to="/admin/products" className="action-card">
             <div className="action-icon-box"><Package size={24} /></div>

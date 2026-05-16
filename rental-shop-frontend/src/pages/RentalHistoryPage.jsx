@@ -61,7 +61,7 @@ const RentalHistoryPage = () => {
                           <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                             <Clock size={14} /> 
                             {rental.status === 'pending' && t('pendingStatus')}
-                            {rental.status === 'approved' && t('approvedStatus')}
+                            {rental.status === 'shipping' && t('shippingStatus')}
                             {rental.status === 'renting' && t('renting')}
                             {rental.status === 'returned' && t('returned')}
                             {rental.status === 'cancelled' && t('cancelled')}

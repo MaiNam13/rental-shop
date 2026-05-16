@@ -160,12 +160,41 @@ const ProductInfo = ({ product, reviews = [] }) => {
     }
   };
 
-  const colors = [
-    { name: t('color_black'), hex: '#000000' },
-    { name: t('color_white'), hex: '#FFFFFF' },
-    { name: t('color_red'), hex: '#E32636' },
-    { name: t('color_blue'), hex: '#2B4A9A' }
-  ];
+  // Robust parsing of features (sizes and colors)
+  let features = {};
+  try {
+    features = typeof product.features === 'string' ? JSON.parse(product.features) : (product.features || {});
+  } catch (e) {
+    features = {};
+  }
+  
+  const dynamicSizes = Array.isArray(features?.sizes) 
+    ? features.sizes 
+    : (typeof features?.sizes === 'string' ? features.sizes.split(',').map(s => s.trim()) : []);
+    
+  const dynamicColors = Array.isArray(features?.colors) 
+    ? features.colors 
+    : (typeof features?.colors === 'string' ? features.colors.split(',').map(c => c.trim()) : []);
+
+  const colorMapping = {
+    'Đen': '#000000',
+    'Trắng': '#FFFFFF',
+    'Đỏ': '#E32636',
+    'Xanh dương': '#2B4A9A',
+    'Xanh lá': '#22c55e',
+    'Vàng': '#FFD700',
+    'Hồng': '#FF69B4',
+    'Be': '#F5F5DC',
+    'Xám': '#808080',
+    'Nâu': '#8B4513',
+    'Tím': '#800080',
+    'Cam': '#FFA500'
+  };
+
+  const productColors = dynamicColors.map(colorName => ({
+    name: colorName,
+    hex: colorMapping[colorName] || '#CCCCCC'
+  }));
 
   // Tính toán rating trung bình
   const reviewCount = reviews.length;
@@ -200,8 +229,8 @@ const ProductInfo = ({ product, reviews = [] }) => {
         <span className="separator-dot">•</span>
         <span className="rating-text">{t('reviewsCount', { count: reviewCount })}</span>
         <span className="separator-dot">•</span>
-        <span className={`status-badge ${product.stock > 0 ? 'status-available' : 'status-unavailable'}`}>
-          {product.stock > 0 ? t('inStock') : t('outOfStock')}
+        <span className={`status-badge ${product.status === 'available' && product.stock > 0 ? 'status-available' : 'status-unavailable'}`}>
+          {product.status === 'available' && product.stock > 0 ? t('inStock') : t('outOfStock')}
         </span>
       </div>
 
@@ -220,7 +249,17 @@ const ProductInfo = ({ product, reviews = [] }) => {
       <div className="selection-group">
         <label className="selection-label">{t('size')}</label>
         <div className="size-options">
-          {variants.length > 0 ? (
+          {dynamicSizes.length > 0 ? (
+            dynamicSizes.map(size => (
+              <button 
+                key={size}
+                className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))
+          ) : variants.length > 0 ? (
             variants.map(v => (
               <button 
                 key={v.id}
@@ -248,15 +287,20 @@ const ProductInfo = ({ product, reviews = [] }) => {
       <div className="selection-group">
         <label className="selection-label">{t('color')}</label>
         <div className="color-options">
-          {colors.map(color => (
-            <div 
-              key={color.name}
-              className={`color-circle-wrapper ${selectedColor === color.name ? 'active' : ''}`}
-              onClick={() => setSelectedColor(color.name)}
-            >
-              <div className="color-circle" style={{ backgroundColor: color.hex }}></div>
-            </div>
-          ))}
+          {productColors.length > 0 ? (
+            productColors.map(color => (
+              <div 
+                key={color.name}
+                className={`color-circle-wrapper ${selectedColor === color.name ? 'active' : ''}`}
+                onClick={() => setSelectedColor(color.name)}
+                title={t(color.name)}
+              >
+                <div className="color-circle" style={{ backgroundColor: color.hex, border: color.hex.toLowerCase() === '#ffffff' ? '1px solid #ddd' : 'none' }}></div>
+              </div>
+            ))
+          ) : (
+            <div style={{ fontSize: '13px', color: '#888' }}>{t('defaultColorSet')}</div>
+          )}
         </div>
       </div>
 
@@ -343,16 +387,16 @@ const ProductInfo = ({ product, reviews = [] }) => {
         <button 
           className="btn-primary-dark" 
           onClick={handleRentNow} 
-          disabled={isAdding || product.stock <= 0}
+          disabled={isAdding || product.status !== 'available' || product.stock <= 0}
         >
-          {product.stock > 0 ? t('rentNowUpper') : t('outOfStock')}
+          {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : t('outOfStock')}
         </button>
         <button 
           className="btn-outline-dark" 
           onClick={handleAddToCart} 
-          disabled={isAdding || product.stock <= 0}
+          disabled={isAdding || product.status !== 'available' || product.stock <= 0}
         >
-          {isAdding ? t('submitting') : product.stock > 0 ? t('addToCart') : t('notAvailable')}
+          {isAdding ? t('submitting') : product.status === 'available' && product.stock > 0 ? t('addToCart') : t('notAvailable')}
         </button>
       </div>
 

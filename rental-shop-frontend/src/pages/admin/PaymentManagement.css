@@ -1,0 +1,210 @@
+.payment-management-container {
+  padding: 0;
+}
+
+.payment-header {
+  margin-bottom: 32px;
+}
+
+.payment-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--admin-text-primary);
+  margin-bottom: 8px;
+}
+
+.payment-subtitle {
+  color: var(--admin-text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Overview Cards */
+.payment-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.p-stat-card {
+  background: var(--admin-card-bg);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.p-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.p-stat-label {
+  font-size: 13px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.p-stat-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: #1a1a1a;
+}
+
+.p-stat-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: #fcfcfb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f1f1ee;
+  color: var(--admin-accent);
+}
+
+/* Charts Section */
+.payment-charts {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.payment-chart-card {
+  background: var(--admin-card-bg);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid var(--admin-border);
+}
+
+.p-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.p-chart-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.p-chart-container {
+  height: 300px;
+  width: 100%;
+}
+
+/* Data Table */
+.payment-data-card {
+  background-color: var(--admin-card-bg);
+  border-radius: 24px;
+  border: 1px solid var(--admin-border);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.payment-controls {
+  padding: 24px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fcfcfb;
+  gap: 20px;
+}
+
+.p-search-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #f1f1ee;
+  padding: 10px 24px;
+  border-radius: 100px;
+  max-width: 400px;
+  border: 1.5px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.p-search-wrapper:focus-within {
+  background-color: #fff;
+  border-color: #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.p-search-input {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  font-family: inherit;
+}
+
+.p-filter-select {
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid #eee;
+  background-color: #f1f1ee;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.p-method-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.p-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.p-status-pill.completed { background-color: #f0fdf4; color: #15803d; }
+.p-status-pill.pending { background-color: #fff7ed; color: #c2410c; }
+.p-status-pill.failed { background-color: #fef2f2; color: #b91c1c; }
+.p-status-pill.refunded { background-color: #f8fafc; color: #475569; }
+
+.p-action-btn {
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid #eee;
+  background-color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.p-action-btn:hover {
+  background-color: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
