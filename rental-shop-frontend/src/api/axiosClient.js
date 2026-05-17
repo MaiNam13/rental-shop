@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: "/api",
 });
 
 // Thêm interceptor để tự động gắn token vào header x-access-token

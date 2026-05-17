@@ -105,7 +105,7 @@ const PORT = process.env.PORT || 3000;
 const startServer = async () => {
     try {
         await sequelize.authenticate();
-        console.log("MySQL Connected...");
+        console.log("Database Connected...");
 
         // Use sync() with alter to register new columns in database
         await sequelize.sync({ alter: true });
