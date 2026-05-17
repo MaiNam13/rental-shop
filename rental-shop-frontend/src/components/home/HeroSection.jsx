@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Play } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import '../../styles/hero.css'
+import hinhnen from '../../assets/hinhnen.jpg'
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const HeroSection = () => {
 
         <div className="hero-image-wrapper">
           <img
-            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=1200&fit=crop&q=80"
+            src={hinhnen}
             alt="Fashion model wearing premium outfit"
             className="hero-image"
           />

@@ -5,8 +5,8 @@ const {
     User,
     Payment
 } = require("../models");
-const { sendConfirmationEmail } = require("../services/emailService");
-
+const { sendConfirmationEmail, sendOrderPlacedEmail, sendOrderApprovedEmail, sendOrderCancelledEmail } = require("../services/emailService");
+// Nodemon restart trigger for env reload
 
 // CREATE RENTAL
 const createRental = async (req, res) => {
@@ -107,6 +107,9 @@ const createRental = async (req, res) => {
         });
 
         console.log("Rental and Payment created successfully:", rental.id);
+
+        // Gửi email xác nhận đặt hàng thành công trong background
+        sendOrderPlacedEmail(rental).catch(err => console.error("Error sending order placed email:", err));
 
         res.status(201).json({
             message: "Đặt thuê thành công!",
@@ -228,11 +231,13 @@ const updateRental = async (req, res) => {
             });
         }
 
+        const previousStatus = rental.status;
+
         // update status
         rental.status = status;
 
-        // nếu trả hàng hoặc hủy đơn -> cộng stock lại
-        if (status === "returned" || status === "cancelled") {
+        // nếu trả hàng hoặc hủy đơn và trạng thái trước đó chưa từng là trả/hủy -> cộng stock lại
+        if ((status === "returned" || status === "cancelled") && previousStatus !== "returned" && previousStatus !== "cancelled") {
             const rentalItems = await RentalItem.findAll({
                 where: { rental_id: rental.id }
             });
@@ -254,10 +259,13 @@ const updateRental = async (req, res) => {
 
         await rental.save();
 
-        // Gửi email thông báo nếu trạng thái là "shipping" (Đang giao)
-        if (status === "shipping") {
-            // Không đợi email gửi xong để trả về phản hồi nhanh cho Admin
-            sendConfirmationEmail(rental).catch(err => console.error("Email send error:", err));
+        // Gửi email thông báo tuỳ theo trạng thái đơn hàng
+        if (status === "approved") {
+            sendOrderApprovedEmail(rental).catch(err => console.error("Email approved send error:", err));
+        } else if (status === "cancelled") {
+            sendOrderCancelledEmail(rental).catch(err => console.error("Email cancelled send error:", err));
+        } else if (status === "shipping") {
+            sendConfirmationEmail(rental).catch(err => console.error("Email shipping send error:", err));
         }
 
         res.status(200).json({

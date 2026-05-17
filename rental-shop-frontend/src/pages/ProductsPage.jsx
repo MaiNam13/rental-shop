@@ -6,6 +6,7 @@ import Footer from '../components/layout/Footer';
 import { getProducts, getCategories } from '../api/productApi';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/ProductsPage.css';
+import '../styles/productCard.css';
 
 const ProductsPage = () => {
   const navigate = useNavigate();

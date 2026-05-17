@@ -5,6 +5,7 @@ import { useLanguage } from '../../context/LanguageContext'
 import { useAuth } from '../../context/AuthContext'
 import favoriteApi from '../../api/favoriteApi'
 import { useToast } from '../../context/ToastContext'
+import '../../styles/productCard.css'
 
 const ProductCard = ({ product, isFavoriteInitial = false }) => {
   const navigate = useNavigate();
