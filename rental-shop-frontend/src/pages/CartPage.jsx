@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  ShoppingBag, Trash2, Heart, Plus, Minus, 
-  Calendar, ShieldCheck, Tag, ArrowLeft, Loader2 
+import {
+  ShoppingBag, Trash2, Heart, Plus, Minus,
+  Calendar, ShieldCheck, Tag, ArrowLeft, Loader2
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import axiosClient from "../api/axiosClient";
@@ -141,7 +141,7 @@ export default function CartPage() {
   return (
     <>
       <Navbar showBack={true} />
-      
+
       <div className="cart-page-container" style={{ paddingTop: '120px' }}>
         <div className="cart-content-wrapper">
           {cartItems.length === 0 ? (
@@ -163,13 +163,13 @@ export default function CartPage() {
                   <h1>{t('yourCart')}</h1>
                   <p className="cart-count-info">{cartItems.length} {t('productsInCart')}</p>
                 </div>
-                <button 
+                <button
                   onClick={clearCart}
-                  style={{ 
-                    padding: '8px 16px', 
-                    fontSize: '13px', 
-                    color: '#ef4444', 
-                    background: 'none', 
+                  style={{
+                    padding: '8px 16px',
+                    fontSize: '13px',
+                    color: '#ef4444',
+                    background: 'none',
                     border: '1px solid #fee2e2',
                     borderRadius: '8px',
                     cursor: 'pointer',
@@ -190,15 +190,15 @@ export default function CartPage() {
                     return (
                       <div key={item.id} className="cart-item-card">
                         <div className="cart-item-image">
-                          <Link to={`/products/${item.product_id}`} state={{ 
-                            size: item.size, 
-                            startDate: item.startDate, 
+                          <Link to={`/products/${item.product_id}`} state={{
+                            size: item.size,
+                            startDate: item.startDate,
                             endDate: item.endDate,
                             quantity: item.quantity
                           }}>
-                            <img 
-                              src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:3000${product.image.startsWith('/') ? '' : '/uploads/'}${product.image}`) : 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=600&fit=crop&q=80'} 
-                              alt={product.name} 
+                            <img
+                              src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:3000${product.image.startsWith('/') ? '' : '/uploads/'}${product.image}`) : 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=600&fit=crop&q=80'}
+                              alt={product.name}
                               onError={(e) => {
                                 if (e.target.src !== 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=600&fit=crop&q=80') {
                                   e.target.src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=600&fit=crop&q=80';
@@ -207,34 +207,34 @@ export default function CartPage() {
                             />
                           </Link>
                         </div>
-                        
+
                         <div className="cart-item-details">
                           <span className="item-category">{product.Category ? t(product.Category.name) : (product.category_name ? t(product.category_name) : t('fashion'))}</span>
                           <Link to={`/products/${item.product_id}`} className="item-name">
                             {t(product.name)}
                           </Link>
-                          
+
                           <div className="item-meta">
                             <span>{t('size')}: <strong>{item.size}</strong></span>
                           </div>
 
-                           <div className="item-dates-row">
+                          <div className="item-dates-row">
                             <div className="date-input-group">
                               <label>{t('startDate')}</label>
-                              <input 
-                                type="date" 
-                                value={item.startDate} 
+                              <input
+                                type="date"
+                                value={item.startDate}
                                 onChange={(e) => updateItem(item.id, { startDate: e.target.value })}
-                                className="cart-date-input" 
+                                className="cart-date-input"
                               />
                             </div>
                             <div className="date-input-group">
                               <label>{t('endDate')}</label>
-                              <input 
-                                type="date" 
-                                value={item.endDate} 
+                              <input
+                                type="date"
+                                value={item.endDate}
                                 onChange={(e) => updateItem(item.id, { endDate: e.target.value })}
-                                className="cart-date-input" 
+                                className="cart-date-input"
                               />
                             </div>
                           </div>
@@ -246,15 +246,15 @@ export default function CartPage() {
 
                           <div className="cart-item-bottom">
                             <div className="quantity-controls">
-                              <button 
-                                className="qty-btn" 
+                              <button
+                                className="qty-btn"
                                 onClick={() => updateItem(item.id, { quantity: item.quantity - 1 })}
                               >
                                 <Minus size={14} />
                               </button>
                               <span className="qty-value">{item.quantity}</span>
-                              <button 
-                                className="qty-btn" 
+                              <button
+                                className="qty-btn"
                                 onClick={() => updateItem(item.id, { quantity: item.quantity + 1 })}
                               >
                                 <Plus size={14} />
@@ -287,7 +287,7 @@ export default function CartPage() {
                 <div className="cart-summary-sidebar">
                   <div className="order-summary-card">
                     <h2>{t('orderSummary')}</h2>
-                    
+
                     <div className="summary-details">
                       <div className="summary-row">
                         <span>{t('subtotal')}</span>
@@ -304,8 +304,8 @@ export default function CartPage() {
 
                       <div className="discount-code-section">
                         <div className="discount-input-wrapper">
-                          <input 
-                            type="text" 
+                          <input
+                            type="text"
                             placeholder={t('discountCode')}
                             className="discount-input"
                             value={discountCode}
@@ -324,7 +324,7 @@ export default function CartPage() {
                     <button className="checkout-btn" onClick={() => navigate("/checkout")}>
                       {t('proceedToCheckout')}
                     </button>
-                    
+
                     <button className="summary-continue-btn" onClick={() => navigate("/products")}>
                       {t('continueRental')}
                     </button>
@@ -345,7 +345,7 @@ export default function CartPage() {
           )}
         </div>
       </div>
-      
+
       {/* Centered Luxury Confirmation Modal */}
       {confirmModal.isOpen && (
         <div style={{
@@ -398,7 +398,7 @@ export default function CartPage() {
               gap: '12px',
               justifyContent: 'center'
             }}>
-              <button 
+              <button
                 onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
                 style={{
                   flex: 1,
@@ -415,7 +415,7 @@ export default function CartPage() {
               >
                 HỦY
               </button>
-              <button 
+              <button
                 onClick={confirmModal.onConfirm}
                 style={{
                   flex: 1,

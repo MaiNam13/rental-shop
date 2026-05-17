@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Plus, 
-  Search, 
-  Edit2, 
-  Trash2, 
+import {
+  Plus,
+  Search,
+  Edit2,
+  Trash2,
   X,
   Upload,
   Image as ImageIcon,
@@ -19,7 +19,7 @@ const CategoryManagement = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Form State
   const [formData, setFormData] = useState({
     name: '',
@@ -112,7 +112,7 @@ const CategoryManagement = () => {
     const data = new FormData();
     data.append('name', formData.name);
     data.append('description', formData.description || '');
-    
+
     if (selectedImage) {
       data.append('image', selectedImage);
     }
@@ -123,7 +123,7 @@ const CategoryManagement = () => {
       } else {
         await categoryApi.create(data);
       }
-      
+
       setShowModal(false);
       fetchCategories();
       resetForm();
@@ -132,7 +132,7 @@ const CategoryManagement = () => {
     }
   };
 
-  const filteredCategories = categories.filter(cat => 
+  const filteredCategories = categories.filter(cat =>
     cat.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     cat.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -152,10 +152,10 @@ const CategoryManagement = () => {
       <div className="user-controls" style={{ marginTop: '32px', borderRadius: '24px' }}>
         <div className="user-search-wrapper" style={{ width: '100%', maxWidth: '100%' }}>
           <Search size={18} />
-          <input 
-            type="text" 
+          <input
+            type="text"
             className="user-search-input"
-            placeholder="Tìm kiếm danh mục..." 
+            placeholder="Tìm kiếm danh mục..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -169,9 +169,9 @@ const CategoryManagement = () => {
           {filteredCategories.map((category) => (
             <div key={category.id} className="category-card-luxe">
               <div className="category-image-wrapper">
-                <img 
-                  src={category.image ? `http://localhost:3000${category.image}` : "https://via.placeholder.com/400x200?text=Luxury+Collection"} 
-                  alt={category.name} 
+                <img
+                  src={category.image ? `http://localhost:3000${category.image}` : "https://via.placeholder.com/400x200?text=Luxury+Collection"}
+                  alt={category.name}
                   className="category-image-luxe"
                 />
               </div>
@@ -208,13 +208,13 @@ const CategoryManagement = () => {
               <div className="cat-modal-body">
                 <div className="form-group-luxe">
                   <label>Tên danh mục</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     className="form-input-luxe"
                     placeholder="Ví dụ: Váy dạ hội, Vest nam..."
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
                 </div>
 
@@ -294,7 +294,7 @@ const CategoryManagement = () => {
               gap: '12px',
               justifyContent: 'center'
             }}>
-              <button 
+              <button
                 onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
                 style={{
                   flex: 1,
@@ -311,7 +311,7 @@ const CategoryManagement = () => {
               >
                 HỦY
               </button>
-              <button 
+              <button
                 onClick={confirmModal.onConfirm}
                 style={{
                   flex: 1,

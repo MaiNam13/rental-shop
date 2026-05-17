@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Package, 
-  CheckCircle2, 
-  AlertTriangle, 
-  CalendarRange, 
-  Download, 
-  Plus, 
-  Search, 
-  Edit2, 
-  Trash2, 
+import {
+  Package,
+  CheckCircle2,
+  AlertTriangle,
+  CalendarRange,
+  Download,
+  Plus,
+  Search,
+  Edit2,
+  Trash2,
   X,
   Upload,
   Star,
@@ -30,15 +30,15 @@ const LuxeSelect = ({ value, onChange, options, placeholder }) => {
         <span>{selectedOption?.label || placeholder}</span>
         <ChevronDown size={16} className="luxe-select-icon" />
       </div>
-      
+
       {isOpen && (
         <>
           <div className="luxe-select-overlay" onClick={() => setIsOpen(false)} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 999 }} />
           <div className="luxe-select-dropdown">
             <div className="luxe-select-options">
               {options.map((option) => (
-                <div 
-                  key={option.value} 
+                <div
+                  key={option.value}
                   className={`luxe-select-option ${value === option.value ? 'selected' : ''}`}
                   onClick={() => {
                     onChange(option.value);
@@ -63,7 +63,7 @@ const ProductManagement = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
@@ -144,7 +144,7 @@ const ProductManagement = () => {
   const handleStockChange = (e) => {
     const val = parseInt(e.target.value) || 0;
     setFormData(prev => ({
-      ...prev, stock: val, 
+      ...prev, stock: val,
       status: val === 0 ? 'out_of_stock' : (prev.status === 'out_of_stock' ? 'available' : prev.status)
     }));
   };
@@ -166,7 +166,7 @@ const ProductManagement = () => {
       setShowModal(false);
       await fetchData();
       resetForm();
-    } catch (error) { 
+    } catch (error) {
       console.error("Save error:", error);
       toast('Lỗi khi lưu sản phẩm', 'error');
     }
@@ -177,11 +177,11 @@ const ProductManagement = () => {
       isOpen: true,
       message: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
       onConfirm: async () => {
-        try { 
-          await axiosClient.delete(`/products/${id}`); 
+        try {
+          await axiosClient.delete(`/products/${id}`);
           toast('Đã xóa sản phẩm');
-          fetchData(); 
-        } catch (error) { 
+          fetchData();
+        } catch (error) {
           console.error("Delete error:", error);
           toast('Không thể xóa sản phẩm', 'error');
         }
@@ -279,26 +279,26 @@ const ProductManagement = () => {
         <div className="filter-row">
           <div className="search-container">
             <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Tìm kiếm theo tên sản phẩm, danh mục..." 
-              className="search-input" 
-              value={searchTerm} 
-              onChange={(e) => setSearchTerm(e.target.value)} 
+            <input
+              type="text"
+              placeholder="Tìm kiếm theo tên sản phẩm, danh mục..."
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="filters-right">
-            <LuxeSelect 
-              value={selectedCategory} 
-              onChange={setSelectedCategory} 
+            <LuxeSelect
+              value={selectedCategory}
+              onChange={setSelectedCategory}
               options={[
                 { value: 'all', label: 'Tất cả danh mục' },
                 ...categories.map(c => ({ value: c.id, label: c.name }))
               ]}
             />
-            <LuxeSelect 
-              value={selectedStatus} 
-              onChange={setSelectedStatus} 
+            <LuxeSelect
+              value={selectedStatus}
+              onChange={setSelectedStatus}
               options={[
                 { value: 'all', label: 'Tất cả trạng thái' },
                 { value: 'available', label: 'Còn hàng' },
@@ -306,9 +306,9 @@ const ProductManagement = () => {
                 { value: 'renting', label: 'Đang thuê' }
               ]}
             />
-            <LuxeSelect 
-              value={sortBy} 
-              onChange={setSortBy} 
+            <LuxeSelect
+              value={sortBy}
+              onChange={setSortBy}
               options={[
                 { value: 'newest', label: 'Mới nhất' },
                 { value: 'price-low', label: 'Giá: Thấp đến Cao' },
@@ -340,10 +340,10 @@ const ProductManagement = () => {
                   <td className="product-col">
                     <div className="product-info-cell">
                       <div className="product-img-wrapper">
-                        <img 
-                          src={p.image ? (p.image.startsWith('http') ? p.image : `http://localhost:3000${p.image}`) : "https://via.placeholder.com/50"} 
-                          alt="" 
-                          className="product-img-small" 
+                        <img
+                          src={p.image ? (p.image.startsWith('http') ? p.image : `http://localhost:3000${p.image}`) : "https://via.placeholder.com/50"}
+                          alt=""
+                          className="product-img-small"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "https://via.placeholder.com/50";
@@ -364,9 +364,9 @@ const ProductManagement = () => {
                   <td className="inventory-col">
                     <div className="inventory-progress-wrapper">
                       <div className="inventory-progress-container">
-                        <div 
-                          className="inventory-progress-bar" 
-                          style={{ 
+                        <div
+                          className="inventory-progress-bar"
+                          style={{
                             width: `${Math.min((p.stock / 50) * 100, 100)}%`,
                             backgroundColor: p.stock > 10 ? '#22c55e' : p.stock > 0 ? '#f97316' : '#ef4444'
                           }}
@@ -383,7 +383,7 @@ const ProductManagement = () => {
                   </td>
                   <td className="actions-col">
                     <div className="action-btns-cell">
-                      <button className="action-icon-btn" title="Chỉnh sửa" onClick={() => { 
+                      <button className="action-icon-btn" title="Chỉnh sửa" onClick={() => {
                         setEditMode(true); setIsViewOnly(false); setCurrentId(p.id);
                         const feats = typeof p.features === 'string' ? JSON.parse(p.features) : p.features;
                         setFormData({
@@ -415,116 +415,116 @@ const ProductManagement = () => {
               <button className="close-modal-btn" onClick={() => setShowModal(false)}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit} className="modal-body-content">
-                <div className="modal-grid-layout">
-                  <div>
-                    <div className="form-group">
-                      <label>HÌNH ẢNH SẢN PHẨM</label>
-                      <div className={`image-upload-zone-luxe ${isViewOnly ? 'disabled' : ''}`} onClick={() => !isViewOnly && document.getElementById('img-up').click()}>
-                        {imagePreview ? <img src={imagePreview} className="img-preview-full" /> : (
-                          <div className="upload-placeholder-luxe">
-                            <div className="upload-icon-circle">
-                              <Upload size={20} />
-                            </div>
-                            <div className="upload-text">Kéo thả hoặc nhấn để tải ảnh</div>
-                            <div className="upload-subtext">PNG, JPG, WEBP · Tối đa 5 ảnh · 10MB/ảnh</div>
+              <div className="modal-grid-layout">
+                <div>
+                  <div className="form-group">
+                    <label>HÌNH ẢNH SẢN PHẨM</label>
+                    <div className={`image-upload-zone-luxe ${isViewOnly ? 'disabled' : ''}`} onClick={() => !isViewOnly && document.getElementById('img-up').click()}>
+                      {imagePreview ? <img src={imagePreview} className="img-preview-full" /> : (
+                        <div className="upload-placeholder-luxe">
+                          <div className="upload-icon-circle">
+                            <Upload size={20} />
                           </div>
-                        )}
-                        <input id="img-up" type="file" hidden onChange={(e) => { const f = e.target.files[0]; if(f){ setSelectedImage(f); setImagePreview(URL.createObjectURL(f)); } }} disabled={isViewOnly} />
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>TÊN SẢN PHẨM *</label>
-                      <input type="text" className="form-input-luxe" placeholder="VD: Đầm Cưới Couture Valentino" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} disabled={isViewOnly} />
-                    </div>
-                    <div className="form-group">
-                      <label>MÔ TẢ</label>
-                      <textarea className="form-textarea-luxe" rows="3" placeholder="Mô tả chi tiết về sản phẩm..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} disabled={isViewOnly} />
-                    </div>
-                    <div className="form-group">
-                      <label>MÀU SẮC</label>
-                      <div className="color-selector-grid">
-                        {availableColors.map(color => (
-                          <div 
-                            key={color.name}
-                            className="color-chip-wrapper"
-                            onClick={() => !isViewOnly && setFormData(prev => ({
-                              ...prev,
-                              colors: prev.colors.includes(color.name) 
-                                ? prev.colors.filter(c => c !== color.name) 
-                                : [...prev.colors, color.name]
-                            }))}
-                          >
-                            <div 
-                              className={`color-chip ${formData.colors.includes(color.name) ? 'active' : ''} ${color.hex.toLowerCase() === '#ffffff' ? 'light' : ''}`}
-                              style={{ backgroundColor: color.hex }}
-                            />
-                            <span className="color-name">{color.name}</span>
-                          </div>
-                        ))}
-                      </div>
+                          <div className="upload-text">Kéo thả hoặc nhấn để tải ảnh</div>
+                          <div className="upload-subtext">PNG, JPG, WEBP · Tối đa 5 ảnh · 10MB/ảnh</div>
+                        </div>
+                      )}
+                      <input id="img-up" type="file" hidden onChange={(e) => { const f = e.target.files[0]; if (f) { setSelectedImage(f); setImagePreview(URL.createObjectURL(f)); } }} disabled={isViewOnly} />
                     </div>
                   </div>
-
-                  <div>
-                    <div className="form-group">
-                      <label>DANH MỤC *</label>
-                      <select className="form-input-luxe cursor-pointer" required value={formData.category_id} onChange={(e) => setFormData({...formData, category_id: e.target.value})} disabled={isViewOnly}>
-                        <option value="">Chọn danh mục</option>{categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>GIÁ / NGÀY *</label>
-                      <div className="price-input-wrapper">
-                        <input type="number" className="form-input-luxe" required value={formData.price_per_day} onChange={(e) => setFormData({...formData, price_per_day: e.target.value})} disabled={isViewOnly} />
-                        <span className="price-symbol">₫</span>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>TỒN KHO</label>
-                      <input type="number" className="form-input-luxe" value={formData.stock} onChange={handleStockChange} disabled={isViewOnly} />
-                    </div>
-                    <div className="form-group">
-                      <label>TRẠNG THÁI</label>
-                      <div className="status-radio-grid">
-                        {statusOptions.map(opt => (
-                          <label key={opt.id} className={`status-radio-card ${formData.status === opt.id ? 'active' : ''}`}>
-                            <input 
-                              type="radio" 
-                              name="status" 
-                              value={opt.id} 
-                              checked={formData.status === opt.id} 
-                              onChange={(e) => setFormData({...formData, status: e.target.value})} 
-                              hidden 
-                              disabled={isViewOnly} 
-                            />
-                            <div className="radio-circle">
-                              {formData.status === opt.id && <div className="radio-circle-inner" />}
-                            </div>
-                            <span className="status-label-text">{opt.label}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>KÍCH CỠ</label>
-                      <div className="size-selector-grid">
-                        {availableSizes.map(size => (
-                          <button 
-                            key={size} type="button"
-                            className={`size-chip ${formData.sizes.includes(size) ? 'active' : ''}`}
-                            onClick={() => !isViewOnly && setFormData(prev => ({
-                              ...prev, 
-                              sizes: prev.sizes.includes(size) ? prev.sizes.filter(s => s !== size) : [...prev.sizes, size]
-                            }))}
-                            disabled={isViewOnly}
-                          >
-                            {size}
-                          </button>
-                        ))}
-                      </div>
+                  <div className="form-group">
+                    <label>TÊN SẢN PHẨM *</label>
+                    <input type="text" className="form-input-luxe" placeholder="VD: Đầm Cưới Couture Valentino" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} disabled={isViewOnly} />
+                  </div>
+                  <div className="form-group">
+                    <label>MÔ TẢ</label>
+                    <textarea className="form-textarea-luxe" rows="3" placeholder="Mô tả chi tiết về sản phẩm..." value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} disabled={isViewOnly} />
+                  </div>
+                  <div className="form-group">
+                    <label>MÀU SẮC</label>
+                    <div className="color-selector-grid">
+                      {availableColors.map(color => (
+                        <div
+                          key={color.name}
+                          className="color-chip-wrapper"
+                          onClick={() => !isViewOnly && setFormData(prev => ({
+                            ...prev,
+                            colors: prev.colors.includes(color.name)
+                              ? prev.colors.filter(c => c !== color.name)
+                              : [...prev.colors, color.name]
+                          }))}
+                        >
+                          <div
+                            className={`color-chip ${formData.colors.includes(color.name) ? 'active' : ''} ${color.hex.toLowerCase() === '#ffffff' ? 'light' : ''}`}
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <span className="color-name">{color.name}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
+
+                <div>
+                  <div className="form-group">
+                    <label>DANH MỤC *</label>
+                    <select className="form-input-luxe cursor-pointer" required value={formData.category_id} onChange={(e) => setFormData({ ...formData, category_id: e.target.value })} disabled={isViewOnly}>
+                      <option value="">Chọn danh mục</option>{categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>GIÁ / NGÀY *</label>
+                    <div className="price-input-wrapper">
+                      <input type="number" className="form-input-luxe" required value={formData.price_per_day} onChange={(e) => setFormData({ ...formData, price_per_day: e.target.value })} disabled={isViewOnly} />
+                      <span className="price-symbol">₫</span>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>TỒN KHO</label>
+                    <input type="number" className="form-input-luxe" value={formData.stock} onChange={handleStockChange} disabled={isViewOnly} />
+                  </div>
+                  <div className="form-group">
+                    <label>TRẠNG THÁI</label>
+                    <div className="status-radio-grid">
+                      {statusOptions.map(opt => (
+                        <label key={opt.id} className={`status-radio-card ${formData.status === opt.id ? 'active' : ''}`}>
+                          <input
+                            type="radio"
+                            name="status"
+                            value={opt.id}
+                            checked={formData.status === opt.id}
+                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                            hidden
+                            disabled={isViewOnly}
+                          />
+                          <div className="radio-circle">
+                            {formData.status === opt.id && <div className="radio-circle-inner" />}
+                          </div>
+                          <span className="status-label-text">{opt.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>KÍCH CỠ</label>
+                    <div className="size-selector-grid">
+                      {availableSizes.map(size => (
+                        <button
+                          key={size} type="button"
+                          className={`size-chip ${formData.sizes.includes(size) ? 'active' : ''}`}
+                          onClick={() => !isViewOnly && setFormData(prev => ({
+                            ...prev,
+                            sizes: prev.sizes.includes(size) ? prev.sizes.filter(s => s !== size) : [...prev.sizes, size]
+                          }))}
+                          disabled={isViewOnly}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="modal-footer-luxe">
                 <button type="button" className="btn-cancel-luxe" onClick={() => setShowModal(false)}>Huỷ bỏ</button>
                 <button type="submit" className="btn-save-luxe" disabled={isViewOnly}>{editMode ? 'Lưu thay đổi' : 'Tạo sản phẩm'}</button>
@@ -586,7 +586,7 @@ const ProductManagement = () => {
               gap: '12px',
               justifyContent: 'center'
             }}>
-              <button 
+              <button
                 onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
                 style={{
                   flex: 1,
@@ -603,7 +603,7 @@ const ProductManagement = () => {
               >
                 HỦY
               </button>
-              <button 
+              <button
                 onClick={confirmModal.onConfirm}
                 style={{
                   flex: 1,

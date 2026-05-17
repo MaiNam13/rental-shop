@@ -1,7 +1,8 @@
 /* Product Management Specific Styles */
 
 /* Global Scrollbar Suppression when Modal is Open */
-body.modal-open, html.modal-open {
+body.modal-open,
+html.modal-open {
   overflow: hidden !important;
   height: 100vh !important;
 }
@@ -67,7 +68,8 @@ html.modal-open * {
   max-width: 1000px;
   max-height: 85vh;
   overflow-y: auto !important;
-  overflow-x: hidden !important; /* Force hide horizontal scroll */
+  overflow-x: hidden !important;
+  /* Force hide horizontal scroll */
   position: relative;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   scrollbar-width: none !important;
@@ -88,13 +90,13 @@ html.modal-open * {
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
   transition: all 0.2s;
 }
 
 .stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .stat-icon {
@@ -134,16 +136,43 @@ html.modal-open * {
 }
 
 /* Table Specifics */
-.checkbox-col { width: 48px; text-align: center; }
-.product-col { width: 30%; }
-.category-col { width: 15%; }
-.price-col { width: 15%; }
-.inventory-col { width: 15%; }
-.status-col { width: 15%; }
-.actions-col { width: 100px; text-align: right; }
+.checkbox-col {
+  width: 48px;
+  text-align: center;
+}
 
-.cursor-pointer { cursor: pointer; }
-.overflow-hidden { overflow: hidden; }
+.product-col {
+  width: 30%;
+}
+
+.category-col {
+  width: 15%;
+}
+
+.price-col {
+  width: 15%;
+}
+
+.inventory-col {
+  width: 15%;
+}
+
+.status-col {
+  width: 15%;
+}
+
+.actions-col {
+  width: 100px;
+  text-align: right;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
 
 .reviews-count {
   margin-left: 4px;
@@ -338,9 +367,23 @@ html.modal-open * {
   background-color: #fff;
 }
 
-.status-option-luxe.active.available { background-color: #f0fdf4; border-color: #22c55e; color: #166534; }
-.status-option-luxe.active.out_of_stock { background-color: #fef2f2; border-color: #ef4444; color: #991b1b; }
-.status-option-luxe.active.renting { background-color: #eff6ff; border-color: #3b82f6; color: #1e40af; }
+.status-option-luxe.active.available {
+  background-color: #f0fdf4;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.status-option-luxe.active.out_of_stock {
+  background-color: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.status-option-luxe.active.renting {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
 
 .modal-footer-luxe {
   margin-top: 32px;
@@ -383,7 +426,7 @@ html.modal-open * {
 .btn-save-luxe:hover:not(:disabled) {
   background-color: #000;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Modal Overlay Luxe */
@@ -470,7 +513,7 @@ html.modal-open * {
   border-color: #1a1a1a;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .size-chip:hover:not(.active) {
@@ -491,7 +534,7 @@ html.modal-open * {
   border-radius: 24px;
   border: 1px solid #f1f1ee;
   margin-bottom: 32px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
   width: 100%;
   box-sizing: border-box;
 }
@@ -609,7 +652,7 @@ html.modal-open * {
   background-color: #fff;
   border: 1px solid #f1f1ee;
   border-radius: 20px;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.12);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
   z-index: 1000;
   overflow: hidden;
   opacity: 0;
@@ -676,8 +719,13 @@ html.modal-open * {
 }
 
 /* Helper Classes */
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
 
 /* ============================================================
    PAGE-SPECIFIC COMPACT TABLE FOR PRODUCT MANAGEMENT ONLY
@@ -765,7 +813,8 @@ html.modal-open * {
 }
 
 .product-management-page .inventory-progress-bar {
-  background-color: #000000 !important; /* Luxury B&W Progress Bar */
+  background-color: #000000 !important;
+  /* Luxury B&W Progress Bar */
   border-radius: 4px !important;
   height: 100% !important;
 }
@@ -912,7 +961,7 @@ html.modal-open * {
   gap: 24px !important;
 }
 
-.product-management-page .modal-grid-layout > div {
+.product-management-page .modal-grid-layout>div {
   min-width: 0 !important;
 }
 

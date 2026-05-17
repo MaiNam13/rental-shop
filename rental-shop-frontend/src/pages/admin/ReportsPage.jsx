@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  AlertTriangle, 
-  Clock, 
-  CheckCircle2, 
-  Search, 
-  Phone, 
+import {
+  AlertTriangle,
+  Clock,
+  CheckCircle2,
+  Search,
+  Phone,
   Check,
   Calendar,
   Truck,
@@ -88,7 +88,7 @@ const ReportsPage = () => {
     }
   };
 
-  const filteredList = getActiveList().filter(r => 
+  const filteredList = getActiveList().filter(r =>
     r.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.id?.toString().includes(searchTerm) ||
@@ -104,7 +104,7 @@ const ReportsPage = () => {
 
       {/* KPI 5-Tab Grid at top */}
       <div className="reports-kpi-grid">
-        <div 
+        <div
           className={`kpi-term-card approved ${activeTab === 'approved' ? 'active' : ''}`}
           onClick={() => setActiveTab('approved')}
         >
@@ -117,7 +117,7 @@ const ReportsPage = () => {
           </div>
         </div>
 
-        <div 
+        <div
           className={`kpi-term-card shipping ${activeTab === 'shipping' ? 'active' : ''}`}
           onClick={() => setActiveTab('shipping')}
         >
@@ -130,7 +130,7 @@ const ReportsPage = () => {
           </div>
         </div>
 
-        <div 
+        <div
           className={`kpi-term-card renting ${activeTab === 'renting' ? 'active' : ''}`}
           onClick={() => setActiveTab('renting')}
         >
@@ -143,7 +143,7 @@ const ReportsPage = () => {
           </div>
         </div>
 
-        <div 
+        <div
           className={`kpi-term-card overdue ${activeTab === 'overdue' ? 'active' : ''}`}
           onClick={() => setActiveTab('overdue')}
         >
@@ -156,7 +156,7 @@ const ReportsPage = () => {
           </div>
         </div>
 
-        <div 
+        <div
           className={`kpi-term-card returned ${activeTab === 'returned' ? 'active' : ''}`}
           onClick={() => setActiveTab('returned')}
         >
@@ -175,10 +175,10 @@ const ReportsPage = () => {
         <div className="reports-controls">
           <div className="reports-search-wrapper">
             <Search size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="reports-search-input"
-              placeholder="Tìm theo tên khách, SĐT hoặc mã đơn..." 
+              placeholder="Tìm theo tên khách, SĐT hoặc mã đơn..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -205,7 +205,7 @@ const ReportsPage = () => {
               {filteredList.length > 0 ? filteredList.map((rental) => {
                 const daysDiff = getDaysDiff(rental.end_date);
                 const startDaysDiff = getDaysDiff(rental.start_date);
-                
+
                 return (
                   <tr key={rental.id}>
                     <td>
@@ -279,7 +279,7 @@ const ReportsPage = () => {
                     <td className="text-right">
                       <div className="reports-actions-cell">
                         {rental.status === 'approved' && (
-                          <button 
+                          <button
                             className="btn-confirm-return"
                             onClick={() => handleUpdateStatus(rental.id, 'shipping', 'Đơn thuê đã chuyển sang trạng thái Đang giao hàng!')}
                             title="Xác nhận giao hàng cho shipper"
@@ -290,7 +290,7 @@ const ReportsPage = () => {
                           </button>
                         )}
                         {rental.status === 'shipping' && (
-                          <button 
+                          <button
                             className="btn-confirm-return"
                             onClick={() => handleUpdateStatus(rental.id, 'renting', 'Đơn thuê đã chuyển sang trạng thái Khách hàng đang thuê!')}
                             title="Xác nhận khách đã nhận đồ và bắt đầu thuê"
@@ -301,7 +301,7 @@ const ReportsPage = () => {
                           </button>
                         )}
                         {rental.status === 'renting' && (
-                          <button 
+                          <button
                             className="btn-confirm-return"
                             onClick={() => handleUpdateStatus(rental.id, 'returned', 'Đã xác nhận khách trả đồ thành công!')}
                             title="Xác nhận khách đã trả đồ"

@@ -17,7 +17,7 @@ export default function AboutPage() {
     return (
         <div className="about-page">
             <Navbar />
-            
+
             {/* Hero Section */}
             <header className="about-hero">
                 <img src={aboutHeroImg} alt="About Luxe Rental" className="hero-image" />

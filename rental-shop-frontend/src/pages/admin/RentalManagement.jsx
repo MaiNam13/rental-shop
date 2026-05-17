@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  CalendarRange, 
-  Search, 
-  Eye, 
-  CheckCircle2, 
-  Truck, 
-  History, 
+import {
+  CalendarRange,
+  Search,
+  Eye,
+  CheckCircle2,
+  Truck,
+  History,
   XCircle,
   Clock,
   ExternalLink,
@@ -112,16 +112,16 @@ const RentalManagement = () => {
         <div className="rental-controls">
           <div className="rental-search-wrapper">
             <Search size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="rental-search-input"
-              placeholder="Tìm theo mã đơn hoặc tên khách hàng..." 
+              placeholder="Tìm theo mã đơn hoặc tên khách hàng..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <div className="rental-filters">
-            <select 
+            <select
               className="rental-select"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
@@ -170,14 +170,14 @@ const RentalManagement = () => {
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                       {rental.status === 'pending' && (
                         <>
-                          <button 
+                          <button
                             className="btn-rental-approve-action"
                             onClick={() => handleUpdateStatus(rental.id, 'approved')}
                             disabled={updatingStatus}
                           >
                             Duyệt đơn
                           </button>
-                          <button 
+                          <button
                             className="btn-rental-cancel-action"
                             onClick={() => handleUpdateStatus(rental.id, 'cancelled')}
                             disabled={updatingStatus}
@@ -188,7 +188,7 @@ const RentalManagement = () => {
                         </>
                       )}
                       {rental.status === 'approved' && (
-                        <button 
+                        <button
                           className="btn-rental-cancel-action"
                           onClick={() => handleUpdateStatus(rental.id, 'cancelled')}
                           disabled={updatingStatus}
@@ -197,7 +197,7 @@ const RentalManagement = () => {
                           Hủy đơn
                         </button>
                       )}
-                      <button 
+                      <button
                         className="btn-rental-detail-action"
                         onClick={() => setSelectedRental(rental)}
                       >
@@ -223,7 +223,7 @@ const RentalManagement = () => {
               <h2>Chi tiết đơn thuê #{selectedRental.id}</h2>
               <button className="close-modal-btn" onClick={() => setSelectedRental(null)}><X size={20} /></button>
             </div>
-            
+
             <div className="modal-detail-body">
               <div className="detail-grid">
                 <div>
@@ -258,9 +258,9 @@ const RentalManagement = () => {
 
                       return (
                         <div key={idx} className="product-item-row">
-                          <img 
-                            src={item.Product?.image ? (item.Product.image.startsWith('http') ? item.Product.image : `http://localhost:3000${item.Product.image}`) : "https://via.placeholder.com/60"} 
-                            className="product-thumb-small" 
+                          <img
+                            src={item.Product?.image ? (item.Product.image.startsWith('http') ? item.Product.image : `http://localhost:3000${item.Product.image}`) : "https://via.placeholder.com/60"}
+                            className="product-thumb-small"
                             alt=""
                           />
                           <div style={{ flex: 1 }}>
@@ -303,7 +303,7 @@ const RentalManagement = () => {
                   <div className="modal-actions-luxe">
                     <div style={{ width: '100%', marginBottom: '12px', fontSize: '11px', fontWeight: '800', color: '#aaa', textTransform: 'uppercase' }}>Thao tác nhanh</div>
                     {selectedRental.status === 'pending' && (
-                      <button 
+                      <button
                         className={`btn-status-update`}
                         onClick={() => handleUpdateStatus(selectedRental.id, 'approved')}
                         disabled={updatingStatus}
@@ -313,7 +313,7 @@ const RentalManagement = () => {
                       </button>
                     )}
                     {(selectedRental.status === 'pending' || selectedRental.status === 'approved') && (
-                      <button 
+                      <button
                         className={`btn-status-update`}
                         onClick={() => handleUpdateStatus(selectedRental.id, 'cancelled')}
                         disabled={updatingStatus}

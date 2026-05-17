@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  CreditCard, 
-  Search, 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
+import {
+  CreditCard,
+  Search,
+  CheckCircle2,
+  XCircle,
+  Clock,
   DollarSign,
   Download,
   TrendingUp,
@@ -13,13 +13,13 @@ import {
   Smartphone,
   PieChart as PieChartIcon
 } from 'lucide-react';
-import { 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  AreaChart, 
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  AreaChart,
   Area,
   PieChart,
   Pie,
@@ -76,8 +76,8 @@ const PaymentManagement = () => {
     const userName = payment.Rental?.User?.name?.toLowerCase() || '';
     const rentalId = payment.rental_id?.toString() || '';
     const transactionId = payment.id?.toString() || '';
-    const matchesSearch = 
-      userName.includes(searchTerm.toLowerCase()) || 
+    const matchesSearch =
+      userName.includes(searchTerm.toLowerCase()) ||
       rentalId.includes(searchTerm) ||
       transactionId.includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || payment.status === filterStatus;
@@ -163,14 +163,14 @@ const PaymentManagement = () => {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="pColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#c5a059" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#c5a059" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#c5a059" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#c5a059" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}
                   formatter={(value) => [`${value.toLocaleString()}₫`, 'Doanh thu']}
                 />
@@ -211,15 +211,15 @@ const PaymentManagement = () => {
         <div className="payment-controls">
           <div className="p-search-wrapper">
             <Search size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="p-search-input"
-              placeholder="Tìm theo mã đơn, khách hàng..." 
+              placeholder="Tìm theo mã đơn, khách hàng..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <select 
+          <select
             className="p-filter-select"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
@@ -267,7 +267,7 @@ const PaymentManagement = () => {
                   </td>
                   <td className="text-right">
                     {payment.status === 'pending' && (
-                      <button 
+                      <button
                         className="p-action-btn"
                         onClick={() => handleUpdateStatus(payment.id, 'completed')}
                       >

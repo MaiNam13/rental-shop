@@ -6,14 +6,14 @@ import cartApi from '../api/cartApi';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
-import { 
-    Truck, 
-    Store, 
-    CreditCard, 
-    Wallet, 
-    ShieldCheck, 
-    Calendar, 
-    MapPin, 
+import {
+    Truck,
+    Store,
+    CreditCard,
+    Wallet,
+    ShieldCheck,
+    Calendar,
+    MapPin,
     MessageSquare,
     Info,
     ArrowLeft,
@@ -31,7 +31,7 @@ const CheckoutPage = () => {
     const [loading, setLoading] = useState(true);
     const [isProcessing, setIsProcessing] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-    
+
     // State cho các lựa chọn
     const [deliveryMethod, setDeliveryMethod] = useState('home');
     const [paymentMethod, setPaymentMethod] = useState('cod');
@@ -47,7 +47,7 @@ const CheckoutPage = () => {
     });
 
     const [formErrors, setFormErrors] = useState({});
-    
+
     useEffect(() => {
         if (!isLoggedIn) {
             navigate('/login');
@@ -94,16 +94,16 @@ const CheckoutPage = () => {
             else if (newErrors.address) toast(t('addressRequired'), 'error');
             return;
         }
-        
+
         setFormErrors({});
-        
+
         if (!agreedToTerms) {
             toast(t('termsRequired'), 'error');
             return;
         }
-        
+
         setIsProcessing(true);
-        
+
         try {
             const firstItem = cartItems[0];
             const rentalData = {
@@ -123,7 +123,7 @@ const CheckoutPage = () => {
 
             await cartApi.checkout(rentalData);
             await cartApi.clearCart();
-            
+
             setShowSuccess(true);
             window.scrollTo(0, 0);
         } catch (err) {
@@ -167,7 +167,7 @@ const CheckoutPage = () => {
                         <p style={{ fontSize: '16px', color: '#6b7280', lineHeight: '1.6', marginBottom: '32px' }}>
                             {t('checkoutSuccessDesc')}
                         </p>
-                        
+
                         <div className="email-notice-box" style={{
                             backgroundColor: '#f8fafc',
                             padding: '24px',
@@ -185,15 +185,15 @@ const CheckoutPage = () => {
                         </div>
 
                         <div className="success-actions" style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                            <button 
-                                onClick={() => navigate('/profile')} 
+                            <button
+                                onClick={() => navigate('/profile')}
                                 className="checkout-btn"
                                 style={{ width: 'auto', padding: '16px 32px' }}
                             >
                                 {t('myRentals')}
                             </button>
-                            <button 
-                                onClick={() => navigate('/products')} 
+                            <button
+                                onClick={() => navigate('/products')}
                                 className="summary-continue-btn"
                                 style={{ width: 'auto', padding: '16px 32px' }}
                             >
@@ -220,7 +220,7 @@ const CheckoutPage = () => {
     return (
         <div className="checkout-page">
             <Navbar />
-            
+
             <main className="checkout-container" style={{ paddingTop: '100px' }}>
                 <button className="back-button" onClick={() => navigate(-1)}>
                     <ArrowLeft size={18} />
@@ -228,23 +228,23 @@ const CheckoutPage = () => {
                 </button>
 
                 <form onSubmit={handleCheckout} className="checkout-layout">
-                    
+
                     {/* Cột trái: Thông tin & Lựa chọn */}
                     <div className="checkout-left">
-                        
+
                         {/* 1. Thông tin khách hàng */}
                         <section className="checkout-section">
                             <h2>{t('customerInfo')}</h2>
                             <div className="form-grid">
                                 <div className="form-group full-width">
                                     <label>{t('fullName')} *</label>
-                                    <input 
+                                    <input
                                         type="text"
                                         placeholder={t('fullName')}
                                         value={shippingInfo.fullName}
                                         onChange={(e) => {
-                                            setShippingInfo({...shippingInfo, fullName: e.target.value});
-                                            if (formErrors.fullName) setFormErrors({...formErrors, fullName: false});
+                                            setShippingInfo({ ...shippingInfo, fullName: e.target.value });
+                                            if (formErrors.fullName) setFormErrors({ ...formErrors, fullName: false });
                                         }}
                                         style={{
                                             border: formErrors.fullName ? '1.5px solid #ef4444' : '',
@@ -255,13 +255,13 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>{t('emailAddress')} *</label>
-                                    <input 
+                                    <input
                                         type="email"
                                         placeholder={t('emailPlaceholder')}
                                         value={shippingInfo.email}
                                         onChange={(e) => {
-                                            setShippingInfo({...shippingInfo, email: e.target.value});
-                                            if (formErrors.email) setFormErrors({...formErrors, email: false});
+                                            setShippingInfo({ ...shippingInfo, email: e.target.value });
+                                            if (formErrors.email) setFormErrors({ ...formErrors, email: false });
                                         }}
                                         style={{
                                             border: formErrors.email ? '1.5px solid #ef4444' : '',
@@ -272,13 +272,13 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>{t('phoneNumber')} *</label>
-                                    <input 
+                                    <input
                                         type="tel"
                                         placeholder={t('phonePlaceholder')}
                                         value={shippingInfo.phone}
                                         onChange={(e) => {
-                                            setShippingInfo({...shippingInfo, phone: e.target.value});
-                                            if (formErrors.phone) setFormErrors({...formErrors, phone: false});
+                                            setShippingInfo({ ...shippingInfo, phone: e.target.value });
+                                            if (formErrors.phone) setFormErrors({ ...formErrors, phone: false });
                                         }}
                                         style={{
                                             border: formErrors.phone ? '1.5px solid #ef4444' : '',
@@ -289,12 +289,12 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="form-group full-width">
                                     <label className="delivery-address-label"><MapPin size={16} /> {t('shippingAddress')} *</label>
-                                    <textarea 
+                                    <textarea
                                         placeholder={t('addressPlaceholder')}
                                         value={shippingInfo.address}
                                         onChange={(e) => {
-                                            setShippingInfo({...shippingInfo, address: e.target.value});
-                                            if (formErrors.address) setFormErrors({...formErrors, address: false});
+                                            setShippingInfo({ ...shippingInfo, address: e.target.value });
+                                            if (formErrors.address) setFormErrors({ ...formErrors, address: false });
                                         }}
                                         style={{
                                             border: formErrors.address ? '1.5px solid #ef4444' : '',
@@ -305,11 +305,11 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="form-group full-width">
                                     <label className="delivery-address-label"><MessageSquare size={16} /> {t('specialRequests')}</label>
-                                    <input 
+                                    <input
                                         type="text"
                                         placeholder={t('specialRequestsPlaceholder')}
                                         value={shippingInfo.note}
-                                        onChange={(e) => setShippingInfo({...shippingInfo, note: e.target.value})}
+                                        onChange={(e) => setShippingInfo({ ...shippingInfo, note: e.target.value })}
                                     />
                                 </div>
                             </div>
@@ -320,14 +320,14 @@ const CheckoutPage = () => {
                             <h2>{t('rentalPeriod')}</h2>
                             <div className="rental-period-grid">
                                 <div className="form-group">
-                                    <label><Calendar size={14} style={{marginRight: '5px'}}/> {t('startDate')} *</label>
+                                    <label><Calendar size={14} style={{ marginRight: '5px' }} /> {t('startDate')} *</label>
                                     <input type="date" value={firstItem.startDate || ''} readOnly disabled />
                                 </div>
                                 <div className="form-group">
-                                    <label><Calendar size={14} style={{marginRight: '5px'}}/> {t('endDate')} *</label>
+                                    <label><Calendar size={14} style={{ marginRight: '5px' }} /> {t('endDate')} *</label>
                                     <input type="date" value={firstItem.endDate || ''} readOnly disabled />
                                 </div>
-                                <div className="full-width" style={{fontSize: '13px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '5px'}}>
+                                <div className="full-width" style={{ fontSize: '13px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '5px' }}>
                                     <Info size={14} /> {t('rentalPeriodNote')}
                                 </div>
                             </div>
@@ -337,7 +337,7 @@ const CheckoutPage = () => {
                         <section className="checkout-section">
                             <h2>{t('deliveryMethod')}</h2>
                             <div className="method-options">
-                                <div 
+                                <div
                                     className={`method-card ${deliveryMethod === 'home' ? 'active' : ''}`}
                                     onClick={() => setDeliveryMethod('home')}
                                 >
@@ -350,7 +350,7 @@ const CheckoutPage = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div 
+                                <div
                                     className={`method-card ${deliveryMethod === 'pickup' ? 'active' : ''}`}
                                     onClick={() => setDeliveryMethod('pickup')}
                                 >
@@ -364,17 +364,17 @@ const CheckoutPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <input 
-                                    type="checkbox" 
-                                    id="terms" 
+                                <input
+                                    type="checkbox"
+                                    id="terms"
                                     checked={agreedToTerms}
                                     onChange={(e) => setAgreedToTerms(e.target.checked)}
                                     style={{ width: '18px', height: '18px', cursor: 'pointer' }}
                                 />
                                 <label htmlFor="terms" style={{ fontSize: '14px', color: '#374151', cursor: 'pointer' }}>
-                                    {t('agreeTerms', { 
+                                    {t('agreeTerms', {
                                         terms: <span style={{ textDecoration: 'underline', fontWeight: '600' }}>{t('termsOfService')}</span>,
                                         privacy: <span style={{ textDecoration: 'underline', fontWeight: '600' }}>{t('privacyPolicy')}</span>
                                     })}
@@ -386,12 +386,12 @@ const CheckoutPage = () => {
                         <section className="checkout-section">
                             <h2>{t('paymentMethod')}</h2>
                             <div className="payment-grid">
-                                <div 
+                                <div
                                     className={`payment-card ${paymentMethod === 'cod' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('cod')}
                                 >
                                     <div className="payment-header">
-                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#e6f7ed', color: '#28a745'}}>
+                                        <div className="payment-icon-wrapper" style={{ backgroundColor: '#e6f7ed', color: '#28a745' }}>
                                             <Wallet size={20} />
                                         </div>
                                         <div className="payment-radio"></div>
@@ -400,13 +400,13 @@ const CheckoutPage = () => {
                                     <div className="payment-desc">{t('codDesc')}</div>
                                 </div>
 
-                                <div 
+                                <div
                                     className={`payment-card ${paymentMethod === 'momo' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('momo')}
                                 >
                                     <div className="payment-header">
-                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#ffeef4', color: '#d82d8b'}}>
-                                            <div style={{fontWeight: '800', fontSize: '10px'}}>MOMO</div>
+                                        <div className="payment-icon-wrapper" style={{ backgroundColor: '#ffeef4', color: '#d82d8b' }}>
+                                            <div style={{ fontWeight: '800', fontSize: '10px' }}>MOMO</div>
                                         </div>
                                         <div className="payment-radio"></div>
                                     </div>
@@ -414,13 +414,13 @@ const CheckoutPage = () => {
                                     <div className="payment-desc">{t('momoDesc')}</div>
                                 </div>
 
-                                <div 
+                                <div
                                     className={`payment-card ${paymentMethod === 'vnpay' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('vnpay')}
                                 >
                                     <div className="payment-header">
-                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#eef2ff', color: '#005baa'}}>
-                                            <div style={{fontWeight: '900', fontSize: '10px'}}>VNPAY</div>
+                                        <div className="payment-icon-wrapper" style={{ backgroundColor: '#eef2ff', color: '#005baa' }}>
+                                            <div style={{ fontWeight: '900', fontSize: '10px' }}>VNPAY</div>
                                         </div>
                                         <div className="payment-radio"></div>
                                     </div>
@@ -428,12 +428,12 @@ const CheckoutPage = () => {
                                     <div className="payment-desc">{t('vnpayDesc')}</div>
                                 </div>
 
-                                <div 
+                                <div
                                     className={`payment-card ${paymentMethod === 'transfer' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('transfer')}
                                 >
                                     <div className="payment-header">
-                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#f0fdf4', color: '#16a34a'}}>
+                                        <div className="payment-icon-wrapper" style={{ backgroundColor: '#f0fdf4', color: '#16a34a' }}>
                                             <QrCode size={20} />
                                         </div>
                                         <div className="payment-radio"></div>
@@ -442,12 +442,12 @@ const CheckoutPage = () => {
                                     <div className="payment-desc">{t('bankTransferDesc')}</div>
                                 </div>
 
-                                <div 
+                                <div
                                     className={`payment-card ${paymentMethod === 'card' ? 'active' : ''}`}
                                     onClick={() => setPaymentMethod('card')}
                                 >
                                     <div className="payment-header">
-                                        <div className="payment-icon-wrapper" style={{backgroundColor: '#f3f4f6', color: '#111'}}>
+                                        <div className="payment-icon-wrapper" style={{ backgroundColor: '#f3f4f6', color: '#111' }}>
                                             <CreditCard size={20} />
                                         </div>
                                         <div className="payment-radio"></div>
@@ -474,7 +474,7 @@ const CheckoutPage = () => {
                                 }}>
                                     <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '10px' }}>{t('scanQRCode')}</h3>
                                     <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px' }}>{t('qrPaymentInstruction')}</p>
-                                    
+
                                     <div className="qr-image-wrapper" style={{
                                         backgroundColor: '#fff',
                                         padding: '15px',
@@ -483,18 +483,18 @@ const CheckoutPage = () => {
                                         boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                                         marginBottom: '15px'
                                     }}>
-                                        <img 
-                                            src={paymentMethod === 'transfer' 
+                                        <img
+                                            src={paymentMethod === 'transfer'
                                                 ? `https://api.vietqr.io/image/vcb-9824686868-compact.jpg?amount=${summary?.total}&addInfo=LUXE${user?.id || 'USER'}`
                                                 : paymentMethod === 'momo'
                                                     ? 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg' // Placeholder
                                                     : 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg' // Placeholder
-                                            } 
-                                            alt="Payment QR Code" 
+                                            }
+                                            alt="Payment QR Code"
                                             style={{ width: '200px', height: '200px', objectFit: 'contain' }}
                                         />
                                     </div>
-                                    
+
                                     <div style={{ fontSize: '13px', color: '#374151', fontWeight: '500' }}>
                                         {t('totalAmount')}: <span style={{ color: '#08060d', fontWeight: '700' }}>{summary?.total?.toLocaleString()}đ</span>
                                     </div>
@@ -507,16 +507,16 @@ const CheckoutPage = () => {
                     <aside className="checkout-right">
                         <div className="summary-card">
                             <h2>{t('orderSummary')}</h2>
-                            
+
                             <div className="summary-items">
                                 {cartItems.map(item => {
                                     const product = item.Product || item.product || {};
                                     return (
                                         <div key={item.id} className="summary-item-card">
-                                            <img 
-                                                src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:3000${product.image.startsWith('/') ? '' : '/uploads/'}${product.image}`) : ""} 
-                                                alt={product.name} 
-                                                className="item-img" 
+                                            <img
+                                                src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:3000${product.image.startsWith('/') ? '' : '/uploads/'}${product.image}`) : ""}
+                                                alt={product.name}
+                                                className="item-img"
                                             />
                                             <div className="item-info">
                                                 <h4>{t(product.name)}</h4>
@@ -547,8 +547,8 @@ const CheckoutPage = () => {
                                 </div>
                             </div>
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 className="checkout-btn"
                                 disabled={isProcessing || cartItems.length === 0}
                             >
@@ -564,7 +564,7 @@ const CheckoutPage = () => {
 
                 </form>
             </main>
-            
+
             <Footer />
         </div>
     );

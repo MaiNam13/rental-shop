@@ -174,7 +174,7 @@
 
 .p-search-wrapper:focus-within {
   border-color: #111;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .p-search-input {
@@ -228,27 +228,27 @@
   border: 1px solid transparent;
 }
 
-.p-status-pill.completed { 
-  background-color: #e2f9df; 
-  color: #2b8a3e; 
+.p-status-pill.completed {
+  background-color: #e2f9df;
+  color: #2b8a3e;
   border-color: #b2f2bb;
 }
 
-.p-status-pill.pending { 
-  background-color: #fff9db; 
-  color: #f08c00; 
+.p-status-pill.pending {
+  background-color: #fff9db;
+  color: #f08c00;
   border-color: #ffe066;
 }
 
-.p-status-pill.failed { 
-  background-color: #ffe3e3; 
-  color: #c92a2a; 
+.p-status-pill.failed {
+  background-color: #ffe3e3;
+  color: #c92a2a;
   border-color: #ffa8a8;
 }
 
-.p-status-pill.refunded { 
-  background-color: #f1f3f5; 
-  color: #495057; 
+.p-status-pill.refunded {
+  background-color: #f1f3f5;
+  color: #495057;
   border-color: #dee2e6;
 }
 

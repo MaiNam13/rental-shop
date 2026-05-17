@@ -18,7 +18,7 @@
   margin-bottom: 32px;
   color: #1a1a1a;
   border: 1px solid #f1f1ee;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 }
 
 .placeholder-title {
@@ -49,5 +49,5 @@
   gap: 12px;
   fontWeight: 700;
   fontSize: 14px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }

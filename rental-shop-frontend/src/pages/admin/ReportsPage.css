@@ -141,11 +141,25 @@
   line-height: 1.1;
 }
 
-.kpi-value.approved { color: #6366f1; }
-.kpi-value.shipping { color: #3b82f6; }
-.kpi-value.renting { color: #d97706; }
-.kpi-value.overdue { color: #ef4444; }
-.kpi-value.returned { color: #10b981; }
+.kpi-value.approved {
+  color: #6366f1;
+}
+
+.kpi-value.shipping {
+  color: #3b82f6;
+}
+
+.kpi-value.renting {
+  color: #d97706;
+}
+
+.kpi-value.overdue {
+  color: #ef4444;
+}
+
+.kpi-value.returned {
+  color: #10b981;
+}
 
 /* Table Section Card */
 .reports-data-card {
@@ -179,7 +193,7 @@
 
 .reports-search-wrapper:focus-within {
   border-color: #111;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .reports-search-input {

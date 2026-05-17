@@ -32,7 +32,7 @@ export default function CategoriesPage() {
         window.scrollTo(0, 0);
     }, []);
 
-    const filteredCategories = categories.filter(cat => 
+    const filteredCategories = categories.filter(cat =>
         cat.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -58,7 +58,7 @@ export default function CategoriesPage() {
     return (
         <div className="categories-page">
             <Navbar />
-            
+
             {/* Hero Section */}
             <header className="categories-hero">
                 <img src={heroImg} alt="Fashion Categories" className="hero-image" />
@@ -74,8 +74,8 @@ export default function CategoriesPage() {
             <div className="filter-container">
                 <div className="search-box-wrapper">
                     <Search className="search-icon-pos" size={20} />
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder={t('searchCategoryPlaceholder')}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -83,8 +83,8 @@ export default function CategoriesPage() {
                 </div>
                 <div className="filter-tabs">
                     {tabs.map(tab => (
-                        <button 
-                            key={tab.id} 
+                        <button
+                            key={tab.id}
                             className={`filter-tab ${activeTab === tab.label ? "active" : ""}`}
                             onClick={() => setActiveTab(tab.label)}
                         >
@@ -102,13 +102,13 @@ export default function CategoriesPage() {
 
             <div className="categories-main-grid">
                 {filteredCategories.map((category, index) => (
-                    <Link 
-                        key={category.id} 
-                        to={`/products?category=${category.id}`} 
+                    <Link
+                        key={category.id}
+                        to={`/products?category=${category.id}`}
                         className="category-luxury-card"
                     >
-                        <img 
-                            src={category.image ? (category.image.startsWith('http') ? category.image : `http://localhost:3000${category.image.startsWith('/') ? '' : '/uploads/'}${category.image}`) : 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80'} 
+                        <img
+                            src={category.image ? (category.image.startsWith('http') ? category.image : `http://localhost:3000${category.image.startsWith('/') ? '' : '/uploads/'}${category.image}`) : 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80'}
                             alt={category.name}
                         />
                         <div className="card-overlay">

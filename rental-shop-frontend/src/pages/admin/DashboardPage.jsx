@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Users, 
-  Package, 
-  CalendarRange, 
-  CreditCard, 
-  Clock, 
-  RotateCcw, 
-  TrendingUp, 
+import {
+  Users,
+  Package,
+  CalendarRange,
+  CreditCard,
+  Clock,
+  RotateCcw,
+  TrendingUp,
   TrendingDown,
   Eye,
   Edit2,
@@ -17,12 +17,12 @@ import {
   AlertTriangle,
   XCircle
 } from 'lucide-react';
-import { 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
   AreaChart,
   Area
 } from 'recharts';
@@ -66,7 +66,7 @@ const DashboardPage = () => {
 
   const revenueChartData = (monthlyRevenue || []).map(item => ({
     name: `T${item.month}`,
-    value: item.revenue / 1000000 
+    value: item.revenue / 1000000
   }));
 
   const displayRevenueData = revenueChartData.length > 0 ? revenueChartData : [{ name: 'Chưa có dữ liệu', value: 0 }];
@@ -127,14 +127,14 @@ const DashboardPage = () => {
               <AreaChart data={displayRevenueData}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#1a1a1a" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#1a1a1a" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#1a1a1a" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#1a1a1a" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   formatter={(value) => [`${value.toFixed(2)}tr ₫`, 'Doanh thu']}
                 />

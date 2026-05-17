@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Search, 
-  Trash2, 
-  Mail, 
+import {
+  Search,
+  Trash2,
+  Mail,
   Calendar,
   AlertCircle,
   Lock,
@@ -65,7 +65,7 @@ const UserManagement = () => {
     }
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -81,10 +81,10 @@ const UserManagement = () => {
         <div className="user-controls">
           <div className="user-search-wrapper">
             <Search size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="user-search-input"
-              placeholder="Tìm theo tên hoặc email..." 
+              placeholder="Tìm theo tên hoặc email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -144,7 +144,7 @@ const UserManagement = () => {
                   </td>
                   <td className="text-right">
                     <div className="user-actions-cell">
-                      <button 
+                      <button
                         className="btn-user-detail-action"
                         onClick={() => setSelectedUser(user)}
                       >
@@ -152,14 +152,14 @@ const UserManagement = () => {
                       </button>
                       {user.role !== 'admin' && (
                         <>
-                          <button 
+                          <button
                             className={`btn-user-lock-toggle ${user.is_locked ? 'locked' : ''}`}
                             onClick={() => handleToggleLock(user.id)}
                             title={user.is_locked ? "Mở khóa tài khoản" : "Khóa tài khoản"}
                           >
                             {user.is_locked ? <Unlock size={14} /> : <Lock size={14} />}
                           </button>
-                          <button 
+                          <button
                             className="btn-user-delete"
                             onClick={() => setShowDeleteConfirm(user.id)}
                             disabled={deletingId === user.id}
@@ -192,7 +192,7 @@ const UserManagement = () => {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="modal-detail-body">
               <div className="user-profile-summary">
                 <div className={`user-profile-avatar-luxe ${selectedUser.is_locked ? 'avatar-locked' : ''}`}>
@@ -210,7 +210,7 @@ const UserManagement = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="detail-info-card" style={{ marginTop: '24px' }}>
                 <div className="info-row">
                   <span className="info-label">Mã thành viên</span>
@@ -237,10 +237,10 @@ const UserManagement = () => {
                   </span>
                 </div>
               </div>
-              
+
               {selectedUser.role !== 'admin' && (
                 <div className="modal-actions-luxe" style={{ marginTop: '24px' }}>
-                  <button 
+                  <button
                     className={`btn-lock-toggle ${selectedUser.is_locked ? 'btn-unlock' : 'btn-lock'}`}
                     onClick={() => {
                       handleToggleLock(selectedUser.id);
@@ -250,8 +250,8 @@ const UserManagement = () => {
                     {selectedUser.is_locked ? <Unlock size={16} /> : <Lock size={16} />}
                     {selectedUser.is_locked ? 'Mở khóa tài khoản' : 'Khóa tài khoản'}
                   </button>
-                  
-                  <button 
+
+                  <button
                     className="btn-delete-member"
                     onClick={() => {
                       setShowDeleteConfirm(selectedUser.id);
@@ -279,15 +279,15 @@ const UserManagement = () => {
               Bạn có chắc chắn muốn xóa người dùng này? Hành động này sẽ xóa vĩnh viễn tài khoản và không thể hoàn tác.
             </p>
             <div className="delete-modal-actions">
-              <button 
-                className="btn-modal-cancel" 
-                onClick={() => setShowDeleteConfirm(null)} 
+              <button
+                className="btn-modal-cancel"
+                onClick={() => setShowDeleteConfirm(null)}
               >
                 Hủy
               </button>
-              <button 
-                className="btn-modal-delete" 
-                onClick={() => handleDeleteUser(showDeleteConfirm)} 
+              <button
+                className="btn-modal-delete"
+                onClick={() => handleDeleteUser(showDeleteConfirm)}
                 disabled={deletingId !== null}
               >
                 {deletingId ? 'Đang xóa...' : 'Xóa ngay'}

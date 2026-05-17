@@ -61,7 +61,7 @@
 .rental-search-wrapper:focus-within {
   background-color: #fff;
   border-color: #eee;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .rental-search-input {
@@ -96,7 +96,7 @@
 
 .rental-select:hover {
   background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* Status Pills */
@@ -111,12 +111,36 @@
   text-transform: uppercase;
 }
 
-.status-pill-luxe.pending { background-color: #fff7ed; color: #c2410c; }
-.status-pill-luxe.approved { background-color: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; }
-.status-pill-luxe.shipping { background-color: #eff6ff; color: #1d4ed8; }
-.status-pill-luxe.renting { background-color: #f0fdf4; color: #15803d; }
-.status-pill-luxe.returned { background-color: #f8fafc; color: #475569; }
-.status-pill-luxe.cancelled { background-color: #fef2f2; color: #b91c1c; }
+.status-pill-luxe.pending {
+  background-color: #fff7ed;
+  color: #c2410c;
+}
+
+.status-pill-luxe.approved {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  border: 1px solid #c7d2fe;
+}
+
+.status-pill-luxe.shipping {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-pill-luxe.renting {
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+
+.status-pill-luxe.returned {
+  background-color: #f8fafc;
+  color: #475569;
+}
+
+.status-pill-luxe.cancelled {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
 
 /* Table specifics */
 .order-id-cell {
@@ -162,12 +186,15 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
   animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: 1px solid #e9ecef;
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+  scrollbar-width: none;
+  /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none;
+  /* Hide scrollbar for IE/Edge */
 }
 
 .rental-detail-modal-content::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome/Safari/Opera */
+  display: none;
+  /* Hide scrollbar for Chrome/Safari/Opera */
 }
 
 .modal-detail-header {
@@ -279,7 +306,7 @@
 
 .product-item-row:hover {
   border-color: #ced4da;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .product-thumb-small {
