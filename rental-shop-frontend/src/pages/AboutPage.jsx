@@ -76,8 +76,8 @@ export default function AboutPage() {
                         <div className="feature-icon-circle">
                             <Award size={24} />
                         </div>
-                        <h3>{t('quality')}</h3>
-                        <p>{t('qualityDesc')}</p>
+                        <h3>{t('premiumQuality')}</h3>
+                        <p>{t('premiumQualityDesc')}</p>
                     </div>
                     <div className="feature-item">
                         <div className="feature-icon-circle">
@@ -97,8 +97,8 @@ export default function AboutPage() {
                         <div className="feature-icon-circle">
                             <Wallet size={24} />
                         </div>
-                        <h3>{t('bestPrice')}</h3>
-                        <p>{t('bestPriceDesc')}</p>
+                        <h3>{t('reasonablePrice')}</h3>
+                        <p>{t('reasonablePriceDesc')}</p>
                     </div>
                 </div>
             </section>

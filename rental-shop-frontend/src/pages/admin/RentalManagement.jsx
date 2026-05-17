@@ -80,6 +80,7 @@ const RentalManagement = () => {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'pending': return 'Chờ duyệt';
+      case 'approved': return 'Đã duyệt';
       case 'shipping': return 'Đang giao';
       case 'renting': return 'Đang thuê';
       case 'returned': return 'Đã trả đồ';
@@ -91,8 +92,9 @@ const RentalManagement = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'pending': return <Clock size={14} />;
+      case 'approved': return <CheckCircle2 size={14} />;
       case 'shipping': return <Truck size={14} />;
-      case 'renting': return <CheckCircle2 size={14} />;
+      case 'renting': return <CalendarRange size={14} />;
       case 'returned': return <History size={14} />;
       case 'cancelled': return <XCircle size={14} />;
       default: return <Clock size={14} />;
@@ -101,9 +103,9 @@ const RentalManagement = () => {
 
   return (
     <div className="rental-management-container">
-      <div className="rental-header">
-        <h1 className="rental-title">Quản lý đơn thuê</h1>
-        <p className="rental-subtitle">Theo dõi lịch trình và trạng thái thuê từ dữ liệu thực tế.</p>
+      <div className="rental-header-admin">
+        <h1 className="rental-title-admin">Quản lý đơn thuê</h1>
+        <p className="rental-subtitle-admin">Theo dõi lịch trình và trạng thái thuê từ dữ liệu thực tế.</p>
       </div>
 
       <div className="rental-data-card">
@@ -126,6 +128,7 @@ const RentalManagement = () => {
             >
               <option value="all">Tất cả trạng thái</option>
               <option value="pending">Chờ xác nhận</option>
+              <option value="approved">Đã duyệt đơn</option>
               <option value="shipping">Đang giao</option>
               <option value="renting">Đang thuê</option>
               <option value="returned">Đã trả đồ</option>
@@ -164,13 +167,43 @@ const RentalManagement = () => {
                     </span>
                   </td>
                   <td className="text-right">
-                    <button 
-                      className="action-icon-btn"
-                      onClick={() => setSelectedRental(rental)}
-                      title="Xem chi tiết"
-                    >
-                      <Eye size={18} />
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                      {rental.status === 'pending' && (
+                        <>
+                          <button 
+                            className="btn-rental-approve-action"
+                            onClick={() => handleUpdateStatus(rental.id, 'approved')}
+                            disabled={updatingStatus}
+                          >
+                            Duyệt đơn
+                          </button>
+                          <button 
+                            className="btn-rental-cancel-action"
+                            onClick={() => handleUpdateStatus(rental.id, 'cancelled')}
+                            disabled={updatingStatus}
+                            style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}
+                          >
+                            Hủy đơn
+                          </button>
+                        </>
+                      )}
+                      {rental.status === 'approved' && (
+                        <button 
+                          className="btn-rental-cancel-action"
+                          onClick={() => handleUpdateStatus(rental.id, 'cancelled')}
+                          disabled={updatingStatus}
+                          style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}
+                        >
+                          Hủy đơn
+                        </button>
+                      )}
+                      <button 
+                        className="btn-rental-detail-action"
+                        onClick={() => setSelectedRental(rental)}
+                      >
+                        Chi tiết
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )) : (
@@ -216,20 +249,28 @@ const RentalManagement = () => {
 
                   <div className="detail-section-title" style={{ marginTop: '32px' }}><Package size={16} /> Sản phẩm thuê</div>
                   <div className="products-list-luxe">
-                    {selectedRental.RentalItems?.map((item, idx) => (
-                      <div key={idx} className="product-item-row">
-                        <img 
-                          src={item.Product?.image ? (item.Product.image.startsWith('http') ? item.Product.image : `http://localhost:3000${item.Product.image}`) : "https://via.placeholder.com/60"} 
-                          className="product-thumb-small" 
-                          alt=""
-                        />
-                        <div style={{ flex: 1 }}>
-                          <div className="product-detail-name">{item.Product?.name}</div>
-                          <div className="product-detail-meta">Size: {item.size} | SL: {item.quantity}</div>
+                    {selectedRental.RentalItems?.map((item, idx) => {
+                      const start = new Date(selectedRental.rental_date || selectedRental.start_date);
+                      const end = new Date(selectedRental.return_date || selectedRental.end_date);
+                      const totalDays = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+                      const pricePerDay = item.price_per_day || item.Product?.price_per_day || 0;
+                      const itemTotalPrice = pricePerDay * item.quantity * totalDays;
+
+                      return (
+                        <div key={idx} className="product-item-row">
+                          <img 
+                            src={item.Product?.image ? (item.Product.image.startsWith('http') ? item.Product.image : `http://localhost:3000${item.Product.image}`) : "https://via.placeholder.com/60"} 
+                            className="product-thumb-small" 
+                            alt=""
+                          />
+                          <div style={{ flex: 1 }}>
+                            <div className="product-detail-name">{item.Product?.name}</div>
+                            <div className="product-detail-meta">Size: {item.size} | SL: {item.quantity} | {pricePerDay.toLocaleString('vi-VN')}₫/ngày</div>
+                          </div>
+                          <div className="price-text-luxe">{itemTotalPrice.toLocaleString('vi-VN')}₫</div>
                         </div>
-                        <div className="price-text-luxe">{(item.total_price || (item.price * item.quantity))?.toLocaleString('vi-VN')}₫</div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -260,35 +301,32 @@ const RentalManagement = () => {
                   </div>
 
                   <div className="modal-actions-luxe">
-                    <div style={{ width: '100%', marginBottom: '12px', fontSize: '11px', fontWeight: '800', color: '#aaa', textTransform: 'uppercase' }}>Cập nhật trạng thái</div>
-                    <button 
-                      className={`btn-status-update ${selectedRental.status === 'shipping' ? 'active' : ''}`}
-                      onClick={() => handleUpdateStatus(selectedRental.id, 'shipping')}
-                      disabled={updatingStatus}
-                    >
-                      <Truck size={14} /> Giao hàng
-                    </button>
-                    <button 
-                      className={`btn-status-update ${selectedRental.status === 'renting' ? 'active' : ''}`}
-                      onClick={() => handleUpdateStatus(selectedRental.id, 'renting')}
-                      disabled={updatingStatus}
-                    >
-                      <CheckCircle2 size={14} /> Đang thuê
-                    </button>
-                    <button 
-                      className={`btn-status-update ${selectedRental.status === 'returned' ? 'active' : ''}`}
-                      onClick={() => handleUpdateStatus(selectedRental.id, 'returned')}
-                      disabled={updatingStatus}
-                    >
-                      <History size={14} /> Đã trả
-                    </button>
-                    <button 
-                      className={`btn-status-update ${selectedRental.status === 'cancelled' ? 'active' : ''}`}
-                      onClick={() => handleUpdateStatus(selectedRental.id, 'cancelled')}
-                      disabled={updatingStatus}
-                    >
-                      <XCircle size={14} /> Hủy đơn
-                    </button>
+                    <div style={{ width: '100%', marginBottom: '12px', fontSize: '11px', fontWeight: '800', color: '#aaa', textTransform: 'uppercase' }}>Thao tác nhanh</div>
+                    {selectedRental.status === 'pending' && (
+                      <button 
+                        className={`btn-status-update`}
+                        onClick={() => handleUpdateStatus(selectedRental.id, 'approved')}
+                        disabled={updatingStatus}
+                        style={{ backgroundColor: '#10b981', color: '#fff' }}
+                      >
+                        <CheckCircle2 size={14} /> Duyệt đơn
+                      </button>
+                    )}
+                    {(selectedRental.status === 'pending' || selectedRental.status === 'approved') && (
+                      <button 
+                        className={`btn-status-update`}
+                        onClick={() => handleUpdateStatus(selectedRental.id, 'cancelled')}
+                        disabled={updatingStatus}
+                        style={{ backgroundColor: '#ef4444', color: '#fff' }}
+                      >
+                        <XCircle size={14} /> Hủy đơn
+                      </button>
+                    )}
+                    {!(selectedRental.status === 'pending' || selectedRental.status === 'approved') && (
+                      <div style={{ fontSize: '13px', color: '#888', fontStyle: 'italic', padding: '8px 0', width: '100%', textAlign: 'left' }}>
+                        Đơn thuê này đang được quản lý giao nhận và hoàn trả tại trang "Hạn thuê đồ".
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -68,6 +68,7 @@ const Rental = sequelize.define("Rental", {
         type: DataTypes.ENUM(
             "pending",
             "approved",
+            "shipping",
             "renting",
             "returned",
             "cancelled"

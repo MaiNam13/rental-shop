@@ -11,6 +11,7 @@ import {
   FolderOpen
 } from 'lucide-react';
 import categoryApi from '../../api/categoryApi';
+import { useToast } from '../../context/ToastContext';
 import './CategoryManagement.css';
 
 const CategoryManagement = () => {
@@ -28,10 +29,26 @@ const CategoryManagement = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, message: "", onConfirm: null });
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (showModal || confirmModal.isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [showModal, confirmModal.isOpen]);
 
   const fetchCategories = async () => {
     setLoading(true);
@@ -65,15 +82,21 @@ const CategoryManagement = () => {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
-      try {
-        await categoryApi.delete(id);
-        fetchCategories();
-      } catch (error) {
-        alert("Lỗi khi xóa danh mục: " + (error.response?.data?.message || error.message));
+  const handleDelete = (id) => {
+    setConfirmModal({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa danh mục này?',
+      onConfirm: async () => {
+        try {
+          await categoryApi.delete(id);
+          toast('Đã xóa danh mục thành công', 'success');
+          fetchCategories();
+        } catch (error) {
+          toast("Lỗi khi xóa danh mục: " + (error.response?.data?.message || error.message), 'error');
+        }
+        setConfirmModal({ isOpen: false, message: "", onConfirm: null });
       }
-    }
+    });
   };
 
   const resetForm = () => {
@@ -152,9 +175,8 @@ const CategoryManagement = () => {
                   className="category-image-luxe"
                 />
               </div>
-              <div className="category-card-content">
+              <div className="category-card-content-luxe">
                 <h3 className="cat-name">{category.name}</h3>
-                <p className="cat-desc">{category.description || 'Chưa có mô tả cho danh mục này.'}</p>
                 <div className="cat-actions">
                   <button className="btn-cat-edit" onClick={() => handleEdit(category)}>
                     <Edit2 size={14} /> Sửa
@@ -195,16 +217,7 @@ const CategoryManagement = () => {
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                   />
                 </div>
-                <div className="form-group-luxe">
-                  <label>Mô tả chi tiết</label>
-                  <textarea 
-                    className="form-textarea-luxe"
-                    rows="3"
-                    placeholder="Mô tả ngắn gọn về danh mục này..."
-                    value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  />
-                </div>
+
                 <div className="form-group-luxe">
                   <label>Hình ảnh đại diện</label>
                   <label className="image-upload-zone-luxe">
@@ -226,6 +239,108 @@ const CategoryManagement = () => {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Centered Luxury Confirmation Modal */}
+      {confirmModal.isOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(8, 6, 13, 0.4)', // Soft darkened luxury backdrop
+          backdropFilter: 'blur(6px)', // Gorgeous glassmorphic blur
+          zIndex: 999999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          animation: 'fadeInModal 0.2s ease-out'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            padding: '30px 40px',
+            maxWidth: '420px',
+            width: '90%',
+            boxShadow: '0 25px 50px rgba(8, 6, 13, 0.15)',
+            textAlign: 'center',
+            fontFamily: 'Montserrat, sans-serif',
+            transform: 'scale(1)',
+            animation: 'scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#08060d',
+              marginBottom: '16px',
+              marginTop: 0,
+              letterSpacing: '1px'
+            }}>
+              XÁC NHẬN XÓA
+            </h3>
+            <p style={{
+              fontSize: '14px',
+              color: '#555555',
+              lineHeight: '1.6',
+              marginBottom: '28px',
+              padding: '0 10px'
+            }}>
+              {confirmModal.message}
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center'
+            }}>
+              <button 
+                onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: '1.5px solid #e0e0e0',
+                  backgroundColor: '#ffffff',
+                  color: '#555555',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                HỦY
+              </button>
+              <button 
+                onClick={confirmModal.onConfirm}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#08060d', // Pure luxury black background
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(8, 6, 13, 0.2)'
+                }}
+              >
+                ĐỒNG Ý
+              </button>
+            </div>
+          </div>
+          <style>{`
+            @keyframes fadeInModal {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes scaleUpModal {
+              from { transform: scale(0.92); opacity: 0; }
+              to { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
         </div>
       )}
     </div>

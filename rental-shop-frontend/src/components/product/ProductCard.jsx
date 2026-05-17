@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '../../context/LanguageContext'
 import { useAuth } from '../../context/AuthContext'
 import favoriteApi from '../../api/favoriteApi'
+import { useToast } from '../../context/ToastContext'
 
 const ProductCard = ({ product, isFavoriteInitial = false }) => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { isLoggedIn } = useAuth();
+  const { toast } = useToast();
   const [isFavorite, setIsFavorite] = useState(isFavoriteInitial);
   const [loading, setLoading] = useState(false);
 
@@ -74,15 +76,15 @@ const ProductCard = ({ product, isFavoriteInitial = false }) => {
             {product.price}<span className="price-unit">/{t('perDay')}</span>
           </div>
           <div className={`luxe-status ${product.status === 'available' && product.stock > 0 ? 'status-available' : product.status === 'hidden' ? 'status-hidden' : 'status-unavailable'}`}>
-            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? 'Đã ẩn' : t('outOfStock')}
+            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? t('hiddenStatus') : t('outOfStock')}
           </div>
         </div>
 
         <div className="luxe-card-actions">
           <button className="action-rent-btn" disabled={product.status !== 'available' || product.stock <= 0} onClick={(e) => { e.stopPropagation(); navigate(`/products/${product.id}`); }}>
-            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? 'KHÔNG KHẢ DỤNG' : t('outOfStock')}
+            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? t('notAvailableUpper') : t('outOfStock')}
           </button>
-          <button className="action-cart-btn" disabled={product.status !== 'available' || product.stock <= 0} onClick={(e) => { e.stopPropagation(); alert(t('addedToCart', { name: t(product.name) })); }}><ShoppingCart size={18} /></button>
+          <button className="action-cart-btn" disabled={product.status !== 'available' || product.stock <= 0} onClick={(e) => { e.stopPropagation(); toast(t('addedToCart', { name: t(product.name) }), 'success'); }}><ShoppingCart size={18} /></button>
         </div>
       </div>
     </div>

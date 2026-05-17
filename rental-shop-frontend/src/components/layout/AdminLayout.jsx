@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -21,7 +21,18 @@ import '../../styles/AdminDashboard.css';
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest('.admin-profile-dropdown-wrapper')) {
+        setShowProfileMenu(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -39,7 +50,7 @@ const AdminLayout = () => {
         { path: '/admin/payments', icon: <CreditCard size={20} />, label: 'Thanh toán' },
         { path: '/admin/users', icon: <Users size={20} />, label: 'Người dùng' },
         { path: '/admin/inventory', icon: <Warehouse size={20} />, label: 'Kho hàng' },
-        { path: '/admin/reports', icon: <BarChart3 size={20} />, label: 'Báo cáo' },
+        { path: '/admin/reports', icon: <BarChart3 size={20} />, label: 'Hạn thuê đồ' },
       ]
     },
     {
@@ -117,11 +128,30 @@ const AdminLayout = () => {
               <span className="notification-dot"></span>
             </button>
 
-            <button className="admin-profile-btn">
-              <img src={user?.avatar || "https://i.pravatar.cc/150?u=admin"} alt="Profile" />
-              <span>{user?.name || "Quản trị"}</span>
-              <ChevronDown size={16} />
-            </button>
+            <div className="admin-profile-dropdown-wrapper">
+              <button 
+                className={`admin-profile-btn ${showProfileMenu ? 'active' : ''}`}
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+              >
+                <img src={user?.avatar || "https://i.pravatar.cc/150?u=admin"} alt="Profile" />
+                <span>{user?.name || "Admin"}</span>
+                <ChevronDown size={16} className={`chevron-icon ${showProfileMenu ? 'rotated' : ''}`} />
+              </button>
+
+              {showProfileMenu && (
+                <div className="admin-profile-dropdown-menu">
+                  <div className="dropdown-user-header">
+                    <h4>{user?.name || "Nguyễn Quản Trị"}</h4>
+                    <p>{user?.email || "admin@gmail.com"}</p>
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <button className="dropdown-item-luxe logout" onClick={handleLogout}>
+                    <LogOut size={16} />
+                    <span>Đăng xuất</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 

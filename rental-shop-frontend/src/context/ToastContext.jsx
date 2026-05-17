@@ -14,7 +14,8 @@ export const ToastProvider = ({ children }) => {
   const toast = useCallback((message, type = 'success') => {
     const id = Date.now();
     setToasts((prevToasts) => [...prevToasts, { id, message, type }]);
-    setTimeout(() => removeToast(id), 3000);
+    // Duration changed to 5 seconds (5000ms)
+    setTimeout(() => removeToast(id), 5000);
   }, [removeToast]);
 
   return (
@@ -22,37 +23,59 @@ export const ToastProvider = ({ children }) => {
       {children}
       <div style={{
         position: 'fixed',
-        top: '20px',
-        right: '20px',
-        zIndex: 9999,
+        top: '110px', // Placed perfectly below the luxury header Navbar
+        right: '30px', // Top-right corner
+        zIndex: 99999,
         display: 'flex',
         flexDirection: 'column',
-        gap: '10px'
+        gap: '12px',
+        maxWidth: '380px',
+        pointerEvents: 'none' // Allow click-through on empty wrapper areas
       }}>
         {toasts.map((t) => (
           <div
             key={t.id}
             style={{
-              padding: '12px 24px',
+              padding: '16px 24px 20px 24px', // Extra padding bottom to give space for progress bar
               borderRadius: '12px',
-              backgroundColor: t.type === 'error' ? '#fef2f2' : '#f0fdf4',
-              color: t.type === 'error' ? '#991b1b' : '#166534',
-              border: `1px solid ${t.type === 'error' ? '#fecaca' : '#bbf7d0'}`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              backgroundColor: '#ffffff', // Clean white background
+              color: '#08060d', // Deep rich black text for high contrast
+              borderLeft: `4px solid ${t.type === 'error' ? '#ef4444' : '#D4AF37'}`, // Gold for success/normal, Red for error
+              boxShadow: '0 20px 40px rgba(8, 6, 13, 0.12), 0 4px 12px rgba(8, 6, 13, 0.06)', // Deep, highly prominent luxury drop shadow
               fontFamily: 'Montserrat, sans-serif',
               fontSize: '14px',
               fontWeight: '600',
-              animation: 'slideIn 0.3s ease-out'
+              letterSpacing: '0.3px',
+              lineHeight: '1.4',
+              position: 'relative', // Required for absolute progress bar positioning
+              overflow: 'hidden', // Clip progress bar edges
+              pointerEvents: 'auto', // Allow interaction with toast itself
+              animation: 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
             {t.message}
+            {/* Elegant timer progress bar */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                height: '2px',
+                backgroundColor: t.type === 'error' ? '#ef4444' : '#D4AF37',
+                animation: 'toastProgress 5s linear forwards'
+              }}
+            />
           </div>
         ))}
       </div>
       <style>{`
-        @keyframes slideIn {
+        @keyframes slideInRight {
           from { transform: translateX(100%); opacity: 0; }
           to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes toastProgress {
+          from { width: 100%; }
+          to { width: 0%; }
         }
       `}</style>
     </ToastContext.Provider>

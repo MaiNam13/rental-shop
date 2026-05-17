@@ -49,7 +49,7 @@ const getAllReviews = async (req, res, next) => {
                 model: User,
                 attributes: ["id", "name"]
             }],
-            order: [["createdAt", "DESC"]]
+            order: [["id", "DESC"]]
         });
         res.status(200).json(reviews);
     } catch (error) {

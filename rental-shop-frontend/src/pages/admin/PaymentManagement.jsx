@@ -104,19 +104,22 @@ const PaymentManagement = () => {
     }
   };
 
-  const getMethodIcon = (method) => {
+  const getMethodLabel = (method) => {
     switch (method?.toLowerCase()) {
-      case 'vnpay': return <Wallet size={16} color="#005baa" />;
-      case 'momo': return <Smartphone size={16} color="#a50064" />;
-      default: return <CreditCard size={16} color="#888" />;
+      case 'cod': return 'Thanh toán COD';
+      case 'vnpay': return 'Cổng VNPay';
+      case 'momo': return 'Ví MoMo';
+      case 'bank_transfer':
+      case 'bank': return 'Chuyển khoản';
+      default: return method || 'Chuyển khoản';
     }
   };
 
   return (
     <div className="payment-management-container">
-      <div className="payment-header">
-        <h1 className="payment-title">Quản trị tài chính</h1>
-        <p className="payment-subtitle">Theo dõi dòng tiền và hiệu suất thanh toán thời gian thực.</p>
+      <div className="payment-header-admin">
+        <h1 className="payment-title-admin">Quản trị tài chính</h1>
+        <p className="payment-subtitle-admin">Theo dõi dòng tiền và hiệu suất thanh toán thời gian thực.</p>
       </div>
 
       <div className="payment-overview">
@@ -156,7 +159,7 @@ const PaymentManagement = () => {
             <span className="view-all">30 ngày qua</span>
           </div>
           <div className="p-chart-container">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="pColor" x1="0" y1="0" x2="0" y2="1">
@@ -182,7 +185,7 @@ const PaymentManagement = () => {
             <h3 className="p-chart-title">Phương thức</h3>
           </div>
           <div className="p-chart-container">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <PieChart>
                 <Pie
                   data={methodData}
@@ -251,10 +254,9 @@ const PaymentManagement = () => {
                   <td className="order-id-cell">#{payment.rental_id}</td>
                   <td className="customer-name-cell">{payment.Rental?.User?.name || 'Khách hàng'}</td>
                   <td>
-                    <div className="p-method-cell">
-                      {getMethodIcon(payment.payment_method)}
-                      {payment.payment_method}
-                    </div>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#555555' }}>
+                      {getMethodLabel(payment.method)}
+                    </span>
                   </td>
                   <td className="font-900">{payment.amount?.toLocaleString('vi-VN')}₫</td>
                   <td>

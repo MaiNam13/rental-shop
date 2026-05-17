@@ -4,12 +4,14 @@ import { useLanguage } from '../../context/LanguageContext';
 import axiosClient from "../../api/axiosClient";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useToast } from '../../context/ToastContext';
 
 const ProductInfo = ({ product, reviews = [] }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isLoggedIn } = useAuth();
   const { t } = useLanguage();
+  const { toast } = useToast();
   
   // Lấy thông tin từ state nếu đi từ giỏ hàng sang
   const cartState = location.state || {};
@@ -101,7 +103,7 @@ const ProductInfo = ({ product, reviews = [] }) => {
   const handleEndDateChange = (e) => {
     const val = e.target.value;
     if (startDate && new Date(val) < new Date(startDate)) {
-      alert(t('endDateBeforeStartAlert'));
+      toast(t('endDateBeforeStartAlert'), 'error');
       setEndDate('');
       return;
     }
@@ -119,17 +121,17 @@ const ProductInfo = ({ product, reviews = [] }) => {
     }
 
     if (!selectedSize) {
-      alert(t('selectSizeAlert'));
+      toast(t('selectSizeAlert'), 'error');
       return false;
     }
 
     if (!selectedColor) {
-      alert(t('selectColorAlert'));
+      toast(t('selectColorAlert'), 'error');
       return false;
     }
 
     if (!startDate || !endDate) {
-      alert(t('selectRentalPeriodAlert'));
+      toast(t('selectRentalPeriodAlert'), 'error');
       return false;
     }
 
@@ -142,11 +144,11 @@ const ProductInfo = ({ product, reviews = [] }) => {
         startDate,
         endDate
       });
-      alert(t('addedToCart', { name: t(product.name) }));
+      toast(t('addedToCart', { name: t(product.name) }), 'success');
       return true;
     } catch (error) {
       console.error("Failed to add to cart:", error);
-      alert(error.response?.data?.message || t('error'));
+      toast(error.response?.data?.message || t('error'), 'error');
       return false;
     } finally {
       setIsAdding(false);

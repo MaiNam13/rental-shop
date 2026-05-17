@@ -5,6 +5,7 @@ import Footer from '../components/layout/Footer';
 import cartApi from '../api/cartApi';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useToast } from '../context/ToastContext';
 import { 
     Truck, 
     Store, 
@@ -23,6 +24,7 @@ import '../styles/CheckoutPage.css';
 const CheckoutPage = () => {
     const navigate = useNavigate();
     const { user, isLoggedIn } = useAuth();
+    const { toast } = useToast();
     const { t } = useLanguage();
     const [cartItems, setCartItems] = useState([]);
     const [summary, setSummary] = useState(null);
@@ -43,6 +45,8 @@ const CheckoutPage = () => {
         address: user?.address || '',
         note: ''
     });
+
+    const [formErrors, setFormErrors] = useState({});
     
     useEffect(() => {
         if (!isLoggedIn) {
@@ -71,30 +75,30 @@ const CheckoutPage = () => {
     const handleCheckout = async (e) => {
         e.preventDefault();
         if (cartItems.length === 0) {
-            alert(t('emptyCartAlert'));
+            toast(t('emptyCartAlert'), 'error');
             return;
         }
 
         // Kiểm tra thông tin bắt buộc
-        if (!shippingInfo.fullName.trim()) {
-            alert(t('nameRequired'));
-            return;
-        }
-        if (!shippingInfo.email.trim()) {
-            alert(t('emailRequired'));
-            return;
-        }
-        if (!shippingInfo.phone.trim()) {
-            alert(t('phoneRequired'));
-            return;
-        }
-        if (!shippingInfo.address.trim()) {
-            alert(t('addressRequired'));
+        const newErrors = {};
+        if (!shippingInfo.fullName.trim()) newErrors.fullName = true;
+        if (!shippingInfo.email.trim()) newErrors.email = true;
+        if (!shippingInfo.phone.trim()) newErrors.phone = true;
+        if (!shippingInfo.address.trim()) newErrors.address = true;
+
+        if (Object.keys(newErrors).length > 0) {
+            setFormErrors(newErrors);
+            if (newErrors.fullName) toast(t('nameRequired'), 'error');
+            else if (newErrors.email) toast(t('emailRequired'), 'error');
+            else if (newErrors.phone) toast(t('phoneRequired'), 'error');
+            else if (newErrors.address) toast(t('addressRequired'), 'error');
             return;
         }
         
+        setFormErrors({});
+        
         if (!agreedToTerms) {
-            alert(t('termsRequired'));
+            toast(t('termsRequired'), 'error');
             return;
         }
         
@@ -124,7 +128,7 @@ const CheckoutPage = () => {
             window.scrollTo(0, 0);
         } catch (err) {
             console.error("Checkout failed:", err);
-            alert(err.response?.data?.message || t('error'));
+            toast(err.response?.data?.message || t('error'), 'error');
         } finally {
             setIsProcessing(false);
         }
@@ -186,7 +190,7 @@ const CheckoutPage = () => {
                                 className="checkout-btn"
                                 style={{ width: 'auto', padding: '16px 32px' }}
                             >
-                                {t('viewMyRentals')}
+                                {t('myRentals')}
                             </button>
                             <button 
                                 onClick={() => navigate('/products')} 
@@ -235,37 +239,68 @@ const CheckoutPage = () => {
                                 <div className="form-group full-width">
                                     <label>{t('fullName')} *</label>
                                     <input 
-                                        type="text" required
+                                        type="text"
                                         placeholder={t('fullName')}
                                         value={shippingInfo.fullName}
-                                        onChange={(e) => setShippingInfo({...shippingInfo, fullName: e.target.value})}
+                                        onChange={(e) => {
+                                            setShippingInfo({...shippingInfo, fullName: e.target.value});
+                                            if (formErrors.fullName) setFormErrors({...formErrors, fullName: false});
+                                        }}
+                                        style={{
+                                            border: formErrors.fullName ? '1.5px solid #ef4444' : '',
+                                            backgroundColor: formErrors.fullName ? '#fef2f2' : '',
+                                            transition: 'all 0.3s ease'
+                                        }}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <label>{t('emailAddress')} *</label>
                                     <input 
-                                        type="email" required
+                                        type="email"
                                         placeholder={t('emailPlaceholder')}
                                         value={shippingInfo.email}
-                                        onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})}
+                                        onChange={(e) => {
+                                            setShippingInfo({...shippingInfo, email: e.target.value});
+                                            if (formErrors.email) setFormErrors({...formErrors, email: false});
+                                        }}
+                                        style={{
+                                            border: formErrors.email ? '1.5px solid #ef4444' : '',
+                                            backgroundColor: formErrors.email ? '#fef2f2' : '',
+                                            transition: 'all 0.3s ease'
+                                        }}
                                     />
                                 </div>
                                 <div className="form-group">
                                     <label>{t('phoneNumber')} *</label>
                                     <input 
-                                        type="tel" required
+                                        type="tel"
                                         placeholder={t('phonePlaceholder')}
                                         value={shippingInfo.phone}
-                                        onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
+                                        onChange={(e) => {
+                                            setShippingInfo({...shippingInfo, phone: e.target.value});
+                                            if (formErrors.phone) setFormErrors({...formErrors, phone: false});
+                                        }}
+                                        style={{
+                                            border: formErrors.phone ? '1.5px solid #ef4444' : '',
+                                            backgroundColor: formErrors.phone ? '#fef2f2' : '',
+                                            transition: 'all 0.3s ease'
+                                        }}
                                     />
                                 </div>
                                 <div className="form-group full-width">
                                     <label className="delivery-address-label"><MapPin size={16} /> {t('shippingAddress')} *</label>
                                     <textarea 
-                                        required
                                         placeholder={t('addressPlaceholder')}
                                         value={shippingInfo.address}
-                                        onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
+                                        onChange={(e) => {
+                                            setShippingInfo({...shippingInfo, address: e.target.value});
+                                            if (formErrors.address) setFormErrors({...formErrors, address: false});
+                                        }}
+                                        style={{
+                                            border: formErrors.address ? '1.5px solid #ef4444' : '',
+                                            backgroundColor: formErrors.address ? '#fef2f2' : '',
+                                            transition: 'all 0.3s ease'
+                                        }}
                                     />
                                 </div>
                                 <div className="form-group full-width">

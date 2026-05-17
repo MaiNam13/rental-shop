@@ -107,9 +107,10 @@ const startServer = async () => {
         await sequelize.authenticate();
         console.log("MySQL Connected...");
 
-        // // Use sync() without alter to prevent crash
-        // await sequelize.sync();
-        // console.log("Database Synced...");
+        // Use sync() with alter to register new columns in database
+        await sequelize.sync({ alter: true });
+        console.log("Database Synced with alter...");
+
 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);

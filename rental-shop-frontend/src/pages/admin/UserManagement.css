@@ -1,56 +1,63 @@
 .user-management-container {
   padding: 0;
+  font-family: 'Outfit', 'Inter', 'Segoe UI', Roboto, sans-serif;
 }
 
-.user-header {
+.user-header-admin {
   margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid #f0f0ed;
+  padding-bottom: 24px;
 }
 
-.user-title {
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--admin-text-primary);
-  margin-bottom: 8px;
+.user-title-admin {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.5px;
+  margin: 0;
 }
 
-.user-subtitle {
-  color: var(--admin-text-secondary);
-  font-size: 15px;
+.user-subtitle-admin {
+  color: #666;
+  font-size: 14px;
   font-weight: 500;
+  margin: 0;
 }
 
 .user-data-card {
-  background-color: var(--admin-card-bg);
+  background-color: #fff;
   border-radius: 24px;
-  border: 1px solid var(--admin-border);
+  border: 1px solid #e9ecef;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
 .user-controls {
-  padding: 24px;
-  border-bottom: 1px solid var(--admin-border);
+  padding: 20px 24px;
+  border-bottom: 1px solid #e9ecef;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fcfcfb;
+  background-color: #f8f9fa;
 }
 
 .user-search-wrapper {
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: #f1f1ee;
-  padding: 10px 24px;
-  border-radius: 100px;
-  width: 400px;
-  border: 1.5px solid transparent;
-  transition: all 0.3s ease;
+  background-color: #fff;
+  padding: 8px 20px;
+  border-radius: 10px;
+  width: 360px;
+  border: 1px solid #ced4da;
+  transition: all 0.25s ease;
 }
 
 .user-search-wrapper:focus-within {
-  background-color: #fff;
-  border-color: #eee;
+  border-color: #111;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
@@ -61,87 +68,104 @@
   width: 100%;
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #111;
   font-family: inherit;
 }
 
 .user-count-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: #888;
+  color: #6c757d;
 }
 
 .user-count-value {
-  color: #1a1a1a;
-  font-weight: 800;
+  color: #111;
+  font-weight: 750;
 }
 
 .user-loading {
   padding: 60px;
   text-align: center;
-  color: #888;
+  color: #868e96;
   font-weight: 600;
 }
 
 .user-info-cell {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
 }
 
 .user-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background-color: #f0f0ed;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #f1f3f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 900;
-  color: #1a1a1a;
-  border: 1px solid #e9e9e5;
+  font-size: 15px;
+  font-weight: 700;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.user-avatar.avatar-locked {
+  background-color: #ffe3e3;
+  color: #e03131;
+  border-color: #ffa8a8;
 }
 
 .user-name {
-  font-weight: 800;
-  color: #1a1a1a;
-  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  font-size: 14px;
 }
 
 .user-id {
   font-size: 11px;
-  color: #aaa;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-top: 2px;
+  color: #868e96;
+  font-weight: 600;
+  margin-top: 1px;
 }
 
 .user-contact {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: #666;
-  font-weight: 500;
+  font-size: 13px;
+  color: #495057;
+  font-weight: 550;
 }
 
 .role-badge {
-  padding: 6px 14px;
-  border-radius: 100px;
+  padding: 5px 12px;
+  border-radius: 6px;
   font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: -0.2px;
 }
 
 .role-admin {
-  background-color: #1a1a1a;
+  background-color: #111;
   color: #fff;
 }
 
 .role-user {
-  background-color: #f1f1ee;
-  color: #666;
+  background-color: #f1f3f5;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.user-locked-badge {
+  background-color: #ffe3e3;
+  color: #e03131;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #ffa8a8;
 }
 
 .user-date {
@@ -149,117 +173,285 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #888;
+  color: #495057;
+  font-weight: 550;
+}
+
+.row-locked {
+  background-color: #fffcfc;
+}
+
+.row-locked td {
+  color: #868e96;
+}
+
+.row-locked .user-name {
+  color: #868e96;
+  text-decoration: line-through;
+}
+
+.user-actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.btn-user-detail-action {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-size: 12px;
   font-weight: 600;
-}
-
-.btn-delete {
-  padding: 10px;
-  border-radius: 12px;
-  border: none;
-  background-color: transparent;
-  color: #ccc;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
-.btn-delete:hover {
-  background-color: #fef2f2;
-  color: #ef4444;
+.btn-user-detail-action:hover {
+  background-color: #111;
+  color: #fff;
+  border-color: #111;
+  transform: translateY(-1px);
 }
 
-/* Modal specific for user deletion */
+.btn-user-lock-toggle {
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-user-lock-toggle:hover {
+  border-color: #e03131;
+  background-color: #fff5f5;
+  color: #e03131;
+}
+
+.btn-user-lock-toggle.locked {
+  background-color: #ffe3e3;
+  color: #e03131;
+  border-color: #ffa8a8;
+}
+
+.btn-user-lock-toggle.locked:hover {
+  background-color: #e03131;
+  color: #fff;
+  border-color: #e03131;
+}
+
+.btn-user-delete {
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+  color: #adb5bd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-user-delete:hover {
+  border-color: #e03131;
+  background-color: #fff5f5;
+  color: #e03131;
+}
+
+/* User Details Modal */
+.user-detail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.user-detail-modal-content {
+  background-color: #fff;
+  border-radius: 28px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+  animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #e9ecef;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.user-detail-modal-content::-webkit-scrollbar {
+  display: none;
+}
+
+.user-profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.user-profile-avatar-luxe {
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  background-color: #f1f3f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #111;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.user-profile-avatar-luxe.avatar-locked {
+  background-color: #ffe3e3;
+  color: #e03131;
+  border-color: #ffa8a8;
+}
+
+.user-profile-meta-luxe h3 {
+  font-size: 18px;
+  font-weight: 750;
+  color: #111;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.lock-badge-luxe {
+  background-color: #ffe3e3;
+  color: #e03131;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  border: 1px solid #ffa8a8;
+  letter-spacing: 0.5px;
+}
+
+.text-danger-luxe {
+  color: #e03131 !important;
+  font-weight: 750 !important;
+}
+
+.text-success-luxe {
+  color: #2b8a3e !important;
+  font-weight: 750 !important;
+}
+
+.modal-actions-luxe {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f3f5;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-lock-toggle {
+  flex: 1.2;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.btn-lock {
+  background-color: #fff;
+  color: #e03131;
+  border-color: #ffa8a8;
+}
+
+.btn-lock:hover {
+  background-color: #e03131;
+  color: #fff;
+  border-color: #e03131;
+}
+
+.btn-unlock {
+  background-color: #2b8a3e;
+  color: #fff;
+  border-color: #2b8a3e;
+}
+
+.btn-unlock:hover {
+  background-color: #237032;
+  border-color: #237032;
+}
+
+.btn-delete-member {
+  flex: 0.8;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #868e96;
+  border: 1px solid #dee2e6;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-delete-member:hover {
+  background-color: #ffe3e3;
+  color: #e03131;
+  border-color: #ffa8a8;
+}
+
+/* User Deletion Modal */
 .user-delete-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 2100;
+  padding: 20px;
 }
 
 .user-delete-modal-content {
   background-color: #fff;
-  padding: 40px;
-  border-radius: 32px;
+  padding: 32px;
+  border-radius: 28px;
   max-width: 440px;
-  width: 90%;
+  width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  animation: modalFadeIn 0.3s ease-out;
-}
-
-.delete-alert-icon {
-  width: 80px;
-  height: 80px;
-  background-color: #fef2f2;
-  color: #ef4444;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-}
-
-.delete-modal-title {
-  font-size: 26px;
-  margin-bottom: 16px;
-  font-weight: 900;
-  color: #1a1a1a;
-  letter-spacing: -0.5px;
-}
-
-.delete-modal-text {
-  color: #666;
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-.delete-modal-actions {
-  display: flex;
-  gap: 16px;
-}
-
-.btn-modal-cancel {
-  flex: 1;
-  padding: 14px;
-  border-radius: 100px;
-  border: 1px solid #eee;
-  background: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-modal-cancel:hover {
-  background-color: #f9f9f9;
-}
-
-.btn-modal-delete {
-  flex: 1;
-  padding: 14px;
-  border-radius: 100px;
-  border: none;
-  background-color: #ef4444;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-modal-delete:hover {
-  background-color: #dc2626;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-}
-
-.btn-modal-delete:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+  animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #e9ecef;
 }

@@ -20,6 +20,18 @@ export default function CartPage() {
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
   const [discountCode, setDiscountCode] = useState("");
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, message: "", onConfirm: null });
+
+  useEffect(() => {
+    if (confirmModal.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [confirmModal.isOpen]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -55,25 +67,37 @@ export default function CartPage() {
     }
   };
 
-  const removeItem = async (id) => {
-    if (!window.confirm(t('confirmDelete'))) return;
-    try {
-      await cartApi.removeItem(id);
-      fetchCartData();
-    } catch (error) {
-      console.error("Failed to remove item:", error);
-    }
+  const removeItem = (id) => {
+    setConfirmModal({
+      isOpen: true,
+      message: t('confirmDelete') || 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
+      onConfirm: async () => {
+        try {
+          await cartApi.removeItem(id);
+          fetchCartData();
+        } catch (error) {
+          console.error("Failed to remove item:", error);
+        }
+        setConfirmModal({ isOpen: false, message: "", onConfirm: null });
+      }
+    });
   };
 
-  const clearCart = async () => {
-    if (!window.confirm(t('confirmClearCart'))) return;
-    try {
-      await cartApi.clearCart();
-      setCartItems([]);
-      setSummary(null);
-    } catch (error) {
-      console.error("Failed to clear cart:", error);
-    }
+  const clearCart = () => {
+    setConfirmModal({
+      isOpen: true,
+      message: t('confirmClearCart') || 'Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng?',
+      onConfirm: async () => {
+        try {
+          await cartApi.clearCart();
+          setCartItems([]);
+          setSummary(null);
+        } catch (error) {
+          console.error("Failed to clear cart:", error);
+        }
+        setConfirmModal({ isOpen: false, message: "", onConfirm: null });
+      }
+    });
   };
 
   const calculateRentalDays = (start, end) => {
@@ -322,6 +346,108 @@ export default function CartPage() {
         </div>
       </div>
       
+      {/* Centered Luxury Confirmation Modal */}
+      {confirmModal.isOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(8, 6, 13, 0.4)', // Soft darkened luxury backdrop
+          backdropFilter: 'blur(6px)', // Gorgeous glassmorphic blur
+          zIndex: 999999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          animation: 'fadeInModal 0.2s ease-out'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            padding: '30px 40px',
+            maxWidth: '420px',
+            width: '90%',
+            boxShadow: '0 25px 50px rgba(8, 6, 13, 0.15)',
+            textAlign: 'center',
+            fontFamily: 'Montserrat, sans-serif',
+            transform: 'scale(1)',
+            animation: 'scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#08060d',
+              marginBottom: '16px',
+              marginTop: 0,
+              letterSpacing: '1px'
+            }}>
+              XÁC NHẬN
+            </h3>
+            <p style={{
+              fontSize: '14px',
+              color: '#555555',
+              lineHeight: '1.6',
+              marginBottom: '28px',
+              padding: '0 10px'
+            }}>
+              {confirmModal.message}
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center'
+            }}>
+              <button 
+                onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: '1.5px solid #e0e0e0',
+                  backgroundColor: '#ffffff',
+                  color: '#555555',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                HỦY
+              </button>
+              <button 
+                onClick={confirmModal.onConfirm}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#08060d', // Pure luxury black background
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(8, 6, 13, 0.2)'
+                }}
+              >
+                ĐỒNG Ý
+              </button>
+            </div>
+          </div>
+          <style>{`
+            @keyframes fadeInModal {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes scaleUpModal {
+              from { transform: scale(0.92); opacity: 0; }
+              to { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
+        </div>
+      )}
+
       <Footer />
     </>
   );

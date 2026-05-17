@@ -160,8 +160,8 @@ html.modal-open * {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 6px;
+  border-radius: 8px;
   color: #bbb;
   transition: all 0.2s;
   display: flex;
@@ -678,3 +678,486 @@ html.modal-open * {
 /* Helper Classes */
 .text-center { text-align: center; }
 .text-right { text-align: right; }
+
+/* ============================================================
+   PAGE-SPECIFIC COMPACT TABLE FOR PRODUCT MANAGEMENT ONLY
+   ============================================================ */
+.product-management-page .admin-table th {
+  padding: 10px 12px !important;
+  font-size: 10px !important;
+}
+
+.product-management-page .admin-table td {
+  padding: 8px 12px !important;
+  vertical-align: middle !important;
+}
+
+.product-management-page .product-img-small {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+}
+
+.product-management-page .product-name-text {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  margin-bottom: 2px !important;
+}
+
+.product-management-page .product-rating-row {
+  font-size: 10px !important;
+}
+
+/* Table Luxury B&W styling */
+.product-management-page .admin-table th {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  border-bottom: 2px solid #000000 !important;
+  padding: 14px 16px !important;
+}
+
+.product-management-page .admin-table tr {
+  border-bottom: 1px solid #f0f0f2 !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.product-management-page .admin-table tr:hover {
+  background-color: #fafafa !important;
+}
+
+.product-management-page .admin-table td {
+  padding: 12px 16px !important;
+  font-size: 13px !important;
+  color: #333333 !important;
+}
+
+.product-management-page .category-pill {
+  background-color: #ffffff !important;
+  border: 1px solid #d2d2d7 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+  display: inline-block !important;
+}
+
+.product-management-page .price-text {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+}
+
+.product-management-page .inventory-progress-wrapper {
+  gap: 8px !important;
+}
+
+.product-management-page .inventory-progress-container {
+  height: 6px !important;
+  background-color: #eaeaea !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  width: 70px !important;
+}
+
+.product-management-page .inventory-progress-bar {
+  background-color: #000000 !important; /* Luxury B&W Progress Bar */
+  border-radius: 4px !important;
+  height: 100% !important;
+}
+
+/* Status Pill Vivid Colors & Bold Contrast overrides */
+.product-management-page .status-pill {
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  border-radius: 100px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.product-management-page .status-pill.available {
+  background-color: #e6f9ed !important;
+  border: 1.5px solid #22c55e !important;
+  color: #15803d !important;
+}
+
+.product-management-page .status-pill.available .status-dot {
+  background-color: #22c55e !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.product-management-page .status-pill.out_of_stock {
+  background-color: #fee2e2 !important;
+  border: 1.5px solid #ef4444 !important;
+  color: #b91c1c !important;
+}
+
+.product-management-page .status-pill.out_of_stock .status-dot {
+  background-color: #ef4444 !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.product-management-page .status-pill.renting {
+  background-color: #eff6ff !important;
+  border: 1.5px solid #3b82f6 !important;
+  color: #1d4ed8 !important;
+}
+
+.product-management-page .status-pill.renting .status-dot {
+  background-color: #3b82f6 !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+/* Action buttons styling */
+.product-management-page .action-icon-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  border: 1px solid #d2d2d7 !important;
+  background-color: #ffffff !important;
+  color: #333333 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+}
+
+/* ============================================================
+   PAGE-SPECIFIC COMPACT MODAL FOR PRODUCT MANAGEMENT ONLY
+   ============================================================ */
+.product-management-page .modal-content-luxe {
+  max-width: 780px !important;
+  padding: 0 !important;
+  border-radius: 20px !important;
+  background-color: #fff !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #f0f0f2 !important;
+}
+
+.product-management-page .modal-content-luxe * {
+  box-sizing: border-box !important;
+}
+
+.product-management-page .rental-modal-header {
+  padding: 20px 28px !important;
+  border-bottom: 1px solid #f0f0f2 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-management-page .rental-modal-header h2 {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000;
+  margin: 0;
+}
+
+.product-management-page .modal-subtitle {
+  font-size: 12px !important;
+  color: #888 !important;
+  margin-top: 4px !important;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.product-management-page .close-modal-btn {
+  color: #888 !important;
+  transition: all 0.2s ease !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.product-management-page .close-modal-btn:hover {
+  color: #000 !important;
+  background-color: #f5f5f7;
+}
+
+.product-management-page .modal-body-content {
+  padding: 24px 28px !important;
+}
+
+.product-management-page .modal-footer-luxe {
+  padding: 20px 28px !important;
+  margin-top: 16px !important;
+  border-radius: 0 0 20px 20px !important;
+  background-color: #fafafc !important;
+  border-top: 1px solid #f0f0f2 !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.product-management-page .modal-grid-layout {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 24px !important;
+}
+
+.product-management-page .modal-grid-layout > div {
+  min-width: 0 !important;
+}
+
+.product-management-page .form-group {
+  margin-bottom: 14px !important;
+}
+
+.product-management-page .form-group label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  margin-bottom: 6px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px;
+  color: #000 !important;
+}
+
+.product-management-page .form-input-luxe,
+.product-management-page .form-textarea-luxe {
+  padding: 11px 14px !important;
+  font-size: 13px !important;
+  border-radius: 10px !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #d2d2d7 !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .form-input-luxe::placeholder,
+.product-management-page .form-textarea-luxe::placeholder {
+  color: #b5b5b5 !important;
+  font-weight: 500 !important;
+}
+
+.product-management-page .form-input-luxe:hover,
+.product-management-page .form-textarea-luxe:hover {
+  border-color: #8e8e93 !important;
+}
+
+.product-management-page .form-input-luxe:focus,
+.product-management-page .form-textarea-luxe:focus {
+  background-color: #ffffff !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+.product-management-page .price-input-wrapper .price-symbol {
+  right: 14px !important;
+  font-weight: 800 !important;
+  color: #888 !important;
+}
+
+.product-management-page .image-upload-zone-luxe {
+  height: 140px !important;
+  border-radius: 12px !important;
+  border: 1.5px dashed #ccc !important;
+  background-color: #fff !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .image-upload-zone-luxe:hover {
+  border-color: #000 !important;
+  background-color: #fafafc !important;
+}
+
+.product-management-page .upload-placeholder-luxe {
+  gap: 6px !important;
+}
+
+.product-management-page .upload-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #d2d2d7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.product-management-page .upload-text {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: #000 !important;
+}
+
+.product-management-page .upload-subtext {
+  font-size: 10px !important;
+  color: #888 !important;
+  font-weight: 600 !important;
+}
+
+.product-management-page .color-selector-grid {
+  gap: 8px !important;
+}
+
+.product-management-page .color-chip-wrapper {
+  gap: 3px !important;
+}
+
+.product-management-page .color-chip {
+  width: 24px !important;
+  height: 24px !important;
+  border: 1.5px solid #e5e5e5 !important;
+}
+
+.product-management-page .color-chip.active {
+  box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px #000 !important;
+}
+
+.product-management-page .color-name {
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  color: #666 !important;
+}
+
+.product-management-page .size-selector-grid {
+  gap: 6px !important;
+}
+
+.product-management-page .size-chip {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  font-size: 11px !important;
+  background-color: #fff !important;
+  border: 1.5px solid #e5e5e5 !important;
+  color: #000 !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .size-chip:hover:not(.active) {
+  border-color: #000 !important;
+}
+
+.product-management-page .size-chip.active {
+  background-color: #000 !important;
+  border-color: #000 !important;
+  color: #fff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Status Radio Selection cards */
+.product-management-page .status-radio-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+
+.product-management-page .status-radio-card {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  border: 1.5px solid #e5e5e5 !important;
+  background-color: #fff !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .status-radio-card:hover {
+  border-color: #999 !important;
+  background-color: #fafafa !important;
+}
+
+.product-management-page .status-radio-card.active {
+  border-color: #000 !important;
+  background-color: #fff !important;
+}
+
+.product-management-page .status-radio-card .radio-circle {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #ccc !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  background-color: #fff !important;
+}
+
+.product-management-page .status-radio-card.active .radio-circle {
+  border-color: #000 !important;
+}
+
+.product-management-page .status-radio-card .radio-circle-inner {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background-color: #000 !important;
+}
+
+.product-management-page .status-label-text {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+}
+
+/* Modal Footer Buttons */
+.product-management-page .btn-cancel-luxe {
+  padding: 10px 24px !important;
+  font-size: 13px !important;
+  border: 1.5px solid #e5e5e5 !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  border-radius: 100px !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .btn-cancel-luxe:hover {
+  border-color: #000 !important;
+  background-color: #f5f5f7 !important;
+}
+
+.product-management-page .btn-save-luxe {
+  padding: 10px 36px !important;
+  font-size: 13px !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 1.5px solid #000 !important;
+  font-weight: 700 !important;
+  border-radius: 100px !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-management-page .btn-save-luxe:hover:not(:disabled) {
+  background-color: #222 !important;
+  border-color: #222 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Hide number input spinners (up/down arrows) */
+.product-management-page input[type="number"]::-webkit-outer-spin-button,
+.product-management-page input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.product-management-page input[type="number"] {
+  -moz-appearance: textfield !important;
+}

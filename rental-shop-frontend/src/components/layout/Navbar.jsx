@@ -105,8 +105,12 @@ const Navbar = ({ showBack = false }) => {
                                     className="navbar-user-btn"
                                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                                 >
-                                    <div className="user-avatar-circle">
-                                        <User size={18} />
+                                    <div className="user-avatar-circle" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        {user?.avatar ? (
+                                            <img src={user.avatar} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        ) : (
+                                            <User size={18} />
+                                        )}
                                     </div>
                                     <span className="user-name">{user?.name ? user.name.split(' ')[0] : t('guest')}</span>
                                 </button>

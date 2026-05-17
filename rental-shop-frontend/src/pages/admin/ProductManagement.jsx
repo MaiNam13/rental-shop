@@ -7,7 +7,6 @@ import {
   Download, 
   Plus, 
   Search, 
-  Eye, 
   Edit2, 
   Trash2, 
   X,
@@ -78,6 +77,7 @@ const ProductManagement = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [isViewOnly, setIsViewOnly] = useState(false);
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, message: "", onConfirm: null });
   const { toast } = useToast();
 
   const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'];
@@ -107,10 +107,10 @@ const ProductManagement = () => {
 
   // Ultimate Scroll Lock Effect
   useEffect(() => {
-    if (showModal) {
+    if (showModal || confirmModal.isOpen) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
-      document.body.classList.add('modal-open');
+      if (showModal) document.body.classList.add('modal-open');
     } else {
       document.body.style.overflow = 'unset';
       document.documentElement.style.overflow = 'unset';
@@ -121,7 +121,7 @@ const ProductManagement = () => {
       document.documentElement.style.overflow = 'unset';
       document.body.classList.remove('modal-open');
     };
-  }, [showModal]);
+  }, [showModal, confirmModal.isOpen]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -160,8 +160,8 @@ const ProductManagement = () => {
     if (selectedImage) data.append('image', selectedImage);
 
     try {
-      if (editMode) await axiosClient.put(`/admin/products/${currentId}`, data);
-      else await axiosClient.post('/admin/products', data);
+      if (editMode) await axiosClient.put(`/products/${currentId}`, data);
+      else await axiosClient.post('/products', data);
       toast(editMode ? 'Cập nhật thành công' : 'Thêm mới thành công');
       setShowModal(false);
       await fetchData();
@@ -172,16 +172,22 @@ const ProductManagement = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return;
-    try { 
-      await axiosClient.delete(`/admin/products/${id}`); 
-      toast('Đã xóa sản phẩm');
-      fetchData(); 
-    } catch (error) { 
-      console.error("Delete error:", error);
-      toast('Không thể xóa sản phẩm', 'error');
-    }
+  const handleDelete = (id) => {
+    setConfirmModal({
+      isOpen: true,
+      message: 'Bạn có chắc chắn muốn xóa sản phẩm này?',
+      onConfirm: async () => {
+        try { 
+          await axiosClient.delete(`/products/${id}`); 
+          toast('Đã xóa sản phẩm');
+          fetchData(); 
+        } catch (error) { 
+          console.error("Delete error:", error);
+          toast('Không thể xóa sản phẩm', 'error');
+        }
+        setConfirmModal({ isOpen: false, message: "", onConfirm: null });
+      }
+    });
   };
 
   const resetForm = () => {
@@ -377,12 +383,6 @@ const ProductManagement = () => {
                   </td>
                   <td className="actions-col">
                     <div className="action-btns-cell">
-                      <button className="action-icon-btn" title="Xem chi tiết" onClick={() => { 
-                        resetForm(); 
-                        const feats = typeof p.features === 'string' ? JSON.parse(p.features) : p.features;
-                        setFormData({ ...p, sizes: feats?.sizes || [], colors: feats?.colors || [] }); 
-                        setCurrentId(p.id); setEditMode(true); setIsViewOnly(true); setShowModal(true); 
-                      }}><Eye size={18} /></button>
                       <button className="action-icon-btn" title="Chỉnh sửa" onClick={() => { 
                         setEditMode(true); setIsViewOnly(false); setCurrentId(p.id);
                         const feats = typeof p.features === 'string' ? JSON.parse(p.features) : p.features;
@@ -408,29 +408,40 @@ const ProductManagement = () => {
         <div className="modal-overlay-luxe">
           <div className="modal-content-luxe">
             <div className="rental-modal-header">
-              <h2>{isViewOnly ? 'Chi tiết sản phẩm' : editMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}</h2>
+              <div className="header-title-wrapper">
+                <h2>{isViewOnly ? 'Chi tiết sản phẩm' : editMode ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}</h2>
+                <p className="modal-subtitle">Điền thông tin sản phẩm mới</p>
+              </div>
               <button className="close-modal-btn" onClick={() => setShowModal(false)}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit} className="modal-body-content">
                 <div className="modal-grid-layout">
                   <div>
                     <div className="form-group">
-                      <label>Ảnh sản phẩm *</label>
+                      <label>HÌNH ẢNH SẢN PHẨM</label>
                       <div className={`image-upload-zone-luxe ${isViewOnly ? 'disabled' : ''}`} onClick={() => !isViewOnly && document.getElementById('img-up').click()}>
-                        {imagePreview ? <img src={imagePreview} className="img-preview-full" /> : <div className="upload-placeholder-luxe"><Upload size={32} /><div className="upload-text">Tải ảnh lên</div></div>}
+                        {imagePreview ? <img src={imagePreview} className="img-preview-full" /> : (
+                          <div className="upload-placeholder-luxe">
+                            <div className="upload-icon-circle">
+                              <Upload size={20} />
+                            </div>
+                            <div className="upload-text">Kéo thả hoặc nhấn để tải ảnh</div>
+                            <div className="upload-subtext">PNG, JPG, WEBP · Tối đa 5 ảnh · 10MB/ảnh</div>
+                          </div>
+                        )}
                         <input id="img-up" type="file" hidden onChange={(e) => { const f = e.target.files[0]; if(f){ setSelectedImage(f); setImagePreview(URL.createObjectURL(f)); } }} disabled={isViewOnly} />
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Tên sản phẩm *</label>
+                      <label>TÊN SẢN PHẨM *</label>
                       <input type="text" className="form-input-luxe" placeholder="VD: Đầm Cưới Couture Valentino" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} disabled={isViewOnly} />
                     </div>
                     <div className="form-group">
-                      <label>Mô tả</label>
+                      <label>MÔ TẢ</label>
                       <textarea className="form-textarea-luxe" rows="3" placeholder="Mô tả chi tiết về sản phẩm..." value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} disabled={isViewOnly} />
                     </div>
                     <div className="form-group">
-                      <label>Màu sắc</label>
+                      <label>MÀU SẮC</label>
                       <div className="color-selector-grid">
                         {availableColors.map(color => (
                           <div 
@@ -456,26 +467,46 @@ const ProductManagement = () => {
 
                   <div>
                     <div className="form-group">
-                      <label>Danh mục *</label>
+                      <label>DANH MỤC *</label>
                       <select className="form-input-luxe cursor-pointer" required value={formData.category_id} onChange={(e) => setFormData({...formData, category_id: e.target.value})} disabled={isViewOnly}>
                         <option value="">Chọn danh mục</option>{categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                       </select>
                     </div>
-                    <div className="form-row-split">
-                      <div className="form-group flex-1">
-                        <label>Giá / Ngày *</label>
-                        <div className="price-input-wrapper">
-                          <input type="number" className="form-input-luxe" required value={formData.price_per_day} onChange={(e) => setFormData({...formData, price_per_day: e.target.value})} disabled={isViewOnly} />
-                          <span className="price-symbol">₫</span>
-                        </div>
-                      </div>
-                      <div className="form-group flex-1">
-                        <label>Số lượng tồn</label>
-                        <input type="number" className="form-input-luxe" value={formData.stock} onChange={handleStockChange} disabled={isViewOnly} />
+                    <div className="form-group">
+                      <label>GIÁ / NGÀY *</label>
+                      <div className="price-input-wrapper">
+                        <input type="number" className="form-input-luxe" required value={formData.price_per_day} onChange={(e) => setFormData({...formData, price_per_day: e.target.value})} disabled={isViewOnly} />
+                        <span className="price-symbol">₫</span>
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Kích thước (Size)</label>
+                      <label>TỒN KHO</label>
+                      <input type="number" className="form-input-luxe" value={formData.stock} onChange={handleStockChange} disabled={isViewOnly} />
+                    </div>
+                    <div className="form-group">
+                      <label>TRẠNG THÁI</label>
+                      <div className="status-radio-grid">
+                        {statusOptions.map(opt => (
+                          <label key={opt.id} className={`status-radio-card ${formData.status === opt.id ? 'active' : ''}`}>
+                            <input 
+                              type="radio" 
+                              name="status" 
+                              value={opt.id} 
+                              checked={formData.status === opt.id} 
+                              onChange={(e) => setFormData({...formData, status: e.target.value})} 
+                              hidden 
+                              disabled={isViewOnly} 
+                            />
+                            <div className="radio-circle">
+                              {formData.status === opt.id && <div className="radio-circle-inner" />}
+                            </div>
+                            <span className="status-label-text">{opt.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label>KÍCH CỠ</label>
                       <div className="size-selector-grid">
                         {availableSizes.map(size => (
                           <button 
@@ -492,25 +523,116 @@ const ProductManagement = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label>Trạng thái</label>
-                      <div className="status-radio-group">
-                        {statusOptions.map(opt => (
-                          <label key={opt.id} className={`status-option-luxe ${formData.status === opt.id ? `active ${opt.id}` : ''}`}>
-                            <input type="radio" name="status" value={opt.id} checked={formData.status === opt.id} onChange={(e) => setFormData({...formData, status: e.target.value})} hidden disabled={isViewOnly} />
-                            <span>{opt.label}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </div>
               <div className="modal-footer-luxe">
-                <button type="button" className="btn-cancel-luxe" onClick={() => setShowModal(false)}>Hủy</button>
-                <button type="submit" className="btn-save-luxe" disabled={isViewOnly}>{editMode ? 'Lưu thay đổi' : 'Thêm sản phẩm'}</button>
+                <button type="button" className="btn-cancel-luxe" onClick={() => setShowModal(false)}>Huỷ bỏ</button>
+                <button type="submit" className="btn-save-luxe" disabled={isViewOnly}>{editMode ? 'Lưu thay đổi' : 'Tạo sản phẩm'}</button>
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* Centered Luxury Confirmation Modal */}
+      {confirmModal.isOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(8, 6, 13, 0.4)',
+          backdropFilter: 'blur(6px)',
+          zIndex: 999999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          animation: 'fadeInModal 0.2s ease-out'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            padding: '30px 40px',
+            maxWidth: '420px',
+            width: '90%',
+            boxShadow: '0 25px 50px rgba(8, 6, 13, 0.15)',
+            textAlign: 'center',
+            fontFamily: 'Montserrat, sans-serif',
+            transform: 'scale(1)',
+            animation: 'scaleUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#08060d',
+              marginBottom: '16px',
+              marginTop: 0,
+              letterSpacing: '1px'
+            }}>
+              XÁC NHẬN XÓA
+            </h3>
+            <p style={{
+              fontSize: '14px',
+              color: '#555555',
+              lineHeight: '1.6',
+              marginBottom: '28px',
+              padding: '0 10px'
+            }}>
+              {confirmModal.message}
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              justifyContent: 'center'
+            }}>
+              <button 
+                onClick={() => setConfirmModal({ isOpen: false, message: "", onConfirm: null })}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: '1.5px solid #e0e0e0',
+                  backgroundColor: '#ffffff',
+                  color: '#555555',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                HỦY
+              </button>
+              <button 
+                onClick={confirmModal.onConfirm}
+                style={{
+                  flex: 1,
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#08060d', // Pure luxury black background
+                  color: '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(8, 6, 13, 0.2)'
+                }}
+              >
+                ĐỒNG Ý
+              </button>
+            </div>
+          </div>
+          <style>{`
+            @keyframes fadeInModal {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes scaleUpModal {
+              from { transform: scale(0.92); opacity: 0; }
+              to { transform: scale(1); opacity: 1; }
+            }
+          `}</style>
         </div>
       )}
     </div>

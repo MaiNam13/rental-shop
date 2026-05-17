@@ -220,6 +220,15 @@ exports.updatePaymentStatus = async (req, res) => {
         payment.status = status;
         await payment.save();
 
+        // Tự động duyệt đơn thuê liên quan nếu thanh toán thành công
+        if (status === 'completed') {
+            const rental = await Rental.findByPk(payment.rental_id);
+            if (rental && rental.status === 'pending') {
+                rental.status = 'approved';
+                await rental.save();
+            }
+        }
+
         res.json({ message: "Cập nhật trạng thái thanh toán thành công", payment });
     } catch (error) {
         console.error("Update Payment Status Error:", error);

@@ -204,7 +204,7 @@ const ProductsPage = () => {
                     className={`category-btn ${statusFilter === 'hidden' ? 'active' : ''}`}
                     onClick={() => { setStatusFilter('hidden'); setPage(1); }}
                   >
-                    Đã ẩn
+                    {t('hiddenStatus')}
                   </button>
                 </div>
               </div>
@@ -255,7 +255,7 @@ const ProductsPage = () => {
                             {product.price_per_day?.toLocaleString('vi-VN')}đ<span className="price-unit">/ngày</span>
                           </div>
                           <div className={`luxe-status ${product.status === 'available' && product.stock > 0 ? 'status-available' : product.status === 'hidden' ? 'status-hidden' : 'status-unavailable'}`}>
-                            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? 'Đã ẩn' : t('outOfStock')}
+                            {product.status === 'available' && product.stock > 0 ? t('inStock') : product.status === 'hidden' ? t('hiddenStatus') : t('outOfStock')}
                           </div>
                         </div>
 
@@ -265,7 +265,7 @@ const ProductsPage = () => {
                             onClick={(e) => handleRentNow(e, product)}
                             disabled={product.status !== 'available' || product.stock <= 0}
                           >
-                            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? 'ĐÃ ẨN' : t('outOfStock')}
+                            {product.status === 'available' && product.stock > 0 ? t('rentNowUpper') : product.status === 'hidden' ? t('hiddenStatusUpper') : t('outOfStock')}
                           </button>
                           <button 
                             className="action-cart-btn" 

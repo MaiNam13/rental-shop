@@ -79,13 +79,34 @@ export const AuthProvider = ({ children }) => {
         // Xóa header trong axiosClient nếu cần
     };
 
+    const loginOAuth = async (oauthData) => {
+        try {
+            const response = await axiosClient.post('/users/oauth-login', oauthData);
+            const { token: newToken, user: userData } = response.data;
+            
+            // Cập nhật state
+            setToken(newToken);
+            setUser(userData);
+            localStorage.setItem('token', newToken);
+            
+            return { success: true, user: userData, message: response.data.message };
+        } catch (error) {
+            return { 
+                success: false, 
+                message: error.response?.data?.message || "Đăng nhập mạng xã hội thất bại" 
+            };
+        }
+    };
+
     const value = {
         user,
+        setUser,
         token,
         loading,
         isLoggedIn,
         login,
         register,
+        loginOAuth,
         logout
     };
 

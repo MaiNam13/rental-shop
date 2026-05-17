@@ -80,6 +80,57 @@ const sendConfirmationEmail = async (rental) => {
     }
 };
 
+const sendResetPasswordOTP = async (email, otp) => {
+    // Nếu chưa cấu hình email thì chỉ log ra console để tránh lỗi
+    if (!process.env.EMAIL_USER || process.env.EMAIL_USER === 'your-email@gmail.com') {
+        console.log('--- RESET PASSWORD OTP (MOCK) ---');
+        console.log(`To: ${email}`);
+        console.log(`OTP Code: ${otp}`);
+        console.log('---------------------------------');
+        return;
+    }
+
+    try {
+        const mailOptions = {
+            from: `"LUXE RENT" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: `Mã OTP khôi phục mật khẩu - LUXE RENT`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 12px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h1 style="color: #c5a059; margin: 0;">LUXE RENT</h1>
+                        <p style="color: #888; text-transform: uppercase; letter-spacing: 2px; font-size: 10px;">Premium Fashion Rental</p>
+                    </div>
+                    
+                    <h2 style="color: #12120f; text-align: center;">MÃ OTP KHÔI PHỤC MẬT KHẨU</h2>
+                    
+                    <p>Chào bạn,</p>
+                    <p>Chúng tôi nhận được yêu cầu khôi phục mật khẩu cho tài khoản liên kết với địa chỉ email này. Vui lòng sử dụng mã OTP dưới đây để hoàn tất việc xác thực:</p>
+                    
+                    <div style="background: #fcfcfb; padding: 24px; border: 1px solid #f0f0eb; border-radius: 12px; margin: 24px 0; text-align: center;">
+                        <span style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #c5a059;">${otp}</span>
+                        <p style="margin: 10px 0 0 0; color: #888; font-size: 12px;">Mã OTP này có hiệu lực trong vòng 10 phút. Tuyệt đối không chia sẻ mã này với bất kỳ ai.</p>
+                    </div>
+                    
+                    <p style="line-height: 1.6;">Nếu bạn không yêu cầu khôi phục mật khẩu, bạn có thể bỏ qua email này một cách an toàn. Mật khẩu hiện tại của bạn vẫn được bảo mật.</p>
+                    
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 32px 0;">
+                    <p style="font-size: 12px; color: #aaa; text-align: center; margin: 0;">
+                        123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh<br>
+                        Hotline: 0912 345 678 | Email: support@luxerent.vn
+                    </p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log(`Reset password OTP email sent to ${email}`);
+    } catch (error) {
+        console.error('Error sending reset password OTP email:', error);
+    }
+};
+
 module.exports = {
-    sendConfirmationEmail
+    sendConfirmationEmail,
+    sendResetPasswordOTP
 };

@@ -34,6 +34,26 @@ const User = sequelize.define(
             type: DataTypes.STRING,
             defaultValue: "customer",
         },
+
+        is_locked: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+
+        avatar: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        provider: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
+        provider_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
     },
     {
         timestamps: false,

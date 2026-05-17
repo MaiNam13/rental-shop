@@ -60,6 +60,8 @@ const createRental = async (req, res) => {
             productsToUpdate.push({ product, quantity: item.quantity, item });
         }
 
+        const isOnlinePayment = ['momo', 'vnpay', 'card'].includes(paymentMethod);
+
         // 2. Nếu mọi thứ ok, tiến hành tạo đơn hàng
         const rental = await Rental.create({
             user_id,
@@ -73,6 +75,7 @@ const createRental = async (req, res) => {
             delivery_method: deliveryMethod,
             payment_method: paymentMethod,
             total_price: total_price,
+            status: isOnlinePayment ? "approved" : "pending" // Tự động duyệt nếu thanh toán trực tuyến
         });
 
         // 3. Tạo chi tiết đơn hàng và cập nhật kho
@@ -100,7 +103,7 @@ const createRental = async (req, res) => {
             rental_id: rental.id,
             amount: total_price,
             method: paymentMethod,
-            status: "pending" // Mặc định là chờ xử lý
+            status: isOnlinePayment ? "completed" : "pending" // Tự động hoàn thành thanh toán nếu chọn thanh toán trực tuyến
         });
 
         console.log("Rental and Payment created successfully:", rental.id);
@@ -203,6 +206,7 @@ const updateRental = async (req, res) => {
 
         const validStatus = [
             "pending",
+            "approved",
             "shipping",
             "renting",
             "returned",

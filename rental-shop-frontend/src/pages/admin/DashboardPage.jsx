@@ -95,9 +95,9 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-page">
-      <div className="dashboard-header">
-        <h1>Trang quản trị</h1>
-        <p>Thống kê dựa trên dữ liệu thực tế từ hệ thống của bạn</p>
+      <div className="dashboard-header-admin">
+        <h1 className="dashboard-title-admin">Trang quản trị</h1>
+        <p className="dashboard-subtitle-admin">Thống kê dựa trên dữ liệu thực tế từ hệ thống của bạn</p>
       </div>
 
       <div className="stats-grid">
@@ -123,7 +123,7 @@ const DashboardPage = () => {
             </div>
           </div>
           <div className="chart-container">
-            <ResponsiveContainer width="100%" height="100%" minHeight={200}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={200}>
               <AreaChart data={displayRevenueData}>
                 <defs>
                   <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -179,10 +179,9 @@ const DashboardPage = () => {
                   </span>
                 </td>
                 <td className="text-right">
-                  <div className="action-btns flex-end">
-                    <button className="action-icon"><Eye size={16} /></button>
-                    <button className="action-icon"><Edit2 size={16} /></button>
-                  </div>
+                  <Link to="/admin/rentals" className="btn-dashboard-detail">
+                    Chi tiết
+                  </Link>
                 </td>
               </tr>
             )) : (

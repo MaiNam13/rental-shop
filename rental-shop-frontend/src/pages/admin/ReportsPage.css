@@ -1,0 +1,349 @@
+.reports-page-container {
+  padding: 0;
+  font-family: 'Outfit', 'Inter', 'Segoe UI', Roboto, sans-serif;
+}
+
+.reports-header-admin {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid #f0f0ed;
+  padding-bottom: 24px;
+}
+
+.reports-title-admin {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.reports-subtitle-admin {
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* KPI Grid */
+.reports-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.kpi-term-card {
+  background: #fff;
+  padding: 16px 20px;
+  border-radius: 20px;
+  border: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kpi-term-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  border-color: #ced4da;
+}
+
+.kpi-term-card.active {
+  border-color: #111;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.kpi-term-card.approved.active {
+  border-color: #6366f1;
+  background-color: #f5f6fe;
+}
+
+.kpi-term-card.shipping.active {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.kpi-term-card.renting.active {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.kpi-term-card.overdue.active {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.kpi-term-card.returned.active {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+}
+
+.kpi-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.kpi-icon-box.approved {
+  background-color: #e0e7ff;
+  color: #6366f1;
+}
+
+.kpi-icon-box.shipping {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.kpi-icon-box.renting {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.kpi-icon-box.overdue {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.kpi-icon-box.returned {
+  background-color: #d1fae5;
+  color: #10b981;
+}
+
+.kpi-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpi-label {
+  font-size: 11px;
+  color: #495057;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kpi-value {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.kpi-value.approved { color: #6366f1; }
+.kpi-value.shipping { color: #3b82f6; }
+.kpi-value.renting { color: #d97706; }
+.kpi-value.overdue { color: #ef4444; }
+.kpi-value.returned { color: #10b981; }
+
+/* Table Section Card */
+.reports-data-card {
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.reports-controls {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+}
+
+.reports-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #fff;
+  padding: 8px 20px;
+  border-radius: 10px;
+  width: 380px;
+  border: 1px solid #ced4da;
+  transition: all 0.25s ease;
+}
+
+.reports-search-wrapper:focus-within {
+  border-color: #111;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.reports-search-input {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+  font-family: inherit;
+}
+
+.reports-count-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.reports-count-value {
+  color: #111;
+  font-weight: 750;
+}
+
+.reports-loading {
+  padding: 60px;
+  text-align: center;
+  color: #868e96;
+  font-weight: 600;
+}
+
+/* User Info Cells */
+.reports-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reports-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: #f1f3f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.reports-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+}
+
+.reports-user-contact {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #868e96;
+  font-weight: 550;
+  margin-top: 2px;
+}
+
+/* Product list cell */
+.reports-products-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reports-product-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.reports-product-name {
+  font-size: 13px;
+  font-weight: 650;
+  color: #111;
+}
+
+.reports-product-meta {
+  font-size: 11px;
+  color: #868e96;
+  font-weight: 550;
+}
+
+/* Dates */
+.reports-date-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.date-range {
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.date-id {
+  font-size: 11px;
+  color: #adb5bd;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+/* Status Pills */
+.reports-status-pill {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 750;
+  display: inline-flex;
+}
+
+.reports-status-pill.overdue {
+  background-color: #ffe3e3;
+  color: #e03131;
+  border: 1px solid #ffa8a8;
+}
+
+.reports-status-pill.soon {
+  background-color: #fff9db;
+  color: #f08c00;
+  border: 1px solid #ffe066;
+}
+
+.reports-status-pill.active {
+  background-color: #e2f9df;
+  color: #2b8a3e;
+  border: 1px solid #b2f2bb;
+}
+
+/* Action Button */
+.reports-actions-cell {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-confirm-return {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-confirm-return:hover {
+  background-color: #2b8a3e;
+  color: #fff;
+  border-color: #2b8a3e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(43, 138, 62, 0.15);
+}

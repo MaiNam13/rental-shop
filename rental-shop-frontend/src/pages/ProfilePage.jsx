@@ -21,11 +21,13 @@ import {
 import '../styles/ProfilePage.css';
 import favoriteApi from '../api/favoriteApi';
 import ProductCard from '../components/product/ProductCard';
+import { useToast } from '../context/ToastContext';
 
 const ProfilePage = () => {
-    const { user, logout } = useAuth();
+    const { user, setUser, logout } = useAuth();
     const { t } = useLanguage();
-    const [activeTab, setActiveTab] = useState('rentals');
+    const { toast } = useToast();
+    const [activeTab, setActiveTab] = useState('profile');
     const [rentals, setRentals] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -56,7 +58,7 @@ const ProfilePage = () => {
             setSelectedRental(response.data);
         } catch (error) {
             console.error("Failed to fetch rental detail:", error);
-            alert(t('failedToLoadDetails'));
+            toast(t('failedToLoadDetails'), 'error');
         } finally {
             setDetailLoading(false);
         }
@@ -130,6 +132,7 @@ const ProfilePage = () => {
     const getStatusLabel = (status) => {
         switch (status) {
             case 'pending': return t('pendingStatus');
+            case 'approved': return t('approved');
             case 'shipping': return t('shippingStatus');
             case 'renting': return t('renting');
             case 'returned': return t('returned');
@@ -137,6 +140,119 @@ const ProfilePage = () => {
             default: return status;
         }
     };
+
+    // Profile Edit States
+    const [profileName, setProfileName] = useState('');
+    const [profilePhone, setProfilePhone] = useState('');
+    const [profileEmail, setProfileEmail] = useState('');
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const [profileErrors, setProfileErrors] = useState({});
+
+    useEffect(() => {
+        if (user) {
+            setProfileName(user.name || '');
+            setProfilePhone(user.phone || '');
+            setProfileEmail(user.email || '');
+        }
+    }, [user]);
+
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+
+        const errors = {};
+        if (!profileName.trim()) errors.name = true;
+        if (!profilePhone.trim()) errors.phone = true;
+
+        if (Object.keys(errors).length > 0) {
+            setProfileErrors(errors);
+            if (errors.name) toast(t('nameRequired') || 'Vui lòng điền họ tên', 'error');
+            else if (errors.phone) toast(t('phoneRequired') || 'Vui lòng điền số điện thoại', 'error');
+            return;
+        }
+
+        setProfileErrors({});
+
+        try {
+            setUpdateLoading(true);
+            const payload = {
+                name: profileName,
+                phone: profilePhone,
+            };
+
+            const response = await axiosClient.put('/users/profile', payload);
+            
+            setUser(response.data.user);
+            toast(t('updateProfileSuccess'), 'success');
+        } catch (error) {
+            console.error("Failed to update profile:", error);
+            const errMsg = error.response?.data?.message || t('updateProfileFailed');
+            toast(errMsg, 'error');
+        } finally {
+            setUpdateLoading(false);
+        }
+    };
+
+    const renderProfileContent = () => (
+        <div className="profile-edit-content">
+            <div className="content-header">
+                <h2 className="content-title">{t('myProfile')}</h2>
+                <p className="content-subtitle">{t('personalInfo')}</p>
+            </div>
+
+            <form className="profile-edit-form" onSubmit={handleUpdateProfile}>
+                <div className="profile-form-container">
+                    <div className="input-group">
+                        <label className="input-label">{t('fullName')}</label>
+                        <input
+                            type="text"
+                            className="profile-input"
+                            value={profileName}
+                            onChange={(e) => {
+                                setProfileName(e.target.value);
+                                if (profileErrors.name) setProfileErrors({...profileErrors, name: false});
+                            }}
+                            style={{
+                                border: profileErrors.name ? '1.5px solid #ef4444' : '',
+                                backgroundColor: profileErrors.name ? '#fef2f2' : '',
+                                transition: 'all 0.3s ease'
+                            }}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label className="input-label">{t('emailAddress')}</label>
+                        <input
+                            type="email"
+                            className="profile-input disabled"
+                            value={profileEmail}
+                            disabled
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label className="input-label">{t('phoneNumber')}</label>
+                        <input
+                            type="text"
+                            className="profile-input"
+                            value={profilePhone}
+                            onChange={(e) => {
+                                setProfilePhone(e.target.value);
+                                if (profileErrors.phone) setProfileErrors({...profileErrors, phone: false});
+                            }}
+                            style={{
+                                border: profileErrors.phone ? '1.5px solid #ef4444' : '',
+                                backgroundColor: profileErrors.phone ? '#fef2f2' : '',
+                                transition: 'all 0.3s ease'
+                            }}
+                        />
+                    </div>
+                    <div className="form-actions" style={{ borderTop: 'none', paddingTop: '15px' }}>
+                        <button type="submit" className="btn-save-profile" disabled={updateLoading}>
+                            {updateLoading ? t('processing') : t('saveChanges')}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
 
     const renderRentalsContent = () => (
         <div className="rentals-content">
@@ -283,8 +399,12 @@ const ProfilePage = () => {
                     {/* Sidebar */}
                     <aside className="profile-sidebar">
                         <div className="user-info">
-                            <div className="avatar-wrapper">
-                                <User size={40} color="#555" strokeWidth={2.5} />
+                            <div className="avatar-wrapper" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: '80px', height: '80px', margin: '0 auto 15px auto', border: '2px solid rgba(197, 160, 89, 0.4)' }}>
+                                {user?.avatar ? (
+                                    <img src={user.avatar} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <User size={40} color="#555" strokeWidth={2.5} />
+                                )}
                             </div>
                             <h3 className="user-name">{user?.name || t('customer')}</h3>
                             <p className="user-email">{user?.email || 'email@example.com'}</p>
@@ -292,42 +412,42 @@ const ProfilePage = () => {
 
                         <nav className="sidebar-nav">
                             <button
-                                className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'profile' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('profile')}
                             >
                                 <User size={18} /> {t('myProfile')}
                             </button>
                             <button
-                                className={`nav-item ${activeTab === 'rentals' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'rentals' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('rentals')}
                             >
                                 <Package size={18} /> {t('myRentals')}
                             </button>
                             <button
-                                className={`nav-item ${activeTab === 'wishlist' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'wishlist' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('wishlist')}
                             >
                                 <Heart size={18} /> {t('wishlist')}
                             </button>
                             <button
-                                className={`nav-item ${activeTab === 'addresses' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'addresses' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('addresses')}
                             >
                                 <MapPin size={18} /> {t('addresses')}
                             </button>
                             <button
-                                className={`nav-item ${activeTab === 'payment' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'payment' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('payment')}
                             >
                                 <CreditCard size={18} /> {t('paymentMethods')}
                             </button>
                             <button
-                                className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
+                                className={`profile-nav-item ${activeTab === 'settings' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('settings')}
                             >
                                 <Settings size={18} /> {t('settings')}
                             </button>
-                            <button className="nav-item logout" onClick={logout}>
+                            <button className="profile-nav-item logout" onClick={logout}>
                                 <LogOut size={18} /> {t('logout')}
                             </button>
                         </nav>
@@ -335,7 +455,8 @@ const ProfilePage = () => {
 
                     {/* Content Area */}
                     <section className="profile-content">
-                        {activeTab === 'rentals' ? renderRentalsContent() : 
+                        {activeTab === 'profile' ? renderProfileContent() :
+                         activeTab === 'rentals' ? renderRentalsContent() : 
                          activeTab === 'wishlist' ? renderWishlistContent() : (
                             <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px' }}>
                                 <h2 className="content-title">{t('underDevelopment')}</h2>
